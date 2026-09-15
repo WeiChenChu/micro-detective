@@ -1,0 +1,112 @@
+import { bi } from "./types";
+export const gameUI = {
+  caseLabel: bi("調查案件", "INVESTIGATION CASE"),
+  evidenceLabel: bi("證據檔案", "EVIDENCE FILE"),
+  clues: bi("份線索", "clues"),
+  collected: bi("已收集", "Collected"),
+  selectMany: bi(
+    "選出所有合適的卡片，再確認線索。",
+    "Choose all the cards that fit, then check your clues.",
+  ),
+  selectOne: bi(
+    "選一張卡片，再確認線索。",
+    "Choose one card, then check your clue.",
+  ),
+  selectAnswer: bi(
+    "選一個答案，再確認線索。",
+    "Choose one answer, then check your clue.",
+  ),
+  finalInstruction: bi(
+    "讀讀觀察線索，點選這次使用的工具。",
+    "Read the observation clue, then tap the tool used.",
+  ),
+  chosen: bi("已選取", "Selected"),
+  check: bi("確認線索", "Check my clues"),
+  hint: bi("給我一個提示", "Give me a hint"),
+  assist: bi("一起找答案", "Let’s find it together"),
+  clue: bi("觀察線索", "Observation clue"),
+  hintTitle: bi("偵探提示", "Detective hint"),
+  success: bi("破解成功！", "Mystery solved!"),
+  retry: bi(
+    "差一點！再觀察一下這個線索 👀",
+    "Almost! Take another look at this clue 👀",
+  ),
+  assisted: bi("一起破解了！", "We solved it together!"),
+  successSub: bi(
+    "你發現了新的微觀線索。",
+    "You discovered a new microscopic clue.",
+  ),
+  collect: bi("收進筆記本，前往下一站", "Collect clue & continue"),
+  nextFile: bi("下一份影像檔案", "Next image file"),
+  finish: bi("領取偵探徽章", "Collect my detective badge"),
+  funFact: bi("再多發現一點", "One more discovery"),
+  emptyNotebook: bi(
+    "筆記本準備好了！完成案件，就能把新發現收進來。",
+    "Your notebook is ready! Complete a case to collect your discoveries.",
+  ),
+  notebookIntro: bi(
+    "把好奇心的足跡，一頁一頁留下來。",
+    "Keep a record of where your curiosity takes you.",
+  ),
+  review: bi("我的發現", "My discoveries"),
+  restartTitle: bi("準備重新偵查嗎？", "Start this investigation again?"),
+  restartText: bi(
+    "這一輪的線索會清空，從第一個案件重新開始。",
+    "This round’s clues will be cleared, and you’ll start again with the first case.",
+  ),
+  cancel: bi("繼續這次任務", "Keep investigating"),
+  confirmRestart: bi("重新偵查", "Start again"),
+  sequence: bi(
+    "點一點，看看螢光怎麼發生",
+    "Tap through the steps to explore fluorescence",
+  ),
+  nextStep: bi("下一個步驟", "Next step"),
+  labelAdded: bi("標記已加入", "Labels added"),
+  lightOn: bi("適合的光照射中", "Suitable light is on"),
+  glowLegend: bi(
+    "大圓區域：細胞核　／　短絲狀訊號：粒線體",
+    "Large round regions: nuclei · Short filaments: mitochondria",
+  ),
+  scaleTitle: bi(
+    "不同工具，看見不同層級",
+    "Different tools reveal different levels",
+  ),
+  scaleNote: bi(
+    "不同標本的觀察層級示意，非連續放大，未按比例繪製。",
+    "Conceptual levels using different specimens; not a continuous zoom or drawn to scale.",
+  ),
+  finalFile: bi("最後任務・影像", "FINAL MISSION · IMAGE"),
+  complete: bi("案件破解！🎉", "Case closed! 🎉"),
+  completeIntro: bi(
+    "你已經學會利用不同的觀察工具探索微觀世界！",
+    "You’ve learned to explore the microscopic world with different observation tools!",
+  ),
+  badge: bi("微觀小偵探", "Microscopic Detective"),
+  badgeName: bi("微觀小偵探完成徽章", "Microscopic Detective completion badge"),
+  badgeNext: bi(
+    "現在去製作你的「微觀世界胸章」吧！",
+    "Now go make your own “Microscopic World” pin badge!",
+  ),
+  badgeNote: bi(
+    "帶著今天的發現，繼續探索。",
+    "Take today’s discoveries on your next adventure.",
+  ),
+  again: bi("再玩一次", "Play again"),
+  home: bi("回到首頁", "Back to home"),
+  collectionComplete: bi("線索收集完成", "Clue collection complete"),
+  progressLabel: bi("偵查進度", "Investigation progress"),
+  stepOf: bi("目前步驟", "Current step"),
+  missingImage: bi(
+    "影像暫時無法顯示，讀讀下方的文字線索，一樣可以繼續調查。",
+    "The image is unavailable. Read the text clue below to keep investigating.",
+  ),
+  storageNote: bi(
+    "這次仍可繼續玩，但關閉頁面後可能無法保留進度。",
+    "You can still play, but progress may not be saved after closing this page.",
+  ),
+  newRound: bi("新的一輪準備好了", "Ready for a new round"),
+  sources: bi("科學內容參考", "Science references"),
+  externalLink: bi("另開分頁", "opens a new tab"),
+  comparison: bi("觀察影像", "Observation image"),
+  continueGame: bi("繼續偵查", "Continue investigating"),
+};

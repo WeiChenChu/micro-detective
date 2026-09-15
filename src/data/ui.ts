@@ -1,0 +1,52 @@
+import { bi } from "./types";
+export const ui = {
+  name: bi("微觀小偵探", "Microscopic Detective"),
+  brand: bi("微觀探索計畫", "THE MICROSCOPIC EXPLORER PROJECT"),
+  tagline: bi(
+    "肉眼看不到的世界，藏著什麼秘密？",
+    "What secrets hide beyond what our eyes can see?",
+  ),
+  intro: bi(
+    "神秘的微觀世界藏著許多線索。只有真正的微觀小偵探，才能使用不同的觀察工具，一步一步破解謎題！",
+    "The microscopic world is full of hidden clues. Become a microscopic detective, try different observation tools, and solve the mysteries one discovery at a time!",
+  ),
+  start: bi("開始偵查", "Start investigating"),
+  resume: bi("繼續偵查", "Continue investigation"),
+  newGame: bi("新偵探開始", "Start a new investigation"),
+  eyebrow: bi("給好奇心一個新任務", "A NEW MISSION FOR YOUR CURIOSITY"),
+  duration: bi("約 5–10 分鐘", "About 5–10 minutes"),
+  audience: bi("7 歲以上・親子一起玩", "Ages 7+ · Explore together"),
+  privacy: bi(
+    "免登入・進度只留在這台裝置",
+    "No sign-in · Progress stays on this device",
+  ),
+  missionTag: bi("探索任務", "EXPLORATION MISSION"),
+  heroCaption: bi("小小的世界，大大的發現。", "A tiny world. A big discovery."),
+  heroNote: bi(
+    "拿起你的好奇心，一起尋找生命的線索。",
+    "Follow your curiosity. Discover the clues of life.",
+  ),
+  routeTitle: bi("你的偵查路線", "Your investigation route"),
+  routeNote: bi(
+    "4 種觀察方式，1 場微觀冒險",
+    "4 ways to observe. 1 microscopic adventure.",
+  ),
+  eye: bi("肉眼觀察", "Naked eye"),
+  optical: bi("光學顯微鏡", "Light microscopy"),
+  fluorescent: bi("螢光顯微鏡", "Fluorescence"),
+  electron: bi("電子顯微鏡", "Electron microscopy"),
+  final: bi("最終挑戰", "Final challenge"),
+  notebook: bi("偵探筆記本", "Detective notebook"),
+  restart: bi("重新開始", "Restart"),
+  close: bi("關閉", "Close"),
+  imageNote: bi(
+    "教學示意圖・非真實顯微影像",
+    "Teaching illustration · Not a real micrograph",
+  ),
+  sources: bi("影像與製作說明", "Images & credits"),
+  creditsIntro: bi(
+    "目前影像為本專案原創教學示意圖，不代表真實尺寸或自然色彩。之後將由顯微影像核心設施替換為自有或適當授權的影像。",
+    "These original teaching illustrations do not represent real sizes or natural colors. The imaging facility can replace them with its own or appropriately licensed images.",
+  ),
+  skip: bi("跳至主要內容", "Skip to main content"),
+};

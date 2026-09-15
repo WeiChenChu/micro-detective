@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+<defs><linearGradient id="fish" x1="435" y1="239" x2="435" y2="375" gradientUnits="userSpaceOnUse"><stop stop-color="#B9D8D3"/><stop offset=".5" stop-color="#E1E7BE"/><stop offset="1" stop-color="#CDE2E1"/></linearGradient><clipPath id="fishclip"><path d="M241 287C327 227 516 221 599 270C624 285 647 300 654 314C633 326 624 343 598 353C488 398 329 365 241 337L209 312Z"/></clipPath></defs>
+<rect width="800" height="600" rx="32" fill="#F5FAFC"/>
+<ellipse cx="400" cy="308" rx="290" ry="166" fill="#E9F4F8"/>
+<path d="M469 252L413 175L364 250" fill="#BFDAE1" stroke="#648AA1" stroke-width="4" stroke-linejoin="round"/>
+<path d="M454 357L411 422L347 365" fill="#BFDAE1" stroke="#648AA1" stroke-width="4" stroke-linejoin="round"/>
+<path d="M263 311L151 221L168 304L151 395Z" fill="#B9D9E1" stroke="#527C95" stroke-width="5" stroke-linejoin="round"/>
+<path d="M241 287C327 227 516 221 599 270C624 285 647 300 654 314C633 326 624 343 598 353C488 398 329 365 241 337L209 312Z" fill="url(#fish)" stroke="#315E7D" stroke-width="5"/>
+<g clip-path="url(#fishclip)" stroke="#315C8D" stroke-width="11"><path d="M229 272C377 253 465 252 552 274M219 295C350 280 475 280 569 294M220 318C355 309 476 308 563 317M239 342C364 337 458 340 548 339M266 365C376 362 457 365 521 357"/></g>
+<path d="M557 266Q524 309 552 358" stroke="#547E93" stroke-width="4"/>
+<path d="M494 321L435 373L453 314" fill="#D6E8E6" fill-opacity=".9" stroke="#688C9B" stroke-width="3"/>
+<circle cx="595" cy="294" r="17" fill="#EDF3DF" stroke="#3B637C" stroke-width="4"/>
+<circle cx="597" cy="294" r="9" fill="#173951"/><circle cx="600" cy="290" r="3" fill="white"/>
+<path d="M652 314L632 315" stroke="#315E7D" stroke-width="3" stroke-linecap="round"/>
+<g stroke="#6D94A7" stroke-width="2.5" opacity=".75"><path d="M245 311L171 240M242 314L179 302M245 315L171 379M443 244L414 188M421 365L410 408"/></g>
+</svg>
