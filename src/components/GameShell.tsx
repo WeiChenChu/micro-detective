@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Locale } from "../data/types";
 import { ui } from "../data/ui";
 import { Icon } from "./Icon";
-import { version } from "../../package.json";
+import { displayVersion } from "../../package.json";
 
 export function GameShell({
   locale,
@@ -95,7 +95,7 @@ export function GameShell({
         <button className="footer-link" onClick={onCredits}>
           {ui.sources[locale]} ↗
         </button>
-        <span lang="en">MICROSCOPIC DETECTIVE · v{version}</span>
+        <span lang="en">MICROSCOPIC DETECTIVE · v{displayVersion}</span>
       </footer>
     </div>
   );

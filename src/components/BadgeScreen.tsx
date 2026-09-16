@@ -1,6 +1,7 @@
 import type { Locale } from "../data/types";
 import { gameUI } from "../data/gameUI";
-import { toolChoices, stages } from "../data/gameData";
+import { academyUI as a } from "../data/academyUI";
+import { ToolSummary } from "./ToolSummary";
 import { Icon } from "./Icon";
 
 export function BadgeScreen({
@@ -27,6 +28,8 @@ export function BadgeScreen({
           {gameUI.complete[locale]}
         </h1>
         <p className="completion-intro">{gameUI.completeIntro[locale]}</p>
+        <p className="family-note">{a.best[locale]}</p>
+        <p className="central-message">{a.conclusion[locale]}</p>
         <div className="badge-wrap">
           <div className="celebration" aria-hidden="true">
             {Array.from({ length: 12 }, (_, i) => (
@@ -77,22 +80,7 @@ export function BadgeScreen({
             <Icon name="arrow" size={18} />
           </button>
         </div>
-        <div className="summary-grid">
-          {toolChoices.map((tool) => (
-            <div key={tool.id}>
-              <span
-                className={`route-icon tone-${stages.findIndex((s) => s.id === tool.id)}`}
-              >
-                <Icon
-                  name={stages.find((s) => s.id === tool.id)!.icon}
-                  size={26}
-                />
-              </span>
-              <strong>{tool.title[locale]}</strong>
-              <p>{tool.description?.[locale]}</p>
-            </div>
-          ))}
-        </div>
+        <ToolSummary locale={locale} />
       </section>
     </main>
   );

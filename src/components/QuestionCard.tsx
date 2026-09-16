@@ -1,13 +1,11 @@
 import type { Dispatch } from "react";
 import type { Locale, Question, Stage } from "../data/types";
 import type { Action, GameState } from "../game/gameState";
-import { observationLevels } from "../data/gameData";
 import { gameUI } from "../data/gameUI";
 import { Icon } from "./Icon";
 import { ImageChoice } from "./ImageChoice";
 import { MicroscopyImage } from "./MicroscopyImage";
 import { FeedbackPanel } from "./FeedbackPanel";
-import { FluorescenceLab } from "./FluorescenceLab";
 
 export function QuestionCard({
   state,
@@ -18,6 +16,7 @@ export function QuestionCard({
   total,
   finalIndex,
   finalTotal,
+  nextLabel,
 }: {
   state: GameState;
   question: Question;
@@ -27,8 +26,10 @@ export function QuestionCard({
   total: number;
   finalIndex: number;
   finalTotal: number;
+  nextLabel?: string;
 }) {
   const final = question.stage === "final";
+  const toolSelection = !!question.toolSelection;
   const resolved = !!state.completed[question.id];
   const hasImages = question.choices.some((c) => c.image);
   return (
@@ -48,7 +49,7 @@ export function QuestionCard({
         {question.question[locale]}
       </h2>
       <p className="question-instruction">
-        {final
+        {toolSelection
           ? gameUI.finalInstruction[locale]
           : question.type === "multiple"
             ? gameUI.selectMany[locale]
@@ -56,15 +57,8 @@ export function QuestionCard({
               ? gameUI.selectOne[locale]
               : gameUI.selectAnswer[locale]}
       </p>
-      {question.stage === "fluorescence" && (
-        <FluorescenceLab
-          locale={locale}
-          step={state.exploreStep}
-          onStep={(step) => dispatch({ type: "EXPLORE", step })}
-        />
-      )}
-      <div className={final ? "final-workspace" : ""}>
-        {final && question.image && (
+      <div className={question.image ? "final-workspace" : ""}>
+        {question.image && (
           <div className="final-evidence">
             <MicroscopyImage id={question.image} locale={locale} />
             <div className="observation-clue">
@@ -72,7 +66,7 @@ export function QuestionCard({
                 <Icon name="search" size={19} />
                 {gameUI.clue[locale]}
               </span>
-              <p>{question.hint[locale]}</p>
+              <p>{(question.observation ?? question.hint)[locale]}</p>
             </div>
           </div>
         )}
@@ -80,7 +74,7 @@ export function QuestionCard({
           <div
             role="group"
             aria-labelledby="question-heading"
-            className={`choices-grid ${hasImages ? "has-images" : ""} ${question.type === "multiple" ? "multi-grid" : ""} ${final ? "tool-grid" : ""}`}
+            className={`choices-grid ${hasImages ? "has-images" : ""} ${question.type === "multiple" ? "multi-grid" : ""} ${toolSelection ? "tool-grid" : ""}`}
           >
             {question.choices.map((choice, index) => (
               <ImageChoice
@@ -90,10 +84,10 @@ export function QuestionCard({
                 locale={locale}
                 selected={state.selected.includes(choice.id)}
                 disabled={resolved}
-                isTool={final}
+                isTool={toolSelection}
                 onSelect={() =>
                   dispatch(
-                    final
+                    toolSelection
                       ? { type: "ANSWER", ids: [choice.id] }
                       : { type: "SELECT", id: choice.id },
                   )
@@ -101,7 +95,7 @@ export function QuestionCard({
               />
             ))}
           </div>
-          {!resolved && !final && (
+          {!resolved && !toolSelection && (
             <div className="answer-toolbar">
               <button
                 className="button hint-button"
@@ -127,11 +121,16 @@ export function QuestionCard({
           <Icon name="lightbulb" size={20} />
           <p>
             <strong>{gameUI.hintTitle[locale]}：</strong>
-            {question.hint[locale]}
+            {
+              (state.attempts >= 2
+                ? (question.strongHint ?? question.explanation)
+                : question.hint)[locale]
+            }
           </p>
         </div>
       )}
       <FeedbackPanel
+        nextLabel={nextLabel}
         state={state}
         question={question}
         stage={stage}
@@ -140,28 +139,6 @@ export function QuestionCard({
         onNext={() => dispatch({ type: "NEXT" })}
         onAssist={() => dispatch({ type: "ASSIST" })}
       />
-      {question.stage === "electron" && (
-        <section className="observation-levels">
-          <h3>{gameUI.scaleTitle[locale]}</h3>
-          <ol>
-            {observationLevels.map((level, i) => (
-              <li key={level.icon}>
-                <span className="level-icon">
-                  <Icon name={level.icon} size={24} />
-                </span>
-                <div>
-                  <strong>{level.tool[locale]}</strong>
-                  <span>{level.label[locale]}</span>
-                </div>
-                {i < 2 && (
-                  <Icon name="arrow" size={20} className="level-arrow" />
-                )}
-              </li>
-            ))}
-          </ol>
-          <p>{gameUI.scaleNote[locale]}</p>
-        </section>
-      )}
     </article>
   );
 }

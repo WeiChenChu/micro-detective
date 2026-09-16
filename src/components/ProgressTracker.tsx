@@ -1,4 +1,4 @@
-import { stages } from "../data/gameData";
+import { stages } from "../data/missionData";
 import { gameUI } from "../data/gameUI";
 import type { Locale, StageId } from "../data/types";
 import { Icon } from "./Icon";
@@ -27,7 +27,7 @@ export function ProgressTracker({
             <span className="progress-circle">
               <Icon name={index < current ? "check" : stage.icon} size={23} />
             </span>
-            <span className="progress-title">{stage.title[locale]}</span>
+            <span className="progress-title">{stage.shortTitle[locale]}</span>
             <span className="sr-only">
               {index === current ? gameUI.stepOf[locale] : ""}
             </span>

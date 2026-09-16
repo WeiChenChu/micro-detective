@@ -17,8 +17,8 @@ export const gameUI = {
     "Choose one answer, then check your clue.",
   ),
   finalInstruction: bi(
-    "讀讀觀察線索，點選這次使用的工具。",
-    "Read the observation clue, then tap the tool used.",
+    "先想想科學家要回答什麼，再點選最適合的工具。",
+    "Think about the scientist’s question, then tap the tool that fits.",
   ),
   chosen: bi("已選取", "Selected"),
   check: bi("確認線索", "Check my clues"),
@@ -26,7 +26,7 @@ export const gameUI = {
   assist: bi("一起找答案", "Let’s find it together"),
   clue: bi("觀察線索", "Observation clue"),
   hintTitle: bi("偵探提示", "Detective hint"),
-  success: bi("破解成功！", "Mystery solved!"),
+  success: bi("破解成功！你發現了關鍵線索 🔎", "You found the key clue! 🔎"),
   retry: bi(
     "差一點！再觀察一下這個線索 👀",
     "Almost! Take another look at this clue 👀",
@@ -37,7 +37,7 @@ export const gameUI = {
     "You discovered a new microscopic clue.",
   ),
   collect: bi("收進筆記本，前往下一站", "Collect clue & continue"),
-  nextFile: bi("下一份影像檔案", "Next image file"),
+  nextFile: bi("繼續下一步調查", "Next investigation step"),
   finish: bi("領取偵探徽章", "Collect my detective badge"),
   funFact: bi("再多發現一點", "One more discovery"),
   emptyNotebook: bi(
@@ -51,8 +51,8 @@ export const gameUI = {
   review: bi("我的發現", "My discoveries"),
   restartTitle: bi("準備重新偵查嗎？", "Start this investigation again?"),
   restartText: bi(
-    "這一輪的線索會清空，從第一個案件重新開始。",
-    "This round’s clues will be cleared, and you’ll start again with the first case.",
+    "這一輪的任務線索會清空，從第一個案件重新開始。已收藏的課程知識卡會保留。",
+    "This round’s mission clues will be cleared. Collected academy cards will stay.",
   ),
   cancel: bi("繼續這次任務", "Keep investigating"),
   confirmRestart: bi("重新偵查", "Start again"),
@@ -75,7 +75,7 @@ export const gameUI = {
     "不同標本的觀察層級示意，非連續放大，未按比例繪製。",
     "Conceptual levels using different specimens; not a continuous zoom or drawn to scale.",
   ),
-  finalFile: bi("最後任務・影像", "FINAL MISSION · IMAGE"),
+  finalFile: bi("最終案件・調查", "FINAL CASE · INVESTIGATION"),
   complete: bi("案件破解！🎉", "Case closed! 🎉"),
   completeIntro: bi(
     "你已經學會利用不同的觀察工具探索微觀世界！",

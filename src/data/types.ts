@@ -3,10 +3,18 @@ export type Text = Record<Locale, string>;
 export const bi = (zh: string, en: string): Text => ({ "zh-TW": zh, en });
 export type MicroscopeType =
   | "naked-eye"
+  | "magnifier"
+  | "stereo"
   | "optical"
   | "fluorescence"
   | "electron";
-export type StageId = MicroscopeType | "final";
+export type StageId =
+  | MicroscopeType
+  | "scale"
+  | "target"
+  | "mystery"
+  | "tools"
+  | "final";
 export interface ImageData {
   id: string;
   src: string;
@@ -38,9 +46,15 @@ export interface Question {
   image?: string;
   choices: Choice[];
   correctAnswer: string[];
+  /** In single-choice activities, any ONE of these choices is acceptable. */
+  acceptedAnswers?: string[];
+  answerExplanations?: Record<string, Text>;
   explanation: Text;
   funFact: Text;
   hint: Text;
+  strongHint?: Text;
+  observation?: Text;
+  toolSelection?: boolean;
   microscopeType?: MicroscopeType;
 }
 export interface Stage {

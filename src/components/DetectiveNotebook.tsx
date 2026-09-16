@@ -1,9 +1,13 @@
+import { observationUI as o } from "../data/observationData";
 import type { Locale, Question } from "../data/types";
 import { gameUI } from "../data/gameUI";
-import { questionsById, stages } from "../data/gameData";
+import { questionsById, stages, toolIcons } from "../data/missionData";
 import { questionOrder, type GameState } from "../game/gameState";
 import { Icon } from "./Icon";
 import { MicroscopyImage } from "./MicroscopyImage";
+import { academyModules } from "../data/academyData";
+import { academyUI as a } from "../data/academyUI";
+import { KnowledgeCard } from "./KnowledgeCard";
 
 export function EvidenceCard({
   question,
@@ -17,14 +21,14 @@ export function EvidenceCard({
   const image =
     question.image ??
     question.choices.find((c) => question.correctAnswer.includes(c.id))?.image;
-  const stage = stages.find(
-    (s) => s.id === (question.microscopeType ?? question.stage),
-  )!;
+  const icon = question.microscopeType
+    ? toolIcons[question.microscopeType]
+    : stages.find((s) => s.id === question.stage)!.icon;
   return (
     <article className="evidence-card">
       <div className="evidence-card-heading">
         <span className="evidence-stamp">
-          <Icon name={stage.icon} size={23} />
+          <Icon name={icon} size={23} />
         </span>
         <div>
           <span className="evidence-number">
@@ -54,6 +58,29 @@ export function DetectiveNotebook({
   return (
     <>
       <p className="modal-intro">{gameUI.notebookIntro[locale]}</p>
+      <h3>
+        {a.knowledge[locale]} · {state.academyCompleted.length} /{" "}
+        {academyModules.length}
+      </h3>
+      <div className="notebook-grid">
+        {academyModules.map((lesson) => (
+          <KnowledgeCard
+            key={lesson.id}
+            lesson={lesson}
+            locale={locale}
+            collected={state.academyCompleted.includes(lesson.id)}
+          />
+        ))}
+      </div>
+      {state.practice.finished && (
+        <section className="knowledge-clue">
+          <h3>🔎 {o.skillTitle[locale]}</h3>
+          <p>{o.orderNote[locale]}</p>
+        </section>
+      )}
+      <h3 className="notebook-section-title">
+        {gameUI.evidenceLabel[locale]} · {ids.length}
+      </h3>
       {ids.length ? (
         <div className="notebook-grid">
           {ids.map((id, index) => (

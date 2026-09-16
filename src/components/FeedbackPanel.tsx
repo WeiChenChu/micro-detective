@@ -12,6 +12,7 @@ export function FeedbackPanel({
   onNext,
   onAssist,
   total,
+  nextLabel,
 }: {
   state: GameState;
   question: Question;
@@ -20,6 +21,7 @@ export function FeedbackPanel({
   onNext: () => void;
   onAssist: () => void;
   total: number;
+  nextLabel?: string;
 }) {
   const panel = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -54,7 +56,14 @@ export function FeedbackPanel({
                 ? gameUI.assisted[locale]
                 : gameUI.success[locale]}
           </h3>
-          <p>{retry ? question.hint[locale] : question.explanation[locale]}</p>
+          <p>
+            {retry
+              ? (state.attempts >= 2
+                  ? (question.strongHint ?? question.explanation)
+                  : question.hint)[locale]
+              : (question.answerExplanations?.[state.selected[0]] ??
+                  question.explanation)[locale]}
+          </p>
         </div>
       </div>
       {retry ? (
@@ -78,11 +87,12 @@ export function FeedbackPanel({
               <p>{question.funFact[locale]}</p>
             </details>
             <button className="button primary" onClick={onNext}>
-              {state.cursor === total - 1
-                ? gameUI.finish[locale]
-                : question.stage === "final"
-                  ? gameUI.nextFile[locale]
-                  : gameUI.collect[locale]}
+              {nextLabel ??
+                (state.cursor === total - 1
+                  ? gameUI.finish[locale]
+                  : question.stage === "final"
+                    ? gameUI.nextFile[locale]
+                    : gameUI.collect[locale])}
               <Icon name="arrow" size={20} />
             </button>
           </div>

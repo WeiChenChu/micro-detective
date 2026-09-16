@@ -1,114 +1,76 @@
 import type { Locale } from "../data/types";
 import { ui } from "../data/ui";
+import { academyUI as a } from "../data/academyUI";
 import { Icon } from "./Icon";
-
-const route = [
-  ["eye", ui.eye],
-  ["microscope", ui.optical],
-  ["sparkle", ui.fluorescent],
-  ["bolt", ui.electron],
-  ["detective", ui.final],
-] as const;
+import { MicroscopyImage } from "./MicroscopyImage";
+import { ToolSummary } from "./ToolSummary";
 
 export function Landing({
   locale,
   onStart,
   hasProgress = false,
   onResume,
+  onAcademy,
 }: {
   locale: Locale;
   onStart: () => void;
   hasProgress?: boolean;
   onResume?: () => void;
+  onAcademy: () => void;
 }) {
   return (
-    <main id="main" className="landing" tabIndex={-1}>
-      <section className="hero">
-        <div className="hero-copy">
-          <div className="eyebrow">
-            <span className="tiny-star">✳</span> {ui.eyebrow[locale]}
-          </div>
+    <main id="main" className="landing landing-v2" tabIndex={-1}>
+      <section className="academy-welcome">
+        <div>
+          <p className="eyebrow">MICROSCOPIC DETECTIVE · DISCOVERY LAB</p>
           <h1>
             {ui.name[locale]}
             <span className="title-period">.</span>
           </h1>
-          {locale === "zh-TW" && (
-            <div className="english-title" lang="en">
-              MICROSCOPIC DETECTIVE
-            </div>
-          )}
-          <h2>{ui.tagline[locale]}</h2>
-          <p className="hero-intro">{ui.intro[locale]}</p>
-          <div className="hero-actions">
-            <button
-              className="button primary start-button"
-              onClick={hasProgress ? onResume : onStart}
-            >
-              {hasProgress ? ui.resume[locale] : ui.start[locale]}{" "}
-              <Icon name="arrow" />
-            </button>
-            {hasProgress && (
-              <button className="button text-button" onClick={onStart}>
-                {ui.newGame[locale]}
-              </button>
-            )}
-          </div>
-          <div className="hero-meta">
-            <span>
-              <Icon name="clock" size={18} />
-              {ui.duration[locale]}
-            </span>
-            <span>
-              <Icon name="people" size={18} />
-              {ui.audience[locale]}
-            </span>
-          </div>
+          <p>{a.loop[locale]}</p>
         </div>
-        <div className="specimen-board" aria-label={ui.heroCaption[locale]}>
-          <div className="board-top">
-            <span>
-              <i /> {ui.missionTag[locale]}
-            </span>
-            <span>NO. 001</span>
+        <span className="welcome-icon" aria-hidden="true">
+          <Icon name="microscope" size={90} />
+        </span>
+      </section>
+      <p className="first-visit">
+        <Icon name="lightbulb" size={23} />
+        {a.recommended[locale]}
+      </p>
+      <section className="path-grid" aria-label={ui.routeTitle[locale]}>
+        <article className="path-card academy-path">
+          <span className="path-kicker">LEARN & OBSERVE</span>
+          <h2>{a.academy[locale]}</h2>
+          <p>{a.academyDescription[locale]}</p>
+          <div className="path-specimens" aria-hidden="true">
+            <MicroscopyImage id="optical-onion" locale={locale} />
+            <MicroscopyImage id="fluorescence-cell" locale={locale} />
           </div>
-          <div className="scope-orbit">
-            <span className="orbit-label">LOOK CLOSER</span>
-            <div className="scope-lens">
-              <Icon name="microscope" size={180} />
-              <span className="lens-spark lens-spark-one">✦</span>
-              <span className="lens-spark lens-spark-two">✧</span>
-            </div>
+          <span className="path-meta">{a.duration[locale]}</span>
+          <button className="button primary" onClick={onAcademy}>
+            {a.enterAcademy[locale]} <Icon name="arrow" />
+          </button>
+        </article>
+        <article className="path-card missions-path">
+          <span className="path-kicker">APPLY & DISCOVER</span>
+          <h2>{a.missions[locale]}</h2>
+          <p>{a.missionsDescription[locale]}</p>
+          <div className="path-specimens" aria-hidden="true">
+            <MicroscopyImage id="zebrafish" locale={locale} />
+            <MicroscopyImage id="electron-surface" locale={locale} />
           </div>
-          <span className="board-coordinate">X: 024 / Y: 008</span>
-          <div className="floating-tag">
-            <Icon name="search" size={20} />
-            {ui.heroCaption[locale]}
-          </div>
-          <div className="board-bottom">
-            <span>01 — 05</span>
-            <p>{ui.heroNote[locale]}</p>
+          <span className="path-meta">{a.missionDuration[locale]}</span>
+          <button
+            className="button primary"
+            onClick={hasProgress ? onResume : onStart}
+          >
+            {(hasProgress ? a.resume : a.enterMissions)[locale]}{" "}
             <Icon name="arrow" />
-          </div>
-        </div>
+          </button>
+        </article>
       </section>
-      <section className="route-section" aria-label={ui.routeTitle[locale]}>
-        <div className="route-heading">
-          <h2>{ui.routeTitle[locale]}</h2>
-          <p>{ui.routeNote[locale]}</p>
-        </div>
-        <ol className="route-list">
-          {route.map(([icon, title], i) => (
-            <li key={icon}>
-              <span className="route-number">0{i + 1}</span>
-              <span className={`route-icon tone-${i}`}>
-                <Icon name={icon} size={25} />
-              </span>
-              <span>{title[locale]}</span>
-              {i < 4 && <Icon name="arrow" size={17} className="route-arrow" />}
-            </li>
-          ))}
-        </ol>
-      </section>
+      <p className="path-freedom">{a.freedom[locale]}</p>
+      <ToolSummary locale={locale} />
     </main>
   );
 }

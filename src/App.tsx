@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import { ui } from "./data/ui";
 import { gameUI } from "./data/gameUI";
-import { caseQuestions, finalQuestions, stages } from "./data/gameData";
+import { caseQuestions, finalQuestions, stages } from "./data/missionData";
 import {
   createGame,
   currentQuestion,
@@ -21,6 +21,11 @@ import { DetectiveNotebook } from "./components/DetectiveNotebook";
 import { BadgeScreen } from "./components/BadgeScreen";
 import { Credits } from "./components/Credits";
 import { useWebMCP } from "./game/useWebMCP";
+import { ToolPractice } from "./components/ToolPractice";
+import { AcademyHome } from "./components/AcademyHome";
+import { AcademyModule } from "./components/AcademyModule";
+import { academyModules } from "./data/academyData";
+import { academyUI as a } from "./data/academyUI";
 
 function initialize() {
   try {
@@ -55,14 +60,24 @@ export default function App() {
   }, [state]);
   useEffect(() => {
     const id =
-      state.screen === "game"
+      state.screen === "game" ||
+      (state.screen === "practice" && !state.practice.finished)
         ? "question-heading"
-        : state.screen === "complete"
-          ? "completion-heading"
-          : "main";
+        : state.screen === "practice"
+          ? "practice-completion-heading"
+          : state.screen === "complete"
+            ? "completion-heading"
+            : "main";
     document.getElementById(id)?.focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: "instant" });
-  }, [state.cursor, state.screen, state.finalOrder]);
+  }, [
+    state.cursor,
+    state.screen,
+    state.finalOrder,
+    state.academyModule,
+    state.practice.cursor,
+    state.practice.finished,
+  ]);
   const start = () => {
     setModal(null);
     dispatch({ type: "START", fresh: createGame(locale) });
@@ -80,7 +95,7 @@ export default function App() {
       onCredits={() => setModal("credits")}
       onHome={home}
       playing={state.screen !== "landing"}
-      count={count}
+      count={count + state.academyCompleted.length}
     >
       {!storageAvailable && (
         <p className="storage-note" role="status">
@@ -93,10 +108,79 @@ export default function App() {
           onStart={start}
           hasProgress={state.started}
           onResume={() => dispatch({ type: "RESUME" })}
+          onAcademy={() => dispatch({ type: "ACADEMY" })}
+        />
+      )}
+      {state.migratedFromV1 && (
+        <aside className="migration-note" role="status">
+          <p>{a.migration[locale]}</p>
+          <button
+            className="button"
+            onClick={() => dispatch({ type: "DISMISS_MIGRATION" })}
+          >
+            {a.dismiss[locale]}
+          </button>
+        </aside>
+      )}
+      {state.screen === "academy" &&
+        (state.academyModule === null ? (
+          <AcademyHome
+            locale={locale}
+            completed={state.academyCompleted}
+            onPractice={() => dispatch({ type: "PRACTICE_OPEN" })}
+            onModule={(module) => dispatch({ type: "ACADEMY", module })}
+            onMissions={() =>
+              state.started ? dispatch({ type: "RESUME" }) : start()
+            }
+          />
+        ) : (
+          <AcademyModule
+            key={state.academyModule}
+            onPractice={() => dispatch({ type: "PRACTICE_OPEN" })}
+            index={state.academyModule}
+            locale={locale}
+            collected={state.academyCompleted.includes(
+              academyModules[state.academyModule].id,
+            )}
+            onComplete={() =>
+              dispatch({
+                type: "COLLECT_LESSON",
+                id: academyModules[state.academyModule!].id,
+              })
+            }
+            onBack={() => dispatch({ type: "ACADEMY" })}
+            onNext={() =>
+              dispatch(
+                state.academyModule! < academyModules.length - 1
+                  ? { type: "ACADEMY", module: state.academyModule! + 1 }
+                  : { type: "PRACTICE_OPEN" },
+              )
+            }
+          />
+        ))}
+      {state.screen === "practice" && (
+        <ToolPractice
+          state={state}
+          locale={locale}
+          onAction={(action) => dispatch({ type: "PRACTICE", action })}
+          onBack={() => dispatch({ type: "ACADEMY" })}
+          onMissions={() =>
+            state.started ? dispatch({ type: "RESUME" }) : start()
+          }
+          onAgain={() => dispatch({ type: "PRACTICE_RESTART" })}
         />
       )}
       {state.screen === "game" && (
         <main id="main" className="game-main" tabIndex={-1}>
+          <div className="mission-navigation">
+            <button
+              className="button text-button"
+              onClick={() => dispatch({ type: "ACADEMY" })}
+            >
+              ← {a.academy[locale]}
+            </button>
+            <span>{a.missions[locale]}</span>
+          </div>
           <ProgressTracker
             stageId={stage.id}
             count={count}
@@ -122,7 +206,7 @@ export default function App() {
           locale={locale}
           count={count}
           onAgain={start}
-          onHome={() => dispatch({ type: "RESET", fresh: createGame() })}
+          onHome={home}
           onNotebook={() => setModal("notebook")}
         />
       )}
@@ -156,6 +240,18 @@ export default function App() {
                 </button>
                 <button className="button primary" onClick={start}>
                   {gameUI.confirmRestart[locale]}
+                </button>
+              </div>
+              <div className="new-player-section">
+                <p>{a.nextPlayerNote[locale]}</p>
+                <button
+                  className="button"
+                  onClick={() => {
+                    setModal(null);
+                    dispatch({ type: "RESET", fresh: createGame() });
+                  }}
+                >
+                  {a.nextPlayer[locale]}
                 </button>
               </div>
             </>

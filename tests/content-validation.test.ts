@@ -1,19 +1,27 @@
+import {
+  practiceQuestions,
+  observationUI,
+  magnifierSpecimens,
+} from "../src/data/observationData";
+import { fluorescenceSteps } from "../src/data/gameData";
+import {
+  academyModules,
+  academyVisuals,
+  scaleSequence,
+  toolAbilities,
+} from "../src/data/academyData";
+import { academyUI } from "../src/data/academyUI";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import {
-  caseQuestions,
-  finalQuestions,
-  fluorescenceSteps,
-  stages,
-} from "../src/data/gameData";
+import { caseQuestions, finalQuestions, stages } from "../src/data/missionData";
 import { images } from "../src/data/images";
 import { ui } from "../src/data/ui";
 import { gameUI } from "../src/data/gameUI";
 
 test("question IDs, answers, stage and image references are all valid", () => {
-  const questions = [...caseQuestions, ...finalQuestions];
+  const questions = [...caseQuestions, ...finalQuestions, ...practiceQuestions];
   assert.equal(new Set(questions.map((q) => q.id)).size, questions.length);
   for (const q of questions) {
     assert.ok(stages.some((s) => s.id === q.stage));
@@ -46,9 +54,16 @@ test("all localized educational and interface strings have both languages", () =
       Object.entries(o).forEach(([key, v]) => inspect(v, `${path}.${key}`));
   }
   inspect({
+    academyModules,
+    observationUI,
+    practiceQuestions,
+    magnifierSpecimens,
+    academyVisuals,
+    scaleSequence,
+    toolAbilities,
+    academyUI,
     caseQuestions,
     finalQuestions,
-    fluorescenceSteps,
     stages,
     images,
     ui,
@@ -67,4 +82,21 @@ test("all image files exist locally; original SVG placeholders have no scripts o
     assert.match(svg, /viewBox="0 0 800 600"/);
     assert.doesNotMatch(svg, /<script|<foreignObject|onload=|href="https?:/i);
   }
+});
+
+test("academy activities have valid answers and six collectible concepts in observation order", () => {
+  assert.deepEqual(
+    academyModules.map((m) => m.id),
+    ["scale", "magnifier", "stereo", "optical", "fluorescence", "electron"],
+  );
+  assert.equal(new Set(academyModules.map((m) => m.id)).size, 6);
+  for (const m of academyModules) {
+    assert.ok(m.choices.some((c) => c.id === m.answer));
+    assert.ok(m.hint["zh-TW"] && m.strongHint["zh-TW"] && m.clue["zh-TW"]);
+  }
+  for (const q of [...caseQuestions, ...finalQuestions])
+    assert.ok(q.strongHint?.["zh-TW"], q.id);
+  assert.equal(caseQuestions.filter((q) => q.stage === "mystery").length, 4);
+  assert.ok(caseQuestions.some((q) => q.image === "electron-surface"));
+  assert.ok(caseQuestions.some((q) => q.image === "electron-mitochondrion"));
 });

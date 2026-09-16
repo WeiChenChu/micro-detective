@@ -1,6 +1,7 @@
 import type { Choice, Locale } from "../data/types";
 import { gameUI } from "../data/gameUI";
-import { stages } from "../data/gameData";
+import { toolIcons } from "../data/missionData";
+import type { MicroscopeType } from "../data/types";
 import { Icon } from "./Icon";
 import { MicroscopyImage } from "./MicroscopyImage";
 
@@ -21,7 +22,7 @@ export function ImageChoice({
   onSelect: () => void;
   isTool?: boolean;
 }) {
-  const icon = stages.find((s) => s.id === choice.id)?.icon;
+  const icon = toolIcons[choice.id as MicroscopeType];
   return (
     <button
       className={`choice ${selected ? "selected" : ""} ${choice.image ? "image-choice" : "text-choice"} ${isTool ? "tool-choice" : ""}`}
