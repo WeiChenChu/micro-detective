@@ -6,12 +6,12 @@ export const closeObservationLessons: AcademyLesson[] = [
     icon: "search",
     title: bi("放大鏡", "Magnifying glass"),
     opening: bi(
-      "葉脈和昆蟲翅膀，藏著哪些局部線索？",
-      "What local clues hide in leaf veins and insect wings?",
+      "葉脈和羽毛，藏著哪些局部線索？",
+      "What local clues hide in leaf veins and feathers?",
     ),
     concept: bi(
-      "放大鏡利用鏡片，讓局部細節更容易看見；適合觀察葉片、昆蟲或羽毛。",
-      "A magnifying glass uses a lens to make local details easier to see on leaves, insects or feathers.",
+      "放大鏡利用鏡片，讓局部細節更容易看見；適合觀察葉脈、羽毛或較大型昆蟲翅膀等肉眼可見的表面特徵。",
+      "A magnifying glass uses a lens to make local details easier to see on visible surfaces such as leaf veins, feathers or larger insect wings.",
     ),
     clue: bi(
       "看見：先找整體，再放大感興趣的地方；圖片變大不一定增加細節。",

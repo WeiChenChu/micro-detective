@@ -32,7 +32,7 @@ export const ui = {
     "4 ways to observe. 1 microscopic adventure.",
   ),
   eye: bi("肉眼觀察", "Naked eye"),
-  optical: bi("光學顯微鏡", "Light microscopy"),
+  optical: bi("複式光學顯微鏡", "Compound light microscopy"),
   fluorescent: bi("螢光顯微鏡", "Fluorescence"),
   electron: bi("電子顯微鏡", "Electron microscopy"),
   final: bi("最終挑戰", "Final challenge"),

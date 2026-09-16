@@ -2,8 +2,8 @@ import { bi, type Choice, type Question, type Stage } from "./types";
 
 export const observationUI = {
   order: bi(
-    "肉眼 → 放大鏡 → 解剖顯微鏡 → 光學顯微鏡 → 螢光顯微鏡 → 電子顯微鏡",
-    "Eyes → Magnifying glass → Stereomicroscope → Light microscope → Fluorescence microscope → Electron microscope",
+    "肉眼 → 放大鏡 → 解剖顯微鏡 → 複式光學顯微鏡 → 螢光顯微鏡 → 電子顯微鏡",
+    "Eyes → Magnifying glass → Stereomicroscope → Compound light microscope → Fluorescence microscope → Electron microscope",
   ),
   orderNote: bi(
     "這是探索順序，不是工具的厲害排行榜。先想想要看什麼，再選工具！",
@@ -11,13 +11,13 @@ export const observationUI = {
   ),
   familyTitle: bi("這些工具有什麼關係？", "How are these tools related?"),
   family: bi(
-    "解剖顯微鏡與螢光顯微鏡都使用光，屬於光學顯微鏡。這裡的「光學顯微鏡」指常用來看細胞的複式顯微鏡。",
-    "Stereo and fluorescence microscopes both use light and belong to light microscopy. Here, “light microscope” refers to the compound microscope commonly used to observe cells.",
+    "解剖顯微鏡與螢光顯微鏡都使用光，屬於光學顯微鏡。這裡的「複式光學顯微鏡」是常用來看細胞的工具；這些名稱不是互斥的大類。",
+    "Stereo and fluorescence microscopes both use light and belong to light microscopy. Here, “compound light microscope” names the tool commonly used for cells; these categories are not mutually exclusive.",
   ),
   practice: bi("你會選哪一種工具？", "Which tool would you choose?"),
   practiceIntro: bi(
-    "四個觀察任務。每題選一種合適的工具，有些問題不只一個合理答案！",
-    "Four observation tasks. Choose one suitable tool each time; some questions have more than one reasonable answer!",
+    "四個觀察任務。先想知道什麼，再選最適合回答問題的工具！",
+    "Four observation tasks. First decide what you want to know, then choose the tool that best answers the question!",
   ),
   practiceAction: bi("試試選工具小遊戲", "Try the tool-choice game"),
   skill: bi(
@@ -146,12 +146,12 @@ export const practiceTools: Choice[] = [
   {
     id: "naked-eye",
     title: bi("肉眼", "Naked eye"),
-    description: bi("先看整體", "Start with the whole"),
+    description: bi("發現目標與大致輪廓", "Find the object and its rough outline"),
   },
   {
     id: "magnifier",
     title: bi("放大鏡", "Magnifying glass"),
-    description: bi("局部放大", "Enlarge an area"),
+    description: bi("稍微放大肉眼可見的表面", "Enlarge visible surface features a little"),
   },
   {
     id: "stereo",
@@ -163,7 +163,7 @@ export const practiceTools: Choice[] = [
   },
   {
     id: "optical",
-    title: bi("光學顯微鏡", "Light microscope"),
+    title: bi("複式光學顯微鏡", "Compound light microscope"),
     description: bi("用光和鏡片看細胞", "Light and lenses reveal cells"),
   },
   {
@@ -194,39 +194,24 @@ export const practiceQuestions: Question[] = [
     toolSelection: true,
     title: bi("任務 1 · 看整體", "Task 1 · See the whole"),
     question: bi(
-      "想看一隻成果蠅的完整外形，可以選哪一種工具？",
-      "Which tool can show the whole shape of an adult fruit fly?",
+      "想仔細觀察完整果蠅的頭、胸、腹和翅膀形狀，哪一種工具最適合？",
+      "Which tool is best for closely observing the head, thorax, abdomen and wing shapes of an intact adult fruit fly?",
     ),
     image: "fruit-fly",
     choices: practiceTools,
-    correctAnswer: ["naked-eye"],
-    acceptedAnswers: ["naked-eye", "magnifier", "stereo"],
+    correctAnswer: ["stereo"],
     hint: bi(
-      "先看完整的小生物，不用追查細胞內部。",
-      "Look at the whole small organism; we are not investigating inside cells.",
+      "肉眼確實可以看到果蠅的大致輪廓。不過牠只有幾毫米大，想仔細觀察頭、胸、腹和翅膀，解剖顯微鏡更適合。",
+      "Our eyes can see a fruit fly’s rough outline. But it is only a few millimeters long, so a stereomicroscope better reveals its head, thorax, abdomen and wings.",
     ),
     strongHint: bi(
-      "肉眼看得見成果蠅；解剖顯微鏡也能讓完整小生物更容易觀察。放大鏡也能幫忙看整體。選一種就好。",
-      "Adult fruit flies are visible to our eyes, and a stereomicroscope helps observe them whole. A magnifying glass can also help. Choose one.",
+      "放大鏡也能幫忙看果蠅；但這題要仔細觀察完整身體與表面形狀，最佳選擇是解剖顯微鏡。",
+      "A magnifying glass can help observe a fruit fly too. For a close view of its intact body and surface shape, the best choice here is a stereomicroscope.",
     ),
     explanation: bi(
-      "肉眼或解剖顯微鏡都能觀察成果蠅的整體外形。",
-      "Both your eyes and a stereomicroscope can show the overall shape of an adult fruit fly.",
+      "成果蠅肉眼可見；要仔細看完整身體的頭、胸、腹和翅膀，解剖顯微鏡的較大視野與立體感更適合。",
+      "An adult fruit fly is visible to our eyes. A stereomicroscope’s wider field and sense of depth better suit a close view of its head, thorax, abdomen and wings.",
     ),
-    answerExplanations: {
-      magnifier: bi(
-        "放大鏡也能幫你看清楚果蠅的整體外形；先保留全貌，再找細節。",
-        "A magnifying glass can help show the whole fruit fly too. Keep its overall shape in view before looking for detail.",
-      ),
-      "naked-eye": bi(
-        "成果蠅的整體外形肉眼就看得見，先觀察全貌就很有用！",
-        "An adult fruit fly is visible to your eyes; starting with its whole shape is useful!",
-      ),
-      stereo: bi(
-        "解剖顯微鏡的較大視野適合看完整小生物，還能感覺到立體形狀。",
-        "A stereomicroscope’s wider field fits a small organism and adds a sense of depth.",
-      ),
-    },
     funFact: principle,
   },
   {
@@ -234,37 +219,26 @@ export const practiceQuestions: Question[] = [
     stage: "tools",
     type: "single",
     toolSelection: true,
-    title: bi("任務 2 · 翅膀線索", "Task 2 · Wing clues"),
+    title: bi("任務 2 · 葉脈線索", "Task 2 · Leaf vein clues"),
     question: bi(
-      "想看昆蟲翅膀的大致翅脈與表面細節，可以先選哪種工具？",
-      "Which tool could you start with to inspect an insect wing’s larger veins and surface details?",
+      "在戶外，想把肉眼看得到的葉脈稍微放大，哪一種隨手攜帶的工具最適合？",
+      "Outdoors, which handy portable tool best enlarges leaf veins that you can already see?",
     ),
-    image: "fruit-fly",
+    image: "leaf",
     choices: practiceTools,
     correctAnswer: ["magnifier"],
-    acceptedAnswers: ["magnifier", "stereo"],
     hint: bi(
-      "這次比整體外形更靠近一些，但還不需要看細胞內部。",
-      "Look a little closer than the whole body; we do not need to see inside cells.",
+      "葉脈已經看得到，這次只想方便地放大局部，不是觀察細胞。",
+      "The veins are already visible. We just want a convenient closer look, not a view of cells.",
     ),
     strongHint: bi(
-      "放大鏡能放大局部；解剖顯微鏡也適合看翅膀表面。選一種即可。",
-      "A magnifying glass enlarges a local area; a stereomicroscope also suits wing surfaces. Choose either.",
+      "放大鏡方便攜帶，能讓葉脈分支更容易看清楚。",
+      "A magnifying glass is easy to carry and makes branching leaf veins easier to see.",
     ),
     explanation: bi(
-      "放大鏡與解剖顯微鏡都能幫忙；能看清楚多少，還要看昆蟲大小與工具能力。",
-      "Both can help; the visible detail also depends on the insect’s size and the tool.",
+      "放大鏡適合在戶外稍微放大葉脈、羽毛或較大型昆蟲翅膀等肉眼可見的表面特徵。工具要配合問題與使用情境。",
+      "A magnifying glass is handy outdoors for enlarging visible surface features such as leaf veins, feathers or larger insect wings. Match the tool to the question and setting.",
     ),
-    answerExplanations: {
-      magnifier: bi(
-        "放大鏡讓局部翅脈更容易看見，是方便的第一步。",
-        "A magnifying glass makes larger wing veins easier to see: a handy first step.",
-      ),
-      stereo: bi(
-        "解剖顯微鏡適合觀察翅膀表面，也保留高低與形狀的立體感。",
-        "A stereomicroscope suits wing surfaces and offers a sense of shape and depth.",
-      ),
-    },
     funFact: principle,
   },
   {
@@ -285,12 +259,12 @@ export const practiceQuestions: Question[] = [
       "Typical cells need more help than our eyes or a magnifying glass.",
     ),
     strongHint: bi(
-      "選常用於細胞觀察的光學顯微鏡，讓光和鏡片一起幫忙。",
-      "Choose the light microscope commonly used for cells: light and lenses work together.",
+      "選常用於細胞觀察的複式光學顯微鏡，讓光和鏡片一起幫忙。",
+      "Choose the compound light microscope commonly used for cells: light and lenses work together.",
     ),
     explanation: bi(
-      "光學顯微鏡用光和鏡片，幫你看見薄樣本裡一格格的細胞。",
-      "A light microscope uses light and lenses to show individual cells in a thin sample.",
+      "複式光學顯微鏡用光和鏡片，幫你看見薄樣本裡一格格的細胞。",
+      "A compound light microscope uses light and lenses to show individual cells in a thin sample.",
     ),
     funFact: principle,
   },
@@ -301,8 +275,8 @@ export const practiceQuestions: Question[] = [
     toolSelection: true,
     title: bi("任務 4 · 深入構造", "Task 4 · Explore structures"),
     question: bi(
-      "想分辨細胞內一般光學看不清楚的非常細微構造，選哪種工具？",
-      "Which tool reveals very fine structures inside cells beyond ordinary light microscopy?",
+      "想分辨細胞內複式光學顯微鏡看不清楚的非常細微構造，選哪種工具？",
+      "Which tool reveals very fine structures inside cells beyond compound light microscopy?",
     ),
     image: "electron-mitochondrion",
     choices: practiceTools,
@@ -316,8 +290,8 @@ export const practiceQuestions: Question[] = [
       "Electron microscopes form images with electrons to investigate these fine structures.",
     ),
     explanation: bi(
-      "電子顯微鏡能分辨非常細微的結構，這次的問題需要這種細節。",
-      "Electron microscopy resolves very fine structures: this question needs that detail.",
+      "電子顯微鏡能分辨非常細微的結構，這次的問題需要這種細節。但樣品通常需要特殊準備，並非每個問題都適合用它。",
+      "Electron microscopy resolves the fine structures this question asks about. But samples usually need special preparation, so it does not suit every question.",
     ),
     funFact: principle,
   },
