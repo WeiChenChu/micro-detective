@@ -1,17 +1,20 @@
 import { bi } from "./types";
 export const academyUI = {
-  academy: bi("🔬 偵探訓練所", "🔬 Detective Academy"),
+  academy: bi("🎓 小偵探課程", "🎓 Detective Academy"),
+  intro: bi("用不同觀察工具，一步步找到肉眼看不到的線索。", "Use different observation tools to uncover clues beyond our eyes."),
+  firstVisit: bi("第一次來？", "First visit?"),
+  prepared: bi("已經準備好了？", "Ready to investigate?"),
   missions: bi("🕵️ 小偵探任務", "🕵️ Detective Missions"),
   academyDescription: bi(
-    "先玩玩看各種觀察工具，學會怎麼尋找微觀線索。",
-    "Learn to use tools for exploring the microscopic world",
+    "學會怎麼選觀察工具",
+    "Learn how to choose an observation tool",
   ),
   missionsDescription: bi(
-    "運用你的觀察力破解微觀謎題",
-    "Use your observation skills to solve microscopic mysteries",
+    "直接開始破解線索",
+    "Start solving clues right away",
   ),
   recommended: bi(
-    "第一次來嗎？建議先完成偵探訓練所！",
+    "第一次來嗎？從小偵探課程開始！",
     "First visit? Try Detective Academy first!",
   ),
   freedom: bi(
@@ -34,13 +37,15 @@ export const academyUI = {
   clue: bi("偵探線索", "Detective clue"),
   knowledge: bi("知識卡", "Knowledge cards"),
   why: bi("為什麼需要顯微鏡？", "Why do we need microscopes?"),
-  back: bi("回課程地圖", "Academy map"),
+  back: bi("查看六堂課程", "View all six lessons"),
   learn: bi("先觀察", "Observe first"),
   collect: bi("收進偵探筆記本", "Collect in my notebook"),
-  next: bi("探索下一個工具", "Explore the next tool"),
+  next: bi("下一站", "Next stop"),
   review: bi("再看一次", "Explore again"),
-  ready: bi("工具準備好了！", "Your tools are ready!"),
-  summary: bi("你的三種偵探能力", "Your three detective abilities"),
+  ready: bi("完成課程，整理我的發現", "Complete lessons and connect my discoveries"),
+  summary: bi("顯微觀察的三種任務", "Three tasks in microscopic observation"),
+  journey: bi("發現 → 靠近 → 放大 → 看見 → 尋找 → 深入", "Discover → Approach → Enlarge → See → Find → Explore"),
+  everyday: bi("肉眼發現目標，放大鏡幫你靠近局部，解剖顯微鏡放大完整小生物：從日常世界逐步靠近微觀世界。", "Find objects with your eyes, approach local details with a hand lens, and enlarge intact small organisms with a stereomicroscope: a journey from everyday observation into the microscopic world."),
   family: bi(
     "解剖顯微鏡與螢光顯微鏡，都屬於光學顯微鏡。",
     "Stereo and fluorescence microscopes are both types of light microscopy.",
@@ -58,8 +63,8 @@ export const academyUI = {
     "Look → Explore → Discover → Collect",
   ),
   migration: bi(
-    "歡迎來到 v0.23！任務有新問題，這次從新案件開始；v0.1 的原始存檔仍保留在這台裝置。",
-    "Welcome to v0.23! New questions start a new investigation. Your original v0.1 save is still kept on this device.",
+    "已保留你的語言設定，從目前的案件開始探索；v0.1 的原始存檔仍保留在這台裝置。",
+    "Your language preference is retained. Explore the current investigation; your original v0.1 save is still on this device.",
   ),
   dismiss: bi("知道了", "Got it"),
   nextPlayer: bi(

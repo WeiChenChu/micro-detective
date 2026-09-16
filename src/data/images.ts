@@ -16,6 +16,7 @@ const illustration = (
   caption,
   microscopeType,
   placeholder: true,
+  type: "illustration",
   credit: {
     creator: "Microscopic Detective project",
     license: "Original project illustration",
@@ -163,6 +164,15 @@ export const images: Record<string, ImageData> = {
     ),
     "electron",
   ),
+};
+
+// Keep illustrations. Add a separately reviewed real-image ID to activate each example.
+// Files belong in public/images/microscopy/; empty slots never request a missing URL.
+export const realImageExamples: Record<string, { title: Text; imageId?: string }> = {
+  "optical-onion": { title: bi("真正的細胞影像", "Real cell images") },
+  "fluorescence-cell": { title: bi("真正的螢光影像", "Real fluorescence images") },
+  "electron-surface": { title: bi("真正的 SEM 影像", "Real SEM images") },
+  "electron-mitochondrion": { title: bi("真正的 TEM 影像", "Real TEM images") },
 };
 
 // Keeps public images working when the static site is hosted in a subdirectory.

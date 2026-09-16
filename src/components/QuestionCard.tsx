@@ -48,7 +48,7 @@ export function QuestionCard({
       <h2 id="question-heading" tabIndex={-1}>
         {question.question[locale]}
       </h2>
-      <p className="question-instruction">
+      {!(final && resolved) && <p className="question-instruction">
         {toolSelection
           ? gameUI.finalInstruction[locale]
           : question.type === "multiple"
@@ -56,8 +56,9 @@ export function QuestionCard({
             : hasImages
               ? gameUI.selectOne[locale]
               : gameUI.selectAnswer[locale]}
-      </p>
-      <div className={question.image ? "final-workspace" : ""}>
+      </p>}
+      {!(final && resolved) && <div className={question.image ? "final-workspace" : ""}>
+        {final && !question.image && <div className="mystery-sample"><span aria-hidden="true">?</span><p>{question.observation?.[locale]}</p></div>}
         {question.image && (
           <div className="final-evidence">
             <MicroscopyImage id={question.image} locale={locale} />
@@ -115,7 +116,7 @@ export function QuestionCard({
             </div>
           )}
         </div>
-      </div>
+      </div>}
       {state.showHint && !state.feedback && !resolved && (
         <div className="inline-hint" role="status">
           <Icon name="lightbulb" size={20} />

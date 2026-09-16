@@ -2934,3 +2934,43 @@ button {
 .academy-module .channel-view,
 .academy-module section > .microscopy-image { max-width: 600px; margin-inline: auto; }
 .academy-module section > p { margin-block: 12px; }
+
+/* v0.24: observation, evidence and a clear next step, using existing tokens. */
+.course-map > summary,
+.observation-notes > summary,
+.real-image-example > summary,
+.image-attribution > summary { cursor: pointer; min-height: 48px; padding: 12px 0; font-size: 16px; }
+.real-image-example { border-top: 1px solid var(--line); margin-top: 20px; }
+.image-attribution { font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
+.image-attribution a { display: inline-block; padding: 12px 8px 12px 0; }
+.image-attribution p { margin-block: 4px; }
+.image-choice-option { min-width: 0; }
+.image-choice-option > button { width: 100%; }
+.image-caption, .evidence-caption { line-height: 1.8; }
+.journey { font-weight: 700; line-height: 1.9; margin-block: 16px; }
+.concept-check { margin-block: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.concept-check .specimen-switch { flex-direction: column; align-items: stretch; }
+.concept-check button { text-align: left; justify-content: flex-start; }
+.naked-view.naked-distance-0 .image-frame { width: 180px; max-width: 100%; }
+.naked-view.naked-distance-1 .image-frame { width: 60px; }
+.naked-view.naked-distance-2 .image-frame { width: 100px; }
+.mystery-sample { display: flex; align-items: center; gap: 20px; padding: 20px; margin-bottom: 24px; background: #edf3e3; border-radius: 16px; line-height: 1.8; }
+.mystery-sample > span { font-size: 56px; font-weight: 800; }
+.investigation-evidence { margin-block: 20px; line-height: 1.8; }
+.investigation-evidence > .microscopy-image { max-width: 520px; margin-inline: auto; }
+.investigation-evidence > p { margin-block: 14px; }
+.new-question { border-left: 4px solid #526d3d; background: #f6f8f3; padding: 20px; margin-block: 20px; }
+.new-question p { margin-top: 10px; }
+.investigation-summary { margin-block: 24px; line-height: 1.8; }
+.investigation-summary ol { padding-left: 24px; }
+.investigation-summary li { margin-block: 16px; }
+.investigation-summary li p { margin-top: 6px; }
+.academy-module .academy-actions { margin-block: 20px; }
+.final-workspace > *, .feedback-content > *, .path-card, .ability-grid > * { min-width: 0; }
+.button { overflow-wrap: anywhere; }
+@media (max-width: 680px) {
+  .academy-module .academy-actions .primary { width: 100%; }
+  .mystery-sample { padding: 16px; gap: 12px; }
+  .new-question { padding: 16px; }
+  .final-question .feedback-panel { padding: 18px 14px; }
+}

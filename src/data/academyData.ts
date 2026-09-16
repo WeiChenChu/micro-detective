@@ -9,6 +9,11 @@ export interface AcademyLesson {
   concept: Text;
   clue: Text;
   sendoff: Text;
+  check?: {
+    question: Text;
+    choices: { id: string; label: Text; feedback: Text }[];
+    answer: string;
+  };
 }
 
 export const academyModules: AcademyLesson[] = [
@@ -17,8 +22,8 @@ export const academyModules: AcademyLesson[] = [
     icon: "search",
     title: bi("肉眼觀察：我們能看多小？", "Naked eye: how small can we see?"),
     opening: bi(
-      "果蠅肉眼看得到，眼睛、翅膀和腳也看得清楚嗎？",
-      "A fruit fly is visible. Can you distinguish its eyes, wings and legs?",
+      "從成魚到小果蠅：看得到牠，也看得清楚細節嗎？",
+      "From an adult fish to a tiny fly: visible, but are the details clear?",
     ),
     concept: bi(
       "果蠅肉眼可以看到，但眼睛、翅膀和腳的細節不容易看清楚；不同工具能幫我們觀察。",
@@ -36,6 +41,14 @@ export const academyModules: AcademyLesson[] = [
   ...closeObservationLessons,
   {
     id: "optical",
+    check: {
+      question: bi("這次換成薄薄的洋蔥表皮，為什麼適合用複式光學顯微鏡？", "Why does a compound light microscope suit this thin onion skin?"),
+      answer: "sample",
+      choices: [
+        { id: "power", label: bi("倍率較高，所以任何樣品都適合", "Higher magnification suits every specimen"), feedback: bi("完整果蠅需要較大視野；這次薄表皮能透光，問題也改成看細胞。樣品和問題都要考慮。", "A whole fly needs a wider view. This thin skin transmits light and the question is about cells. Consider both specimen and question.") },
+        { id: "sample", label: bi("薄樣品能透光，這次想分辨細胞邊界", "The thin specimen transmits light; we want cell boundaries"), feedback: bi("是的！合適的樣品、照明與對焦一起幫你分辨細胞，不只是倍率比較高。", "Yes! A suitable specimen, illumination and focus reveal cells, beyond just magnification.") },
+      ],
+    },
     icon: "microscope",
     title: bi("複式光學顯微鏡", "Compound light microscope"),
     opening: bi(
@@ -72,6 +85,14 @@ export const academyModules: AcademyLesson[] = [
   },
   {
     id: "electron",
+    check: {
+      question: bi("想看光學影像分不開的內膜細節，下一步怎麼做？", "How can we resolve inner membrane details beyond the light image?"),
+      answer: "prepare",
+      choices: [
+        { id: "live", label: bi("把活樣品直接放進電子顯微鏡，看它活動", "Put the living sample straight into an electron microscope to watch it move"), feedback: bi("電子顯微鏡通常需要特殊處理，不能像一般光學觀察那樣直接追蹤活體活動。", "Electron microscopy usually needs special preparation, rather than directly following living activity as in light microscopy.") },
+        { id: "prepare", label: bi("準備適合的薄樣品，用 TEM 看內部細節", "Prepare a suitable thin specimen and use TEM for internal detail"), feedback: bi("TEM 適合薄樣品內部的超微結構，SEM 偏向表面。看得更細，也要考慮樣品處理。", "TEM suits ultrastructure inside thin samples; SEM emphasizes surfaces. Finer detail also requires specimen preparation.") },
+      ],
+    },
     icon: "bolt",
     title: bi("電子顯微鏡", "Electron microscope"),
     opening: bi(

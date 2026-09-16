@@ -3,17 +3,20 @@ import { imageUrl, images } from "../data/images";
 import { ui } from "../data/ui";
 import { gameUI } from "../data/gameUI";
 import type { Locale } from "../data/types";
+import { ImageAttribution } from "./ImageAttribution";
 
 export function MicroscopyImage({
   id,
   locale,
   className = "",
   showCaption = false,
+  showAttribution = true,
 }: {
   id: string;
   locale: Locale;
   className?: string;
   showCaption?: boolean;
+  showAttribution?: boolean;
 }) {
   const image = images[id];
   const [failedSrc, setFailedSrc] = useState("");
@@ -39,10 +42,11 @@ export function MicroscopyImage({
           />
         )}
       </div>
-      {image.placeholder && (
+      {image.type === "illustration" && (
         <span className="image-disclaimer">{ui.imageNote[locale]}</span>
       )}
-      {showCaption && <p className="image-caption">{image.caption[locale]}</p>}
+      {(showCaption || image.type === "real") && <p className="image-caption">{image.caption[locale]}</p>}
+      {image.type === "real" && showAttribution && <ImageAttribution image={image} locale={locale} />}
     </div>
   );
 }

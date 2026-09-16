@@ -17,7 +17,8 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { caseQuestions, finalQuestions, stages, toolChoices } from "../src/data/missionData";
-import { images } from "../src/data/images";
+import { images, realImageExamples } from "../src/data/images";
+import { investigationUI } from "../src/data/investigationData";
 import { ui } from "../src/data/ui";
 import { gameUI } from "../src/data/gameUI";
 
@@ -67,6 +68,8 @@ test("all localized educational and interface strings have both languages", () =
     finalQuestions,
     stages,
     images,
+    realImageExamples,
+    investigationUI,
     ui,
     gameUI,
   });
@@ -75,9 +78,16 @@ test("all image files exist locally; original SVG placeholders have no scripts o
   for (const image of Object.values(images)) {
     const path = resolve("public", image.src);
     assert.ok(existsSync(path), path);
-    assert.ok(image.placeholder);
     assert.ok(image.credit.creator);
     assert.ok(image.credit.license);
+    if (image.type === "real") {
+      assert.equal(image.placeholder, false);
+      assert.ok(image.credit.sourceUrl, `${image.id}: missing source`);
+      assert.ok(image.caption.en && image.imageAlt.en);
+      continue;
+    }
+    assert.equal(image.type, "illustration");
+    assert.ok(image.placeholder);
     const svg = readFileSync(path, "utf8");
     assert.match(svg, /<svg/);
     assert.match(svg, /viewBox="0 0 800 600"/);
@@ -85,12 +95,17 @@ test("all image files exist locally; original SVG placeholders have no scripts o
   }
 });
 
-test("academy has six collectible exploration concepts without quiz answers", () => {
+test("academy preserves six concepts, with four actions and two focused checks", () => {
   assert.deepEqual(
     academyModules.map((m) => m.id),
     ["scale", "magnifier", "stereo", "optical", "fluorescence", "electron"],
   );
   assert.equal(new Set(academyModules.map((m) => m.id)).size, 6);
+  assert.deepEqual(academyModules.filter(m => m.check).map(m => m.id), ["optical", "electron"]);
+  for (const m of academyModules) if (m.check) {
+    assert.ok(m.check.choices.some(c => c.id === m.check!.answer));
+    assert.ok(m.check.choices.every(c => c.feedback.en && c.feedback["zh-TW"]));
+  }
   for (const m of academyModules) {
     assert.ok(m.opening["zh-TW"] && m.concept["zh-TW"] && m.clue["zh-TW"]);
     assert.ok(!("answer" in m) && !("choices" in m));

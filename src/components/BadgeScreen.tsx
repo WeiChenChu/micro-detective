@@ -3,6 +3,7 @@ import { gameUI } from "../data/gameUI";
 import { academyUI as a } from "../data/academyUI";
 import { ToolSummary } from "./ToolSummary";
 import { Icon } from "./Icon";
+import { InvestigationSummary } from "./InvestigationEvidence";
 
 export function BadgeScreen({
   locale,
@@ -72,6 +73,7 @@ export function BadgeScreen({
         </div>
       </div>
       <section className="discovery-summary">
+        <InvestigationSummary locale={locale} />
         <div className="route-heading">
           <h2>{gameUI.review[locale]}</h2>
           <button className="button text-button" onClick={onNotebook}>

@@ -4,6 +4,8 @@ import { toolIcons } from "../data/missionData";
 import type { MicroscopeType } from "../data/types";
 import { Icon } from "./Icon";
 import { MicroscopyImage } from "./MicroscopyImage";
+import { images } from "../data/images";
+import { ImageAttribution } from "./ImageAttribution";
 
 export function ImageChoice({
   choice,
@@ -23,7 +25,7 @@ export function ImageChoice({
   isTool?: boolean;
 }) {
   const icon = toolIcons[choice.id as MicroscopeType];
-  return (
+  const button = (
     <button
       className={`choice ${selected ? "selected" : ""} ${choice.image ? "image-choice" : "text-choice"} ${isTool ? "tool-choice" : ""}`}
       aria-pressed={selected}
@@ -31,7 +33,7 @@ export function ImageChoice({
       onClick={onSelect}
       data-choice-id={choice.id}
     >
-      {choice.image && <MicroscopyImage id={choice.image} locale={locale} />}
+      {choice.image && <MicroscopyImage id={choice.image} locale={locale} showAttribution={false} />}
       <span className="choice-body">
         <span className="choice-letter">
           {isTool && icon ? (
@@ -51,4 +53,9 @@ export function ImageChoice({
       {selected && <span className="sr-only">{gameUI.chosen[locale]}</span>}
     </button>
   );
+  const image = choice.image && images[choice.image];
+  // Attribution remains reachable even after answering; never nest links inside a button.
+  return image && image.type === "real"
+    ? <div className="image-choice-option">{button}<ImageAttribution image={image} locale={locale} /></div>
+    : button;
 }
