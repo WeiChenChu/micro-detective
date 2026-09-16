@@ -6,14 +6,14 @@
 | ------------------------ | ------------------------------------- | -------------------------------- |
 | `leaf`                   | `naked-eye/leaf.svg`                  | 放大鏡互動、葉脈選工具練習 |
 | `fruit-fly`              | `naked-eye/fruit-fly.svg`             | 肉眼、放大鏡、解剖顯微鏡、選工具練習 |
-| `zebrafish`              | `naked-eye/zebrafish.svg`             | 尺度課程、尺度任務、成魚游動                   |
-| `animal-cell`            | `optical/animal-cell.svg`             | 尺度課程／任務、電子課程的概念圖             |
-| `bacterium`              | `optical/bacterium.svg`               | 尺度課程與尺度任務             |
+| `zebrafish`              | `naked-eye/zebrafish.svg`             | 尺度任務、成魚游動                   |
+| `animal-cell`            | `optical/animal-cell.svg`             | 尺度任務、細胞概念圖             |
+| `bacterium`              | `optical/bacterium.svg`               | 尺度任務             |
 | `optical-onion`          | `optical/optical-onion.svg`           | 複式光學顯微鏡課程、神秘影像 A       |
-| `fluorescence-cell`      | `fluorescence/fluorescence-cell.svg`  | 螢光課程、找目標、神秘影像 B |
-| `cell-unmarked`          | `fluorescence/cell-unmarked.svg`      | 螢光步驟 1–3                     |
+| `fluorescence-cell`      | `fluorescence/fluorescence-cell.svg`  | 螢光圖層來源、找目標、神秘影像 B |
+| `cell-unmarked`          | `fluorescence/cell-unmarked.svg`      | 舊版螢光演示素材                     |
 | `electron-mitochondrion` | `electron/electron-mitochondrion.svg` | 電子課程、神秘影像 D       |
-| `electron-surface`       | `electron/electron-surface.svg`       | 首頁與神秘影像 C 必答題    |
+| `electron-surface`       | `electron/electron-surface.svg`       | 電子探索與神秘影像 C    |
 
 `microscopeType` 表示這份教學素材的預定觀察分類，並非該生物只能被該工具觀察。細胞／細菌概念圖的細節不代表一般光學照片一定能看見全部構造。
 
@@ -47,7 +47,7 @@
 正式授權影像不應冒用此範例文字。CC BY 需保留實際作者、來源、授權及變更說明。圖片來源面板會呈現這些欄位；沒有來源網址的設施自有影像也可以使用。
 
 3. 在 `academyData.ts`、`missionData.ts` 和共用螢光步驟 `gameData.ts` 搜尋 `optical-onion`，確認選項、解說、最終觀察線索仍然成立。
-4. 螢光圖若不是「細胞核＋粒線體」標記，需一併調整圖說、四步驟的說明與相依趣味知識。不要讓綠色＝粒線體成為固定科學規則。
+4. 螢光圖若不是「細胞核＋粒線體」標記，需一併調整圖層、channel 按鈕與圖說、相關任務與相依趣味知識。不要讓綠色＝粒線體成為固定科學規則。
 5. `cell-unmarked` 與 `fluorescence-cell` 為一組比較：更換時使用對應標本或明確說明只是概念示意。
 6. 保留合理解析度與原始比例；建議素材最長邊約 1200–1600 px，按用途壓縮。不要以壓縮破壞要觀察的微小特徵。
 7. 如果需要比例尺，採用原圖內已正確校準的比例尺。不要憑放大倍率或畫面大小重新畫數值比例尺。
@@ -69,7 +69,16 @@
 
 神秘影像的 `observation` 直接呈現可見證據與方法記錄，搭配選項判斷；不能只憑顏色猜工具。最終案件固定依研究問題選工具，不再隨機洗牌。
 
-課程內容在 `academyData.ts`：一個模組包含 opening、concept、clue、question、choices、answer、feedback、hint、strongHint、sendoff。互動呈現在 ConceptReveal，文案仍放資料檔。新增課程前須同步調整收藏驗證與固定四張卡的 UI。
+課程內容在 `academyData.ts`／`academyExtensions.ts`：模組包含 id、icon、title、opening、concept、clue、sendoff，不再含 question／choices／answer。`AcademyModule` 負責操作後收藏，`ConceptReveal` 分派現有互動。保持六個 ID 不變可沿用 v0.22 收藏。短操作文案位於各互動元件，均提供繁中／英文。
+
+## v0.23 探索互動維護
+
+- `MagnifierLab` 預設果蠅，掃到 `observationData.ts` 的熱點才觸發發現，支援 pointer、方向鍵及按鈕。
+- `StereoLab` 用同一果蠅圖比較倍率、裁切位置，不模擬雙眼立體成像。
+- `ConceptReveal` 的光學對焦以 65 為示意焦點，容許 ±8；40×是數位放大示意，不是宣稱真實物鏡不增加解析度。
+- `FluorescenceLab` 使用從原 `fluorescence-cell.svg` 拆出的 `channel-nuclei.svg` 與 `channel-mitochondria.svg`。兩檔共用 800×600 座標，背景透明，可正確疊合；原創圖形授權與原圖一致。替換時需使用對齊的同一標本通道並更新按鈕文字與替代描述，不以換色代替真實 channel。
+- 電子兩種視圖分別為果蠅複眼與粒線體，明示不同樣品。使用「擅長／常用」，不可寫成 SEM／TEM 絕對只能看一種資訊。
+- 課程不加入正解或錯誤回饋；應用推理題仍放 `missionData.ts` 或 `observationData.ts` 練習。
 
 ## 驗證變更
 

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+<defs><radialGradient id="nucleus"><stop stop-color="#6460C8"/><stop offset=".7" stop-color="#6254C0"/><stop offset="1" stop-color="#426ACB"/></radialGradient></defs>
+<g fill="#675DD9" opacity=".7"><ellipse cx="130" cy="123" rx="29" ry="34" transform="rotate(22 130 123)"/><ellipse cx="702" cy="458" rx="31" ry="39" transform="rotate(-24 702 458)"/></g>
+<path d="M349 277C355 236 402 221 441 244C480 267 473 326 440 346C397 372 343 332 349 277Z" fill="url(#nucleus)" stroke="#8492FF" stroke-opacity=".7" stroke-width="3"/>
+<g fill="#A7A5FC" opacity=".35"><circle cx="381" cy="264" r="9"/><circle cx="423" cy="317" r="12"/><circle cx="402" cy="284" r="6"/><circle cx="445" cy="284" r="8"/></g>
+</svg>

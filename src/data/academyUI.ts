@@ -1,9 +1,9 @@
 import { bi } from "./types";
 export const academyUI = {
-  academy: bi("🎓 小偵探課程", "🎓 Detective Academy"),
+  academy: bi("🔬 偵探訓練所", "🔬 Detective Academy"),
   missions: bi("🕵️ 小偵探任務", "🕵️ Detective Missions"),
   academyDescription: bi(
-    "學會使用探索微觀世界的工具",
+    "先玩玩看各種觀察工具，學會怎麼尋找微觀線索。",
     "Learn to use tools for exploring the microscopic world",
   ),
   missionsDescription: bi(
@@ -11,7 +11,7 @@ export const academyUI = {
     "Use your observation skills to solve microscopic mysteries",
   ),
   recommended: bi(
-    "第一次來嗎？建議先完成小偵探課程！",
+    "第一次來嗎？建議先完成偵探訓練所！",
     "First visit? Try Detective Academy first!",
   ),
   freedom: bi(
@@ -36,12 +36,6 @@ export const academyUI = {
   why: bi("為什麼需要顯微鏡？", "Why do we need microscopes?"),
   back: bi("回課程地圖", "Academy map"),
   learn: bi("先觀察", "Observe first"),
-  apply: bi("試試你的發現", "Try your discovery"),
-  check: bi("我觀察好了，試一題", "Ready to try a question"),
-  retry: bi("差一點！再找找線索 👀", "Almost! Look for another clue 👀"),
-  success: bi("破解成功！你發現了關鍵線索 🔎", "You found the key clue! 🔎"),
-  stronger: bi("再靠近線索一點", "A closer look at the clue"),
-  assist: bi("一起理解這個答案", "Explore the answer together"),
   collect: bi("收進偵探筆記本", "Collect in my notebook"),
   next: bi("探索下一個工具", "Explore the next tool"),
   review: bi("再看一次", "Explore again"),
@@ -60,12 +54,12 @@ export const academyUI = {
     "Scientists do not always choose the “most powerful” microscope.",
   ),
   loop: bi(
-    "學習 → 觀察 → 應用 → 回饋 → 複習",
-    "Learn → Observe → Apply → Feedback → Review",
+    "看一看 → 動一動 → 發現 → 收進偵探筆記",
+    "Look → Explore → Discover → Collect",
   ),
   migration: bi(
-    "歡迎來到 v0.22！任務有新問題，這次從新案件開始；v0.1 的原始存檔仍保留在這台裝置。",
-    "Welcome to v0.22! New questions start a new investigation. Your original v0.1 save is still kept on this device.",
+    "歡迎來到 v0.23！任務有新問題，這次從新案件開始；v0.1 的原始存檔仍保留在這台裝置。",
+    "Welcome to v0.23! New questions start a new investigation. Your original v0.1 save is still kept on this device.",
   ),
   dismiss: bi("知道了", "Got it"),
   nextPlayer: bi(

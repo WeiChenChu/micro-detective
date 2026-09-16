@@ -26,7 +26,7 @@ export function MagnifierLab({
   locale: Locale;
   onExplore: () => void;
 }) {
-  const [specimenIndex, setSpecimenIndex] = useState(0);
+  const [specimenIndex, setSpecimenIndex] = useState(1);
   const [point, setPoint] = useState<LensPoint>({ x: 0.3, y: 0.7 });
   const [size, setSize] = useState({ width: 400, height: 300 });
   const board = useRef<HTMLDivElement>(null);
@@ -50,7 +50,8 @@ export function MagnifierLab({
   }, []);
   const move = (next: LensPoint) => {
     setPoint(constrainLens(next, size.width, size.height, radius));
-    onExplore();
+    const nextPoint = constrainLens(next, size.width, size.height, radius);
+    if (specimen.spots.some(spot => Math.hypot(spot.x - nextPoint.x, spot.y - nextPoint.y) < spot.r)) onExplore();
   };
   const movePointer = (event: PointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
