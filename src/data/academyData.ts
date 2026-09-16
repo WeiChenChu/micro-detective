@@ -1,4 +1,4 @@
-import { bi, type Choice, type Text } from "./types";
+import { bi, type Text } from "./types";
 import { closeObservationLessons } from "./academyExtensions";
 
 export interface AcademyLesson {
@@ -8,12 +8,6 @@ export interface AcademyLesson {
   opening: Text;
   concept: Text;
   clue: Text;
-  question: Text;
-  choices: Choice[];
-  answer: string;
-  feedback: Text;
-  hint: Text;
-  strongHint: Text;
   sendoff: Text;
 }
 
@@ -23,43 +17,16 @@ export const academyModules: AcademyLesson[] = [
     icon: "search",
     title: bi("肉眼觀察：我們能看多小？", "Naked eye: how small can we see?"),
     opening: bi(
-      "你的眼睛找得到一條魚，也找得到一個細胞嗎？",
-      "Your eyes can find a fish. Can they find a single cell?",
+      "果蠅肉眼看得到，眼睛、翅膀和腳也看得清楚嗎？",
+      "A fruit fly is visible. Can you distinguish its eyes, wings and legs?",
     ),
     concept: bi(
-      "有些東西小到我們的眼睛看不到，因此科學家需要不同的觀察工具。",
-      "Some things are too small for our eyes, so scientists need different observation tools.",
+      "果蠅肉眼可以看到，但眼睛、翅膀和腳的細節不容易看清楚；不同工具能幫我們觀察。",
+      "A fruit fly is visible to our eyes, but details of its eyes, wings and legs are hard to distinguish. Observation tools can help.",
     ),
     clue: bi(
       "看得到，不一定看得清楚；看得清楚，也不一定看得到你想找的線索。先問「我想知道什麼？」再選工具。",
       "Seeing something is not the same as seeing it clearly, and seeing it clearly may not reveal the clue you want. First ask what you want to know, then choose a tool.",
-    ),
-    question: bi(
-      "如果我們想仔細觀察細胞，只用眼睛夠嗎？",
-      "Are our eyes alone enough to observe a typical cell closely?",
-    ),
-    choices: [
-      {
-        id: "eyes",
-        title: bi("夠，把眼睛睜大就好", "Yes, just open our eyes wider"),
-      },
-      {
-        id: "tool",
-        title: bi("不夠，需要顯微鏡幫忙", "No, a microscope can help"),
-      },
-    ],
-    answer: "tool",
-    feedback: bi(
-      "你找到了工具的用途！一般細胞太小，顯微鏡能幫我們觀察肉眼看不清楚的細節。",
-      "You found why tools matter! Typical cells are tiny; microscopes reveal details our eyes cannot see.",
-    ),
-    hint: bi(
-      "想想看：細胞卡片已經放大，才方便我們觀察。",
-      "Remember: the cell card is enlarged so we can observe it.",
-    ),
-    strongHint: bi(
-      "把眼睛睜大不會放大細胞；選擇能幫忙形成影像的工具。",
-      "Opening your eyes wider will not enlarge a cell. Choose the answer with a tool.",
     ),
     sendoff: bi(
       "準備好你的第一個微觀偵探工具吧！",
@@ -72,43 +39,16 @@ export const academyModules: AcademyLesson[] = [
     icon: "microscope",
     title: bi("複式光學顯微鏡", "Compound light microscope"),
     opening: bi(
-      "薄薄的洋蔥表皮裡，藏著什麼？",
-      "What is hidden in a thin piece of onion skin?",
+      "果蠅肉眼看得到，那細胞呢？換一片薄薄的洋蔥表皮來觀察。",
+      "We can see a fly with our eyes. What about cells? Try a thin piece of onion skin.",
     ),
     concept: bi(
       "使用光和鏡片，幫助我們觀察肉眼看不清楚的微小世界。",
       "Light and lenses help us observe a tiny world that our eyes cannot see clearly.",
     ),
     clue: bi(
-      "看見：鏡片形成放大的影像；放得更大，不一定代表看得更清楚。",
-      "SEE: lenses form a magnified image. Bigger does not always mean clearer.",
-    ),
-    question: bi(
-      "要讓這台複式光學顯微鏡顯示細胞，需要什麼？",
-      "What does this compound light microscope need to show cells?",
-    ),
-    choices: [
-      {
-        id: "light-lenses",
-        title: bi("光和鏡片一起幫忙", "Light and lenses working together"),
-      },
-      {
-        id: "zoom",
-        title: bi("只要一直把圖片放大", "Just keep enlarging a picture"),
-      },
-    ],
-    answer: "light-lenses",
-    feedback: bi(
-      "看見了！光經過樣品，鏡片幫忙形成放大的細胞影像。只把圖片拉大，不會自動增加細節。",
-      "Now we can see! Light passes through the specimen, and lenses form a magnified image. Enlarging a picture alone adds no detail.",
-    ),
-    hint: bi(
-      "回頭看看光 → 樣品 → 鏡片 → 影像的路線。",
-      "Look at the light → specimen → lenses → image path.",
-    ),
-    strongHint: bi(
-      "沒有光，就沒有這個觀察訊號；鏡片也要一起工作。",
-      "Without light, this signal is missing. The lenses need to work with it.",
+      "看見：對焦後才能分辨細胞的細節；放得更大，不一定代表看得更清楚。",
+      "SEE: focusing reveals cell details. Bigger does not always mean clearer.",
     ),
     sendoff: bi("你獲得了「看見」的能力！", "You have the power to SEE!"),
   },
@@ -128,46 +68,6 @@ export const academyModules: AcademyLesson[] = [
       "尋找：螢光標記就像標出重要線索；影像的顏色不一定是天然顏色。",
       "FIND: fluorescent labels mark important clues. Image colors are not necessarily natural colors.",
     ),
-    question: bi(
-      "細胞在身體裡本來就是綠色和紫色嗎？",
-      "Are cells naturally green and purple inside the body?",
-    ),
-    choices: [
-      {
-        id: "natural",
-        title: bi(
-          "是，細胞本來就是這些顏色",
-          "Yes, cells naturally have these colors",
-        ),
-      },
-      {
-        id: "labels",
-        title: bi(
-          "不一定。螢光標記讓特定構造產生訊號",
-          "Not necessarily. Fluorescent labels reveal signals from selected structures",
-        ),
-      },
-      {
-        id: "pens",
-        title: bi(
-          "是科學家用彩色筆畫上去的",
-          "Scientists drew on them with marker pens",
-        ),
-      },
-    ],
-    answer: "labels",
-    feedback: bi(
-      "你找到了訊號！螢光影像中的顏色常常代表不同的標記或訊號，不一定是細胞原本的顏色。",
-      "You found the signal! Colors in fluorescence images often represent different labels or signals, not the natural colors of cells.",
-    ),
-    hint: bi(
-      "觀察加入標記、用適合的光照射之後，哪些地方亮起來？",
-      "After adding labels and suitable light, which areas glow?",
-    ),
-    strongHint: bi(
-      "線索是「標記」產生的訊號；不是細胞本來的顏色，也不是彩色筆。",
-      "The clue is a signal from labels, not natural cell colors or marker pens.",
-    ),
     sendoff: bi("你獲得了「尋找」的能力！", "You have the power to FIND!"),
   },
   {
@@ -175,8 +75,8 @@ export const academyModules: AcademyLesson[] = [
     icon: "bolt",
     title: bi("電子顯微鏡", "Electron microscope"),
     opening: bi(
-      "想分辨細胞內非常細微的構造，哪種工具能幫忙？",
-      "Which tool can help distinguish very fine structures inside cells?",
+      "找到訊號之後，還想分辨更細微的構造？探索電子顯微鏡的兩種觀察。",
+      "After finding signals, explore finer structures with two electron microscopy views.",
     ),
     concept: bi(
       "使用電子形成影像，可以觀察非常細微的結構。但樣品通常需要特殊準備，而且通常不能直接觀察活著、正在活動的生物。",
@@ -185,36 +85,6 @@ export const academyModules: AcademyLesson[] = [
     clue: bi(
       "深入：看得更細也有代價，不是所有問題都適合用電子顯微鏡。",
       "EXPLORE: finer detail comes with tradeoffs. Electron microscopy does not suit every question.",
-    ),
-    question: bi(
-      "想分辨粒線體裡細小的皺摺，你會怎麼做？",
-      "How would you distinguish tiny folds inside a mitochondrion?",
-    ),
-    choices: [
-      {
-        id: "stretch",
-        title: bi("把原本模糊的照片拉大", "Stretch the same blurry picture"),
-      },
-      {
-        id: "electrons",
-        title: bi(
-          "用電子形成影像，觀察更細微的結構",
-          "Use electrons to image finer structures",
-        ),
-      },
-    ],
-    answer: "electrons",
-    feedback: bi(
-      "你深入找到細節了！複式光學顯微鏡利用光；電子顯微鏡利用電子形成影像，能分辨更細微的結構。",
-      "You explored the detail! Compound light microscopes use light; electron microscopes form images with electrons and resolve finer structures.",
-    ),
-    hint: bi(
-      "圖片變大，和出現原本看不清楚的皺摺，是同一件事嗎？",
-      "Is a bigger picture the same as revealing folds you could not distinguish before?",
-    ),
-    strongHint: bi(
-      "拉大模糊照片還是模糊；這次需要使用電子的觀察工具。",
-      "A stretched blurry picture stays blurry. This investigation needs a tool that uses electrons.",
     ),
     sendoff: bi("你獲得了「深入」的能力！", "You have the power to EXPLORE!"),
   },

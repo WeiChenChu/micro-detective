@@ -85,15 +85,15 @@ test("all image files exist locally; original SVG placeholders have no scripts o
   }
 });
 
-test("academy activities have valid answers and six collectible concepts in observation order", () => {
+test("academy has six collectible exploration concepts without quiz answers", () => {
   assert.deepEqual(
     academyModules.map((m) => m.id),
     ["scale", "magnifier", "stereo", "optical", "fluorescence", "electron"],
   );
   assert.equal(new Set(academyModules.map((m) => m.id)).size, 6);
   for (const m of academyModules) {
-    assert.ok(m.choices.some((c) => c.id === m.answer));
-    assert.ok(m.hint["zh-TW"] && m.strongHint["zh-TW"] && m.clue["zh-TW"]);
+    assert.ok(m.opening["zh-TW"] && m.concept["zh-TW"] && m.clue["zh-TW"]);
+    assert.ok(!("answer" in m) && !("choices" in m));
   }
   for (const q of [...caseQuestions, ...finalQuestions])
     assert.ok(q.strongHint?.["zh-TW"], q.id);
@@ -133,4 +133,18 @@ test("observation content distinguishes visibility, detail and specimen tradeoff
   assert.match(electron.concept["zh-TW"], /通常不能直接觀察活著/);
   assert.match(electron.clue["zh-TW"], /不是所有問題/);
   assert.match(observationUI.orderNote["zh-TW"], /不是工具的厲害排行榜/);
+});
+
+
+test("fluorescence channels preserve aligned, transparent, independent specimen signals", () => {
+  const nucleus = readFileSync("public/images/fluorescence/channel-nuclei.svg", "utf8");
+  const mitochondria = readFileSync("public/images/fluorescence/channel-mitochondria.svg", "utf8");
+  for (const svg of [nucleus, mitochondria]) {
+    assert.match(svg, /viewBox="0 0 800 600"/);
+    assert.doesNotMatch(svg, /<rect|<script|<foreignObject|onload=|href="https?:/i);
+  }
+  assert.match(nucleus, /fill="url\(#nucleus\)"/);
+  assert.doesNotMatch(mitochondria, /fill="url\(#nucleus\)"/);
+  assert.match(mitochondria, /M252 244/);
+  assert.doesNotMatch(nucleus, /M252 244/);
 });

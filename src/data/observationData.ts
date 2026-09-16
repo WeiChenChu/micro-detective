@@ -53,7 +53,7 @@ export const observationUI = {
     "This diagram demonstrates local enlargement, not a calibrated magnification. Enlarging an image creates no new detail.",
   ),
   discover: bi(
-    "探索中：移向葉脈、葉緣，或昆蟲翅膀。",
+    "探索中：移向翅膀、頭部或腳；也可以換一片葉子。",
     "Explore: move toward leaf veins, leaf edges or insect wings.",
   ),
   specimens: bi("選擇觀察對象", "Choose a specimen"),
@@ -120,6 +120,8 @@ export const magnifierSpecimens = [
     id: "fruit-fly",
     name: bi("果蠅", "Fruit fly"),
     spots: [
+      { x: 0.5, y: 0.34, r: 0.10, label: bi("發現眼睛：頭部兩側有一對眼睛。", "Eye discovery: a pair of eyes on the head.") },
+      { x: 0.68, y: 0.62, r: 0.10, label: bi("發現腳：沿著細長的腳找找關節。", "Leg discovery: trace the slender legs and joints.") },
       {
         x: 0.33,
         y: 0.39,

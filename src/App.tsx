@@ -136,7 +136,6 @@ export default function App() {
         ) : (
           <AcademyModule
             key={state.academyModule}
-            onPractice={() => dispatch({ type: "PRACTICE_OPEN" })}
             index={state.academyModule}
             locale={locale}
             collected={state.academyCompleted.includes(
