@@ -64,8 +64,8 @@ export const academyUI = {
     "Learn → Observe → Apply → Feedback → Review",
   ),
   migration: bi(
-    "歡迎來到 v0.21！任務有新問題，這次從新案件開始；v0.1 的原始存檔仍保留在這台裝置。",
-    "Welcome to v0.21! New questions start a new investigation. Your original v0.1 save is still kept on this device.",
+    "歡迎來到 v0.22！任務有新問題，這次從新案件開始；v0.1 的原始存檔仍保留在這台裝置。",
+    "Welcome to v0.22! New questions start a new investigation. Your original v0.1 save is still kept on this device.",
   ),
   dismiss: bi("知道了", "Got it"),
   nextPlayer: bi(

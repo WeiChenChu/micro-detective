@@ -15,7 +15,7 @@ import {
 } from "../src/game/gameState";
 import { constrainLens, lensImageOffset } from "../src/game/lensGeometry";
 
-test("v0.2 saves keep mission answers and cards, remapping old lesson indices once", () => {
+test("compatible-content saves keep answers and cards, remapping old lesson indices once", () => {
   for (const [index, id] of [
     "scale",
     "optical",
@@ -56,10 +56,10 @@ test("v0.2 saves keep mission answers and cards, remapping old lesson indices on
   }
 });
 
-test("tool practice accepts reasonable alternatives and explains each accepted choice", () => {
+test("tool practice accepts only the best tool for each current question", () => {
   const expected = [
-    ["naked-eye", "magnifier", "stereo"],
-    ["magnifier", "stereo"],
+    ["stereo"],
+    ["magnifier"],
     ["optical"],
     ["electron"],
   ];
@@ -76,6 +76,52 @@ test("tool practice accepts reasonable alternatives and explains each accepted c
       assert.ok(q.answerExplanations?.[id]?.["zh-TW"]);
     }
   });
+});
+
+test("alternative-answer support remains available without grading alternatives as second best", () => {
+  const q = {
+    ...practiceQuestions[0],
+    acceptedAnswers: ["magnifier", "stereo"],
+  };
+  assert.equal(answersMatch(q, ["magnifier"]), true);
+  assert.equal(answersMatch(q, ["stereo"]), true);
+  assert.equal(answersMatch(q, ["naked-eye"]), false);
+  assert.equal(answersMatch(q, ["magnifier", "stereo"]), false);
+});
+
+test("visible fruit flies still require stereo for the close-observation question", () => {
+  let s = gameReducer(createGame(), { type: "PRACTICE_OPEN" });
+  for (const id of ["naked-eye", "magnifier"]) {
+    s = gameReducer(s, { type: "PRACTICE", action: { type: "ANSWER", ids: [id] } });
+    assert.equal(s.practice.feedback, "retry");
+    assert.deepEqual(s.practice.completed, {});
+  }
+  s = gameReducer(s, { type: "PRACTICE", action: { type: "ASSIST" } });
+  assert.deepEqual(s.practice.selected, ["stereo"]);
+  assert.equal(s.practice.feedback, "assisted");
+  assert.ok(validateProgress(s));
+});
+
+test("v0.21 completed practice cannot bypass the revised v0.22 questions", () => {
+  const old = {
+    ...createGame(),
+    contentVersion: 2,
+    practice: {
+      cursor: 3, selected: ["electron"], feedback: "correct",
+      attempts: 1, showHint: false, exploreStep: 0, finished: true,
+      completed: Object.fromEntries(practiceQuestions.map((q) => [q.id, "solved"])),
+    },
+  };
+  const data = new Map([[STORAGE_KEY, JSON.stringify(old)], ["unrelated", "keep"]]);
+  const storage = {
+    getItem: (key: string) => data.get(key) ?? null,
+    setItem: (key: string, value: string) => { data.set(key, value); },
+    removeItem: (key: string) => { data.delete(key); },
+  };
+  assert.equal(validateProgress(old), false);
+  assert.equal(readProgress(storage), null);
+  assert.equal(data.has(STORAGE_KEY), false);
+  assert.equal(data.get("unrelated"), "keep");
 });
 
 test("practice supports hints, completion, resume and replay without changing active missions", () => {

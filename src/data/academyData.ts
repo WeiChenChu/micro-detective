@@ -31,8 +31,8 @@ export const academyModules: AcademyLesson[] = [
       "Some things are too small for our eyes, so scientists need different observation tools.",
     ),
     clue: bi(
-      "卡片上的細胞已經放大了；圖片大，不代表實物大。",
-      "The cell on a card is already enlarged. A big picture does not mean a big object.",
+      "看得到，不一定看得清楚；看得清楚，也不一定看得到你想找的線索。先問「我想知道什麼？」再選工具。",
+      "Seeing something is not the same as seeing it clearly, and seeing it clearly may not reveal the clue you want. First ask what you want to know, then choose a tool.",
     ),
     question: bi(
       "如果我們想仔細觀察細胞，只用眼睛夠嗎？",
@@ -70,7 +70,7 @@ export const academyModules: AcademyLesson[] = [
   {
     id: "optical",
     icon: "microscope",
-    title: bi("光學顯微鏡", "Light microscope"),
+    title: bi("複式光學顯微鏡", "Compound light microscope"),
     opening: bi(
       "薄薄的洋蔥表皮裡，藏著什麼？",
       "What is hidden in a thin piece of onion skin?",
@@ -84,8 +84,8 @@ export const academyModules: AcademyLesson[] = [
       "SEE: lenses form a magnified image. Bigger does not always mean clearer.",
     ),
     question: bi(
-      "要讓這台光學顯微鏡顯示細胞，需要什麼？",
-      "What does this light microscope need to show cells?",
+      "要讓這台複式光學顯微鏡顯示細胞，需要什麼？",
+      "What does this compound light microscope need to show cells?",
     ),
     choices: [
       {
@@ -175,16 +175,16 @@ export const academyModules: AcademyLesson[] = [
     icon: "bolt",
     title: bi("電子顯微鏡", "Electron microscope"),
     opening: bi(
-      "如果光學顯微鏡還看不清楚，我們可以怎麼辦？",
-      "What can we do when a light microscope cannot show enough detail?",
+      "想分辨細胞內非常細微的構造，哪種工具能幫忙？",
+      "Which tool can help distinguish very fine structures inside cells?",
     ),
     concept: bi(
-      "使用電子形成影像，可以觀察非常細微的結構。",
-      "Electrons form images that reveal very fine structures.",
+      "使用電子形成影像，可以觀察非常細微的結構。但樣品通常需要特殊準備，而且通常不能直接觀察活著、正在活動的生物。",
+      "Electrons form images that reveal very fine structures. But samples usually need special preparation, and living, moving organisms usually cannot be observed directly.",
     ),
     clue: bi(
-      "深入：選擇能分辨更細微細節的工具，不是只把圖片放大。",
-      "EXPLORE: choose a tool that resolves finer detail, rather than just enlarging a picture.",
+      "深入：看得更細也有代價，不是所有問題都適合用電子顯微鏡。",
+      "EXPLORE: finer detail comes with tradeoffs. Electron microscopy does not suit every question.",
     ),
     question: bi(
       "想分辨粒線體裡細小的皺摺，你會怎麼做？",
@@ -205,8 +205,8 @@ export const academyModules: AcademyLesson[] = [
     ],
     answer: "electrons",
     feedback: bi(
-      "你深入找到細節了！光學顯微鏡利用光；電子顯微鏡利用電子形成影像，能分辨更細微的結構。",
-      "You explored the detail! Light microscopes use light; electron microscopes form images with electrons and resolve finer structures.",
+      "你深入找到細節了！複式光學顯微鏡利用光；電子顯微鏡利用電子形成影像，能分辨更細微的結構。",
+      "You explored the detail! Compound light microscopes use light; electron microscopes form images with electrons and resolve finer structures.",
     ),
     hint: bi(
       "圖片變大，和出現原本看不清楚的皺摺，是同一件事嗎？",
@@ -225,7 +225,7 @@ export const toolAbilities = [
     id: "optical",
     icon: "microscope",
     verb: bi("看見", "SEE"),
-    name: bi("光學顯微鏡", "Light microscope"),
+    name: bi("複式光學顯微鏡", "Compound light microscope"),
     description: bi(
       "讓肉眼看不清楚的東西變得可以觀察",
       "Observe things our eyes cannot see clearly",

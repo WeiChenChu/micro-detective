@@ -46,8 +46,8 @@ export const images: Record<string, ImageData> = {
       "A small insect with transparent wings and six legs.",
     ),
     bi(
-      "成果蠅很小，但肉眼仍能看見身體外形。",
-      "An adult fruit fly is small, but its body shape is visible to our eyes.",
+      "成果蠅很小，但肉眼仍能看見大致輪廓；仔細觀察頭、胸、腹與翅膀，解剖顯微鏡更適合。",
+      "An adult fruit fly’s rough outline is visible to our eyes; a stereomicroscope better suits a close view of its head, thorax, abdomen and wings.",
     ),
     "naked-eye",
   ),

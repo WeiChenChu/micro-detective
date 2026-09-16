@@ -22,17 +22,17 @@ export const stages: Stage[] = [
     id: "optical",
     number: "02",
     icon: "microscope",
-    title: bi("光學顯微鏡", "Light microscopy"),
-    shortTitle: bi("光學", "Light"),
+    title: bi("複式光學顯微鏡", "Compound light microscopy"),
+    shortTitle: bi("複式光學顯微鏡", "Compound light microscope"),
     subtitle: bi(
       "光與鏡片，打開細胞世界",
       "Light and lenses reveal a world of cells",
     ),
     introduction: bi(
-      "這一站探索一般光學觀察「明視野」。光穿過薄薄的標本，鏡片幫我們看清楚。",
-      "Here we explore ordinary light microscopy: brightfield. Light passes through a thin specimen, and lenses help us see it.",
+      "這一站探索複式光學顯微鏡觀察「明視野」。光穿過薄薄的標本，鏡片幫我們看清楚。",
+      "Here we explore compound light microscopy: brightfield. Light passes through a thin specimen, and lenses help us see it.",
     ),
-    reward: bi("解鎖：光學顯微鏡 🔬", "Unlocked: light microscope 🔬"),
+    reward: bi("解鎖：複式光學顯微鏡 🔬", "Unlocked: compound light microscope 🔬"),
   },
   {
     id: "fluorescence",
@@ -86,7 +86,7 @@ export const toolChoices: Choice[] = [
   },
   {
     id: "optical",
-    title: bi("光學顯微鏡（明視野）", "Light microscope (brightfield)"),
+    title: bi("複式光學顯微鏡（明視野）", "Compound light microscope (brightfield)"),
     description: bi("用光與鏡片觀察", "Observe with light and lenses"),
   },
   {
@@ -195,8 +195,8 @@ export const caseQuestions: Question[] = [
       "Look for cells like little rooms, and read the observation method on the card.",
     ),
     explanation: bi(
-      "光學顯微鏡利用光和鏡片，讓我們看清楚洋蔥表皮的一格格細胞。這種觀察方式叫做「明視野」。",
-      "A light microscope uses light and lenses to reveal individual onion skin cells. This method is called brightfield microscopy.",
+      "複式光學顯微鏡利用光和鏡片，讓我們看清楚洋蔥表皮的一格格細胞。這種觀察方式叫做「明視野」。",
+      "A compound light microscope uses light and lenses to reveal individual onion skin cells. This method is called brightfield microscopy.",
     ),
     funFact: bi(
       "螢光顯微鏡也是光學顯微鏡的一種！洋蔥圖裡的框線是細胞壁，並非所有細胞都長得方方的。",
@@ -290,8 +290,8 @@ export const caseQuestions: Question[] = [
       "Find the internal folds and a method that uses electrons.",
     ),
     explanation: bi(
-      "電子顯微鏡使用電子觀察樣本，能分辨比一般光學顯微鏡更細小的結構。把圖片放得更大，不一定能看見更多細節！",
-      "Electron microscopes use electrons to observe samples and can distinguish smaller structures than ordinary light microscopes. Making a picture bigger does not always reveal more detail!",
+      "電子顯微鏡使用電子觀察樣本，能分辨比複式光學顯微鏡更細小的結構。把圖片放得更大，不一定能看見更多細節！",
+      "Electron microscopes use electrons to observe samples and can distinguish smaller structures than compound light microscopes. Making a picture bigger does not always reveal more detail!",
     ),
     funFact: bi(
       "有些電子顯微鏡擅長看表面（SEM），有些可以看薄樣本內部（TEM）。這張粒線體圖是 TEM 概念示意。",
@@ -442,7 +442,7 @@ export const observationLevels = [
   },
   {
     icon: "microscope",
-    tool: bi("一般光學", "Ordinary light"),
+    tool: bi("複式光學顯微鏡", "Compound light microscope"),
     label: bi("細胞世界", "A world of cells"),
   },
   {

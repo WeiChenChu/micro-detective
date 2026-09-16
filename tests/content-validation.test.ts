@@ -2,6 +2,7 @@ import {
   practiceQuestions,
   observationUI,
   magnifierSpecimens,
+  practiceTools,
 } from "../src/data/observationData";
 import { fluorescenceSteps } from "../src/data/gameData";
 import {
@@ -15,7 +16,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { caseQuestions, finalQuestions, stages } from "../src/data/missionData";
+import { caseQuestions, finalQuestions, stages, toolChoices } from "../src/data/missionData";
 import { images } from "../src/data/images";
 import { ui } from "../src/data/ui";
 import { gameUI } from "../src/data/gameUI";
@@ -99,4 +100,37 @@ test("academy activities have valid answers and six collectible concepts in obse
   assert.equal(caseQuestions.filter((q) => q.stage === "mystery").length, 4);
   assert.ok(caseQuestions.some((q) => q.image === "electron-surface"));
   assert.ok(caseQuestions.some((q) => q.image === "electron-mitochondrion"));
+});
+
+test("compound-tool labels agree across lessons, summaries, choices and shared UI", () => {
+  const labels = [
+    academyModules.find((m) => m.id === "optical")!.title,
+    toolAbilities.find((t) => t.id === "optical")!.name,
+    practiceTools.find((t) => t.id === "optical")!.title,
+    toolChoices.find((t) => t.id === "optical")!.title,
+    ui.optical,
+  ];
+  for (const label of labels) {
+    assert.equal(label["zh-TW"], "複式光學顯微鏡");
+    assert.match(label.en, /^Compound light microscop/);
+  }
+  assert.match(observationUI.family["zh-TW"], /屬於光學顯微鏡/);
+  assert.match(academyModules.find((m) => m.id === "fluorescence")!.concept["zh-TW"], /螢光標記/);
+});
+
+test("observation content distinguishes visibility, detail and specimen tradeoffs", () => {
+  const whole = practiceQuestions[0];
+  assert.match(whole.question["zh-TW"], /頭、胸、腹和翅膀/);
+  assert.match(whole.hint["zh-TW"], /肉眼確實可以看到/);
+  assert.match(whole.strongHint!["zh-TW"], /放大鏡也能幫忙/);
+  assert.deepEqual(caseQuestions[0].correctAnswer, ["animal-cell", "bacterium"]);
+  assert.match(caseQuestions[0].question["zh-TW"], /大致輪廓/);
+  assert.match(caseQuestions[0].explanation["zh-TW"], /肉眼可見，不代表肉眼適合觀察細節/);
+  assert.equal(practiceQuestions[1].image, "leaf");
+  assert.match(academyModules[0].clue["zh-TW"], /看得到，不一定看得清楚；看得清楚，也不一定看得到你想找的線索。/);
+  const electron = academyModules.find((m) => m.id === "electron")!;
+  assert.match(electron.concept["zh-TW"], /通常需要特殊準備/);
+  assert.match(electron.concept["zh-TW"], /通常不能直接觀察活著/);
+  assert.match(electron.clue["zh-TW"], /不是所有問題/);
+  assert.match(observationUI.orderNote["zh-TW"], /不是工具的厲害排行榜/);
 });

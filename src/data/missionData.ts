@@ -11,7 +11,7 @@ import {
 } from "./gameData";
 import { academyUI } from "./academyUI";
 
-export const CONTENT_VERSION = 2;
+export const CONTENT_VERSION = 3;
 export const toolIcons: Record<MicroscopeType, string> = {
   "naked-eye": "eye",
   magnifier: "search",
@@ -24,7 +24,7 @@ export const toolChoices = originalTools.map((tool) => ({
   ...tool,
   title:
     tool.id === "optical"
-      ? bi("一般光學顯微鏡", "Ordinary light microscope")
+      ? bi("複式光學顯微鏡", "Compound light microscope")
       : tool.title,
   description:
     tool.id === "optical"
@@ -47,8 +47,8 @@ export const stages: Stage[] = [
     shortTitle: bi("觀察大小", "Observe size"),
     subtitle: bi("先觀察整體，再找細節", "See the whole, then look for detail"),
     introduction: bi(
-      "科學家想看清楚這些生物的整體外形。哪些太小，需要工具幫忙？",
-      "Scientists want to see the whole shape of these living things. Which are too small to see without help?",
+      "這次只想發現目標在哪裡、看見大致輪廓，還不追查細節。哪些太小，通常需要顯微鏡幫忙？",
+      "This time we only want to find each object and see its rough outline, not inspect details. Which are usually too small to see without a microscope?",
     ),
     reward: bi("尺度線索已收進筆記本", "Scale clue collected"),
   },
@@ -173,22 +173,22 @@ export const caseQuestions: Question[] = [
     stage: "scale",
     title: bi("誰需要工具幫忙？", "Who needs a tool?"),
     question: bi(
-      "要看清楚單個生物或細胞的整體外形，哪些通常需要顯微鏡？",
-      "Which usually need a microscope to see the whole shape of a single organism or cell clearly?",
+      "如果只想知道它在哪裡，並看見大致輪廓，哪些小到通常需要顯微鏡幫忙？",
+      "If we only want to find it and see its rough outline, which are usually small enough to need a microscope?",
     ),
     choices: originalCases[0].choices.filter((c) => c.id !== "leaf"),
     correctAnswer: ["animal-cell", "bacterium"],
     hint: bi(
-      "成魚和成果蠅的整體外形肉眼可見；卡片上的細胞與細菌已經放大了。",
+      "成魚和成果蠅的大致輪廓肉眼可見；卡片上的細胞與細菌已經放大了。",
       "An adult fish or fly is visible to our eyes. The cell and bacterium cards are already enlarged.",
     ),
     strongHint: bi(
-      "選出「一般動物細胞」和「常見細菌」。果蠅雖然小，整體外形仍看得見。",
+      "選出「一般動物細胞」和「常見細菌」。成果蠅雖然小，肉眼仍能發現牠、看見大致輪廓。",
       "Choose the typical animal cell and common bacterium. An adult fly is small but its overall shape is visible.",
     ),
     explanation: bi(
-      "你注意到大小的差別！一般動物細胞和單隻常見細菌通常需要顯微鏡；成魚與成果蠅的整體外形肉眼可見。想看牠們的細部，也可能需要工具。",
-      "You noticed the difference in size! Typical animal cells and single common bacteria need microscopes. Adult fish and flies are visible as a whole; their fine details may still need tools.",
+      "你注意到大小的差別！一般動物細胞和單隻常見細菌通常需要顯微鏡；成魚與成果蠅的大致輪廓肉眼可見。肉眼可見，不代表肉眼適合觀察細節；仔細看完整果蠅可用解剖顯微鏡。",
+      "You noticed the difference in size! Typical animal cells and single common bacteria need microscopes. Adult fish and flies have outlines visible to our eyes. Being visible does not make our eyes best for details; use a stereomicroscope for a close view of an intact fruit fly.",
     ),
   },
   {
@@ -249,8 +249,8 @@ export const caseQuestions: Question[] = [
       {
         id: "walls",
         title: bi(
-          "光與鏡片呈現一格格細胞邊界 → 一般光學",
-          "Light and lenses reveal cell boundaries → ordinary light",
+          "光與鏡片呈現一格格細胞邊界 → 複式光學顯微鏡",
+          "Light and lenses reveal cell boundaries → compound light microscope",
         ),
       },
       {
@@ -271,8 +271,8 @@ export const caseQuestions: Question[] = [
     "walls",
     "optical",
     bi(
-      "你看見一格格細胞壁，也讀到光穿過表皮的記錄！這支持一般光學觀察。染色也能讓光學影像有顏色，不能只靠顏色判斷螢光。",
-      "You saw cell walls and read that light passed through the skin! This supports ordinary light microscopy. Staining can add color too, so color alone does not prove fluorescence.",
+      "你看見一格格細胞壁，也讀到光穿過表皮的記錄！這支持複式光學顯微鏡觀察。染色也能讓光學影像有顏色，不能只靠顏色判斷螢光。",
+      "You saw cell walls and read that light passed through the skin! This supports compound light microscopy. Staining can add color too, so color alone does not prove fluorescence.",
     ),
   ),
   mystery(
@@ -412,8 +412,8 @@ export const caseQuestions: Question[] = [
     "tools",
     bi("更細微的構造", "Finer structures"),
     bi(
-      "科學家想分辨細胞內非常細微的膜構造，一般光學看不清楚。該用什麼？",
-      "A scientist needs to distinguish very fine membrane structures beyond ordinary light microscopy. Which tool fits?",
+      "科學家想分辨細胞內非常細微的膜構造，複式光學顯微鏡看不清楚。該用什麼？",
+      "A scientist needs to distinguish very fine membrane structures beyond compound light microscopy. Which tool fits?",
     ),
     "electron",
     bi(
@@ -421,8 +421,8 @@ export const caseQuestions: Question[] = [
       "We need images that resolve finer structures, not just larger pictures.",
     ),
     bi(
-      "電子顯微鏡能分辨更細微的結構，適合追查這些膜的細節。工具要符合問題。",
-      "Electron microscopy resolves finer structures and fits this investigation of membrane detail.",
+      "電子顯微鏡能分辨更細微的結構，適合追查這些膜的細節。但樣品通常需要特殊準備，通常不能直接觀察活著、正在活動的生物。工具要符合問題。",
+      "Electron microscopy suits this investigation of fine membrane structures. But samples usually need special preparation, and living, moving organisms usually cannot be observed directly. Match the tool to the question.",
     ),
   ),
   research(
@@ -462,8 +462,8 @@ export const finalQuestions: Question[] = [
       "First see cell outlines; we do not yet need to track a particular protein.",
     ),
     bi(
-      "用一般光學顯微鏡，光與鏡片幫你看見細胞輪廓。調查結果：發現細胞！接下來找一種蛋白質的位置。",
-      "Ordinary light microscopy uses light and lenses to reveal cell outlines. Result: cells found! Next, locate a protein.",
+      "用複式光學顯微鏡，光與鏡片幫你看見細胞輪廓。調查結果：發現細胞！接下來找一種蛋白質的位置。",
+      "Compound light microscopy uses light and lenses to reveal cell outlines. Result: cells found! Next, locate a protein.",
     ),
   ),
   research(
@@ -492,8 +492,8 @@ export const finalQuestions: Question[] = [
       "Investigation 3 · What finer details remain?",
     ),
     bi(
-      "最後，想分辨一般光學看不清楚的細胞內部細微結構，選哪種工具？",
-      "Finally, which tool can distinguish internal structures too fine for ordinary light microscopy?",
+      "最後，想分辨複式光學顯微鏡看不清楚的細胞內部細微結構，選哪種工具？",
+      "Finally, which tool can distinguish internal structures too fine for compound light microscopy?",
     ),
     "electron",
     bi(
