@@ -184,7 +184,7 @@ export const caseQuestions: Question[] = [
         title: bi("影像 C", "Image C"),
         image: "electron-mitochondrion",
         description: bi(
-          "電子穿過薄樣本，揭露內部皺摺。",
+          "電子穿過薄樣品，揭露內部皺摺。",
           "Electrons pass through a thin sample to reveal internal folds.",
         ),
       },
@@ -256,7 +256,7 @@ export const caseQuestions: Question[] = [
     id: "case-electron",
     stage: "electron",
     type: "single",
-    title: bi("追查最細微的線索", "Follow the finest clues"),
+    title: bi("追查最細小的線索", "Follow the finest clues"),
     question: bi(
       "哪一張能看到粒線體裡細小的皺摺？",
       "Which image reveals tiny folds inside a mitochondrion?",
@@ -290,11 +290,11 @@ export const caseQuestions: Question[] = [
       "Find the internal folds and a method that uses electrons.",
     ),
     explanation: bi(
-      "電子顯微鏡使用電子觀察樣本，能分辨比複式光學顯微鏡更細小的結構。把圖片放得更大，不一定能看見更多細節！",
+      "電子顯微鏡使用電子觀察樣品，能分辨比複式光學顯微鏡更細小的結構。把圖片放得更大，不一定能看見更多細節！",
       "Electron microscopes use electrons to observe samples and can distinguish smaller structures than compound light microscopes. Making a picture bigger does not always reveal more detail!",
     ),
     funFact: bi(
-      "有些電子顯微鏡擅長看表面（SEM（掃描式電子顯微鏡）），有些可以看薄樣本內部（TEM（穿透式電子顯微鏡））。這張粒線體圖是 TEM（穿透式電子顯微鏡） 概念示意。",
+      "SEM（掃描式電子顯微鏡）常用來看表面或表面附近的細節。TEM（穿透式電子顯微鏡）適合看很薄樣品的內部構造。這張粒線體圖是後者的概念示意。",
       "Some electron microscopes show surfaces (SEM（掃描式電子顯微鏡）); others show inside thin samples (TEM（穿透式電子顯微鏡）). This mitochondrion is a TEM（穿透式電子顯微鏡） concept illustration.",
     ),
     microscopeType: "electron",
@@ -387,7 +387,7 @@ export const finalQuestions: Question[] = [
     "electron-mitochondrion",
     "electron",
     bi(
-      "電子穿過很薄的樣本，揭露粒線體內部皺摺。",
+      "電子穿過很薄的樣品，揭露粒線體內部皺摺。",
       "Electrons passed through a very thin sample to reveal folds inside a mitochondrion.",
     ),
     bi(
@@ -420,7 +420,7 @@ export const fluorescenceSteps = [
   {
     title: bi("用適合的光照射", "Shine suitable light"),
     description: bi(
-      "適合的光，讓螢光標記受到激發。",
+      "用適合的光照射，讓螢光標記發光。",
       "Suitable light excites the fluorescent labels.",
     ),
     image: "cell-unmarked",
@@ -428,8 +428,8 @@ export const fluorescenceSteps = [
   {
     title: bi("構造發出螢光", "See the glow"),
     description: bi(
-      "標記發光了！大圓區域是細胞核，短絲狀訊號是粒線體。",
-      "The labels glow! Large round regions are nuclei; short filaments are mitochondria.",
+      "標記發光了！這張示意圖裡，圓形區域代表細胞核，短絲狀訊號代表粒線體。",
+      "The labels glow! In this diagram, round regions represent nuclei and short filaments represent mitochondria.",
     ),
     image: "fluorescence-cell",
   },

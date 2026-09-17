@@ -9,7 +9,6 @@ import {
   caseQuestions as originalCases,
   toolChoices as originalTools,
 } from "./gameData";
-import { academyUI } from "./academyUI";
 import { investigationSteps } from "./investigationData";
 
 export const CONTENT_VERSION = 3;
@@ -48,7 +47,7 @@ export const stages: Stage[] = [
     shortTitle: bi("觀察大小", "Observe size"),
     subtitle: bi("先觀察整體，再找細節", "See the whole, then look for detail"),
     introduction: bi(
-      "這次只想發現目標在哪裡、看見大致輪廓，還不追查細節。哪些太小，通常需要顯微鏡幫忙？",
+      "這次只想知道它在哪裡、看出大概的樣子。哪些東西太小，通常需要顯微鏡幫忙才看得到？",
       "This time we only want to find each object and see its rough outline, not inspect details. Which are usually too small to see without a microscope?",
     ),
     reward: bi("尺度線索已收進筆記本", "Scale clue collected"),
@@ -127,24 +126,36 @@ const research = (
   type: "single",
   choices: toolChoices,
   answerExplanations: answer === "fluorescence" ? {
-    optical: bi("一般光學影像能看細胞輪廓，但輪廓本身不會指出某種蛋白質的位置，需要針對目標的訊號。", "An ordinary light image shows cell outlines, but outlines alone do not identify a particular protein. We need a target-specific signal."),
-    electron: bi("電子顯微鏡能分辨細微結構，卻不會自動認出蛋白質 X；這次先需要特定標記，通常也不必先做電子影像的特殊處理。", "Electron microscopy resolves fine structure but does not automatically identify protein X. This question first needs a specific label, usually without electron microscopy’s special preparation."),
-    "naked-eye": bi("這次目標在細胞內，肉眼的解析能力不足以定位這種蛋白質。", "The target is inside cells; our eyes cannot resolve the location of this protein."),
+    optical: bi("一般光學影像能看見細胞的外形，卻不能光靠外形找到某種蛋白質。要先幫它做記號。", "An ordinary light image shows cell outlines, but outlines alone do not identify a particular protein. We need a target-specific signal."),
+    electron: bi("電子顯微鏡能看清楚細小構造，卻不會自動認出要找的蛋白質。這次先幫它加上標記，通常不必先做電子顯微鏡需要的特別準備。", "Electron microscopy resolves fine structure but does not automatically identify protein X. This question first needs a specific label, usually without electron microscopy’s special preparation."),
+    "naked-eye": bi("這次要找細胞裡的蛋白質，肉眼看不出它在哪裡。", "The target is inside cells; our eyes cannot resolve the location of this protein."),
   } : answer === "electron" ? {
     optical: bi("光學影像可以顯示細胞，這次的膜細節卻小到分不開；只增加倍率也無法補出這些結構。", "The light image shows cells, but these membrane details cannot be resolved; magnification alone cannot supply them."),
-    fluorescence: bi("螢光標記適合定位目標；這次想分開更細微的膜形狀，需要不同的解析能力與樣品準備。", "Fluorescence labels locate targets. Resolving finer membrane shapes needs different resolving power and specimen preparation."),
+    fluorescence: bi("螢光標記能幫你找出目標在哪裡。這次想看清楚更細小的膜，需要換一種觀察方法，也要另外準備樣品。", "Fluorescence labels locate targets. Resolving finer membrane shapes needs different resolving power and specimen preparation."),
   } : answer === "optical" ? {
-    electron: bi("電子影像能看得更細，但通常需要特殊處理；先看一般細胞的輪廓，用適合薄樣品的光學觀察就能回答。", "Electron imaging reveals finer detail but usually needs special preparation. Light observation of a suitable thin specimen can answer this first question about cell outlines."),
-    fluorescence: bi("螢光適合尋找已標記的目標；目前還沒指定要追蹤哪種分子，先觀察細胞輪廓即可。", "Fluorescence suits labeled targets. No specific molecule is being tracked yet; start with cell outlines."),
+    electron: bi("電子顯微鏡能看得更細，但通常需要特別準備樣品。這次先看細胞外形，用薄薄、能透光的樣品和光學顯微鏡就能回答。", "Electron imaging reveals finer detail but usually needs special preparation. Light observation of a suitable thin specimen can answer this first question about cell outlines."),
+    fluorescence: bi("螢光適合找有標記的目標。這次還沒要找哪一種分子，先看看細胞外形就好。", "Fluorescence suits labeled targets. No specific molecule is being tracked yet; start with cell outlines."),
   } : undefined,
   correctAnswer: [answer],
   microscopeType: answer,
   toolSelection: true,
   image,
   hint,
-  strongHint: explanation,
+  strongHint: answer === "fluorescence"
+    ? bi("找找能搭配螢光標記，讓特定目標亮起來的工具。", "Look for a tool that uses fluorescent labels to light up a selected target.")
+    : answer === "electron"
+      ? bi("光學影像還看不清楚，找找用電子形成影像的工具。", "The light image cannot show these details. Look for a tool that forms images with electrons.")
+      : answer === "optical"
+        ? bi("這次先看薄樣品裡的細胞邊界，找找用光和鏡片觀察的工具。", "Start with cell boundaries in a thin sample. Look for a tool that uses light and lenses.")
+        : bi("這次只看整條成魚往哪裡游，先試試自己的眼睛。", "We only want to follow the whole adult fish. Try your own eyes first."),
   explanation,
-  funFact: academyUI.conclusion,
+  funFact: answer === "fluorescence"
+    ? bi("螢光影像的顏色也可以由電腦指定，不一定是樣品原本的天然顏色。", "A computer can assign fluorescence image colors; they are not necessarily the sample’s natural colors.")
+    : answer === "electron"
+      ? bi("電子顯微鏡影像也可以後來加上顏色，幫助我們認出不同構造。", "Electron microscope images can be colored later to help us recognize different structures.")
+      : answer === "optical"
+        ? bi("有些細胞很透明，染色可以讓它們的構造更容易看清楚。", "Some cells are very transparent. Staining can make their structures easier to see.")
+        : bi("想看游動方向，可以看整條魚；想看魚身上的細胞，就要換一個觀察方法。", "Watch the whole fish for swimming direction. To see its cells, choose another observation method."),
 });
 const mystery = (
   id: string,
@@ -171,15 +182,20 @@ const mystery = (
   microscopeType: tool,
   hint: bi("先找出邊界、表面或特定亮點：哪個選項描述了你實際看到的形狀與位置？", "Look for boundaries, surfaces or selected bright spots. Which option describes the shapes and positions you can actually see?"),
   strongHint: id === "mystery-sem"
-    ? bi("調查記錄：儀器利用電子掃描樣品表面。搭配凸起的小面與細毛，支持 SEM（掃描式電子顯微鏡） 的判斷；灰色本身不是充分證據。", "Investigation note: electrons scanned the specimen surface. Together with raised facets and hairs, this supports SEM（掃描式電子顯微鏡）; gray alone is not enough.")
+    ? bi("再看一條記錄：儀器利用電子掃描樣品表面。哪個選項描述的是表面的形狀？", "Another lab note: electrons scanned the specimen surface. Which option describes shapes on the surface?")
     : id === "mystery-tem"
-      ? bi("調查記錄：電子穿過很薄的樣品，呈現內部。搭配構造內的細微皺摺，支持 TEM（穿透式電子顯微鏡） 的判斷。", "Investigation note: electrons passed through a very thin specimen to reveal the inside. Fine internal folds support TEM（穿透式電子顯微鏡）.")
-      : explanation,
+      ? bi("再看一條記錄：電子穿過很薄的樣品，讓我們看見內部。哪個選項描述的是裡面的皺摺？", "Another lab note: electrons passed through a very thin specimen to reveal the inside. Which option describes internal folds?")
+      : id === "mystery-light"
+        ? bi("再讀一次記錄：光穿過了薄薄的洋蔥表皮。哪個選項也提到光和細胞邊界？", "Read the note again: light passed through thin onion skin. Which option mentions light and cell boundaries?")
+        : bi("記錄裡提到加上標記，再用適合的光照射。找找和發光標記有關的選項。", "The note mentions labels and suitable light. Look for the option about glowing labels."),
   explanation,
-  funFact: bi(
-    "同一個樣品可以用不同工具觀察。要搭配影像細節與觀察方法，不能只猜顏色！",
-    "One sample can be studied with different tools. Use image details and the observation method, not color alone!",
-  ),
+  funFact: id === "mystery-light"
+    ? bi("圖裡一格格的框線是細胞壁；動物細胞沒有細胞壁，不是所有細胞都像小方格。", "The box-like outlines are cell walls. Animal cells have no cell wall; not all cells look like little boxes.")
+    : id === "mystery-glow"
+      ? bi("用不同的螢光標記，可以一起比較兩種構造的位置。", "Different fluorescent labels let us compare the positions of two kinds of structures.")
+      : id === "mystery-sem"
+        ? bi("成體果蠅的複眼由許多小眼組成；圖裡重複的小面，就是觀察複眼的線索。", "An adult fruit fly’s compound eye has many small units. The repeating facets are clues to its structure.")
+        : bi("粒線體能幫細胞利用養分中的能量。內膜的皺摺讓它有更多表面可用。", "Mitochondria help cells use energy from nutrients. The inner membrane folds provide more surface area."),
 });
 
 export const caseQuestions: Question[] = [
@@ -189,21 +205,21 @@ export const caseQuestions: Question[] = [
     stage: "scale",
     title: bi("誰需要工具幫忙？", "Who needs a tool?"),
     question: bi(
-      "如果只想知道它在哪裡、看清楚大概的形狀，哪些東西小到通常需要用顯微鏡才能看見？",
+      "如果只想知道它在哪裡、看出大概的形狀，哪些東西通常小到需要顯微鏡幫忙才看得到？",
       "If we only want to find it and see its rough outline, which are usually small enough to need a microscope?",
     ),
     choices: originalCases[0].choices.filter((c) => c.id !== "leaf"),
     correctAnswer: ["animal-cell", "bacterium"],
     hint: bi(
-      "成魚和成體果蠅的大致輪廓肉眼可見；卡片上的細胞與細菌已經放大了。",
-      "An adult fish or fly is visible to our eyes. The cell and bacterium cards are already enlarged.",
+      "卡片上的圖已經放大了。想想平常看到的大小，哪些小到很難直接找到？",
+      "The pictures are enlarged. Think about their usual sizes: which are too small to spot directly?",
     ),
     strongHint: bi(
-      "選出「一般動物細胞」和「常見細菌」。成體果蠅雖然小，肉眼仍能發現牠、看見大致輪廓。",
+      "選出「一般動物細胞」和「常見細菌」。成體果蠅雖然小，肉眼就能看出大概的樣子。",
       "Choose the typical animal cell and common bacterium. An adult fly is small but its overall shape is visible.",
     ),
     explanation: bi(
-      "你注意到大小的差別！一般動物細胞和單隻常見細菌通常需要顯微鏡；成魚與成體果蠅的大致輪廓肉眼可見。肉眼可見，不代表肉眼適合觀察細節；仔細看完整果蠅可用解剖顯微鏡。",
+      "你注意到大小的差別！一般動物細胞和單隻常見細菌通常需要顯微鏡；成魚與成體果蠅，肉眼就能看出大概的樣子。肉眼可見，不代表肉眼適合觀察細節；仔細看完整果蠅可用解剖顯微鏡。",
       "You noticed the difference in size! Typical animal cells and single common bacteria need microscopes. Adult fish and flies have outlines visible to our eyes. Being visible does not make our eyes best for details; use a stereomicroscope for a close view of an intact fruit fly.",
     ),
   },
@@ -213,7 +229,7 @@ export const caseQuestions: Question[] = [
     type: "single",
     title: bi("細胞核在哪裡？", "Where are the nuclei?"),
     question: bi(
-      "想讓細胞核的位置更容易辨認，哪種方法最能幫忙？",
+      "想更容易找到細胞核的位置，哪種方法最能幫忙？",
       "Which method best helps the nuclei stand out?",
     ),
     choices: [
@@ -228,7 +244,7 @@ export const caseQuestions: Question[] = [
       {
         id: "labels",
         title: bi(
-          "螢光標記細胞核，再用適合的光照射",
+          "幫細胞核加上螢光標記，再用適合的光照射",
           "Label nuclei and illuminate them with suitable light",
         ),
         image: "fluorescence-cell",
@@ -237,19 +253,19 @@ export const caseQuestions: Question[] = [
     correctAnswer: ["labels"],
     microscopeType: "fluorescence",
     hint: bi(
-      "找找讓目標與背景分開的訊號。哪張圖的大圓區域更明顯？",
-      "Look for a signal that separates the target from its background. Which image makes the large round areas stand out?",
+      "這兩張示意圖裡，哪張讓細胞核和背景更容易分開看清楚？",
+      "In these two diagrams, which makes the nuclei easier to see against the background?",
     ),
     strongHint: bi(
-      "藍紫色的大圓區域標出了細胞核。選擇針對細胞核加上螢光標記的方法。",
-      "The large blue-violet regions mark nuclei. Choose the method that labels the nuclei.",
+      "這張示意圖裡，藍紫色的圓形區域代表細胞核。找找哪種方法能讓它亮起來。",
+      "In this diagram, blue-violet circles represent nuclei. Which method can make them light up?",
     ),
     explanation: bi(
-      "你找到目標了！大圓的藍紫色訊號標出了細胞核。螢光標記讓特定構造更明顯；綠色短絲是另一種標記的訊號。",
-      "You found the target! The large blue-violet signals mark nuclei. Labels make selected structures stand out; green short filaments represent another label.",
+      "你找到目標了！幫細胞核加上螢光標記，再用適合的光照射，就更容易找到它的位置。圖裡的綠色短絲用了另一種標記。",
+      "You found the target! Label the nuclei and shine suitable light to find them more easily. The green filaments use another label.",
     ),
     funFact: bi(
-      "螢光是光學顯微鏡的一種。這兩張是同構圖教學示意，顏色不代表細胞天然的顏色。",
+      "螢光顯微鏡是光學顯微鏡的一種。這兩張示意圖用了相同的位置來比較，圖中的顏色不一定是細胞原本的天然顏色。",
       "Fluorescence is a type of light microscopy. These matched teaching diagrams do not show natural cell colors.",
     ),
   },
@@ -296,7 +312,7 @@ export const caseQuestions: Question[] = [
     "fluorescence-cell",
     bi("檔案 B · 發光線索", "File B · Glowing clues"),
     bi(
-      "深色背景上，特定區域很亮。記錄：樣本加了標記，並用適合的光照射。",
+      "深色背景上，特定區域很亮。記錄：樣品加了標記，並用適合的光照射。",
       "Selected regions shine against a dark background. Lab note: labels were added and illuminated with suitable light.",
     ),
     [
@@ -363,7 +379,7 @@ export const caseQuestions: Question[] = [
     "surface",
     "electron",
     bi(
-      "你找到了表面細節！凸起的小面、細毛與電子掃描記錄，支持SEM（掃描式電子顯微鏡）。灰色本身不是充分證據。",
+      "你找到了表面細節！凸起的小面、細毛與電子掃描記錄，支持 SEM（掃描式電子顯微鏡）。只看灰色還不能判斷。",
       "You found surface detail! Raised facets, tiny hairs and the electron scanning note support SEM（掃描式電子顯微鏡）. Gray alone is not enough evidence.",
     ),
   ),
@@ -372,14 +388,14 @@ export const caseQuestions: Question[] = [
     "electron-mitochondrion",
     bi("檔案 D · 內部皺摺", "File D · Internal folds"),
     bi(
-      "橢圓形構造內有一道道細微皺摺，能沿著內部邊界追蹤它們。",
+      "橢圓形構造裡有一道道細小皺摺，沿著裡面的線條找找看。",
       "Fine folds appear inside an oval structure; trace them along its internal boundaries.",
     ),
     [
       {
         id: "inside",
         title: bi(
-          "橢圓構造內部的細微皺摺 → 推測是 TEM（穿透式電子顯微鏡）",
+          "橢圓構造內部的細小皺摺 → 推測是 TEM（穿透式電子顯微鏡）",
           "Fine folds inside an oval structure → likely TEM（穿透式電子顯微鏡）",
         ),
       },
@@ -401,8 +417,8 @@ export const caseQuestions: Question[] = [
     "inside",
     "electron",
     bi(
-      "你深入找到粒線體的內部皺摺！搭配電子穿過薄樣本的記錄，支持TEM（穿透式電子顯微鏡），不是天然顏色的照片。",
-      "You explored the folds inside a mitochondrion! Electrons passing through a thin sample support TEM（穿透式電子顯微鏡）, not a photo of natural colors.",
+      "你找到了粒線體內部的皺摺！加上電子穿過薄樣品的記錄，支持 TEM（穿透式電子顯微鏡）的判斷。不能只靠灰色判斷觀察工具。",
+      "You found folds inside a mitochondrion! The note about electrons passing through a thin sample supports TEM（穿透式電子顯微鏡）. Gray alone does not identify the tool.",
     ),
   ),
   research(
@@ -426,18 +442,18 @@ export const caseQuestions: Question[] = [
   research(
     "tools-fine",
     "tools",
-    bi("更細微的構造", "Finer structures"),
+    bi("更細小的構造", "Finer structures"),
     bi(
-      "科學家想分辨細胞內非常細微的膜構造，複式光學顯微鏡看不清楚。該用什麼？",
+      "科學家想看清楚細胞內很細小的膜，複式光學顯微鏡看不清楚。哪種工具比較適合？",
       "A scientist needs to distinguish very fine membrane structures beyond compound light microscopy. Which tool fits?",
     ),
     "electron",
     bi(
-      "需要能分辨更細微構造的影像，不只是更大的圖片。",
+      "這次要看到新的細節。把同一張圖片拉大，夠不夠呢？",
       "We need images that resolve finer structures, not just larger pictures.",
     ),
     bi(
-      "電子顯微鏡能分辨更細微的結構，適合追查這些膜的細節。但樣品通常需要特殊準備，通常不能直接觀察活著、正在活動的生物。工具要符合問題。",
+      "電子顯微鏡能看清楚更細小的結構，適合追查這些膜的細節。但樣品通常需要特殊準備，通常不能直接觀察活著、正在活動的生物。工具要符合問題。",
       "Electron microscopy suits this investigation of fine membrane structures. But samples usually need special preparation, and living, moving organisms usually cannot be observed directly. Match the tool to the question.",
     ),
   ),
@@ -496,7 +512,7 @@ export const finalQuestions: Question[] = [
       "This task is to FIND: make one specific target stand out.",
     ),
     bi(
-      "用螢光顯微鏡搭配針對這種蛋白質的標記，讓訊號指出它的位置。調查結果：找到目標位置！",
+      "用螢光顯微鏡搭配針對這種蛋白質的標記，讓發光的標記指出它的位置。調查結果：找到目標位置！",
       "Use fluorescence microscopy with a label targeting that protein. Its signal reveals the location. Result: target located!",
     ),
   ),
@@ -508,16 +524,16 @@ export const finalQuestions: Question[] = [
       "Investigation 3 · What finer details remain?",
     ),
     bi(
-      "最後，想分辨複式光學顯微鏡看不清楚的細胞內部細微結構，選哪種工具？",
+      "最後，想看清楚細胞內很細小、複式光學顯微鏡看不清的構造，選哪種工具？",
       "Finally, which tool can distinguish internal structures too fine for compound light microscopy?",
     ),
     "electron",
     bi(
-      "這次要「深入」：分辨更細微的構造。",
+      "這次要「深入」：看清楚更細小的構造。",
       "Now EXPLORE: distinguish finer structures.",
     ),
     bi(
-      "電子顯微鏡使用電子形成影像，讓你深入觀察細微結構。三個問題，選擇不同工具，案件破解！",
+      "電子顯微鏡使用電子形成影像，讓你深入觀察細小結構。三個問題，選擇不同工具，案件破解！",
       "Electron microscopes form images with electrons to reveal fine structures. Three questions, different tools: case closed!",
     ),
   ),

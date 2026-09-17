@@ -64,11 +64,11 @@ export const gameUI = {
   labelAdded: bi("標記已加入", "Labels added"),
   lightOn: bi("適合的光照射中", "Suitable light is on"),
   glowLegend: bi(
-    "大圓區域：細胞核　／　短絲狀訊號：粒線體",
-    "Large round regions: nuclei · Short filaments: mitochondria",
+    "這張示意圖裡，圓形區域是細胞核，短絲狀訊號是粒線體。",
+    "In this diagram: round regions are nuclei; short filaments are mitochondria.",
   ),
   scaleTitle: bi(
-    "不同工具，看見不同層級",
+    "不同工具，找到不同線索",
     "Different tools reveal different levels",
   ),
   scaleNote: bi(

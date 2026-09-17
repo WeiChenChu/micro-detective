@@ -1,7 +1,7 @@
 import { bi } from "./types";
 export const academyUI = {
   academy: bi("🎓 小偵探課程", "🎓 Detective Academy"),
-  intro: bi("用不同觀察工具，一步步找到肉眼看不到的線索。", "Use different observation tools to uncover clues beyond our eyes."),
+  intro: bi("有些東西看得到，卻還看不清楚。一起用不同工具，找找微觀世界的線索！", "Some things are easy to spot but hard to see clearly. Let’s try different tools and find microscopic clues!"),
   firstVisit: bi("第一次來？", "First visit?"),
   prepared: bi("已經準備好了？", "Ready to investigate?"),
   missions: bi("🕵️ 小偵探任務", "🕵️ Detective Missions"),
@@ -45,7 +45,7 @@ export const academyUI = {
   ready: bi("完成課程，整理我的發現", "Complete lessons and connect my discoveries"),
   summary: bi("顯微觀察的三種任務", "Three tasks in microscopic observation"),
   journey: bi("發現 → 靠近 → 放大 → 看見 → 尋找 → 深入", "Discover → Approach → Enlarge → See → Find → Explore"),
-  everyday: bi("肉眼發現目標，放大鏡幫你靠近局部，解剖顯微鏡放大完整小生物：從日常世界逐步靠近微觀世界。", "Find objects with your eyes, approach local details with a hand lens, and enlarge intact small organisms with a stereomicroscope: a journey from everyday observation into the microscopic world."),
+  everyday: bi("先用肉眼找一找，再用放大鏡看小細節，或用解剖顯微鏡仔細看完整的小生物。一步步走進微觀世界！", "Find objects with your eyes, approach local details with a hand lens, and enlarge intact small organisms with a stereomicroscope: a journey from everyday observation into the microscopic world."),
   family: bi(
     "解剖顯微鏡與螢光顯微鏡，都屬於光學顯微鏡。",
     "Stereo and fluorescence microscopes are both types of light microscopy.",
@@ -55,8 +55,8 @@ export const academyUI = {
     "Scientists choose the observation tool that best answers their question.",
   ),
   best: bi(
-    "真正的科學家不是永遠選擇「最厲害」的顯微鏡。",
-    "Scientists do not always choose the “most powerful” microscope.",
+    "選工具之前，先想想：「我想知道什麼？」",
+    "Before choosing a tool, ask: “What do I want to know?”",
   ),
   loop: bi(
     "看一看 → 動一動 → 發現 → 收進偵探筆記",

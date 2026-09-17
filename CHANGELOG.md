@@ -1,5 +1,15 @@
 # 版本紀錄
 
+## v0.25-dev — 2026-09-17
+
+- Children's language polish：以國小三～六年級為目標，精簡文句，先理解概念再介紹名詞。
+- Simplified wording for elementary-school readers：更新首頁邀請語氣、尺度、成體果蠅與觀察工具文案。
+- Improved SEM/TEM terminology consistency：統一完整中英名稱與中文標點，保留表面、薄樣品內部與觀察原理。
+- Simplified Final Case explanations：簡化樣品準備與證據說明，保留 Question → Tool → Evidence → New Question。
+- Reduced duplicated hints/explanations：區分觀察方向、原因解說與延伸知識。
+- No major interaction or architecture changes：沒有新增題目、改變主要互動或重構元件；保留存檔相容性。
+- 套件版本 0.25.0-dev、畫面版本 v0.25-dev；開發分支 dev/v0.25，未部署。
+
 ## v0.24-dev — 2026-09-16
 
 - 沿用 v0.23 探索架構：四堂操作完成，光學／電子各一個概念確認。
