@@ -139,7 +139,7 @@ test("observation content distinguishes visibility, detail and specimen tradeoff
   assert.match(whole.hint["zh-TW"], /肉眼確實可以看到/);
   assert.match(whole.strongHint!["zh-TW"], /放大鏡也能幫忙/);
   assert.deepEqual(caseQuestions[0].correctAnswer, ["animal-cell", "bacterium"]);
-  assert.match(caseQuestions[0].question["zh-TW"], /大致輪廓/);
+  assert.match(caseQuestions[0].question["zh-TW"], /大概的形狀/);
   assert.match(caseQuestions[0].explanation["zh-TW"], /肉眼可見，不代表肉眼適合觀察細節/);
   assert.equal(practiceQuestions[1].image, "leaf");
   assert.match(academyModules[0].clue["zh-TW"], /看得到，不一定看得清楚；看得清楚，也不一定看得到你想找的線索。/);

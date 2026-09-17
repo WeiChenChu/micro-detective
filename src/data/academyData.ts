@@ -90,7 +90,7 @@ export const academyModules: AcademyLesson[] = [
       answer: "prepare",
       choices: [
         { id: "live", label: bi("把活樣品直接放進電子顯微鏡，看它活動", "Put the living sample straight into an electron microscope to watch it move"), feedback: bi("電子顯微鏡通常需要特殊處理，不能像一般光學觀察那樣直接追蹤活體活動。", "Electron microscopy usually needs special preparation, rather than directly following living activity as in light microscopy.") },
-        { id: "prepare", label: bi("準備適合的薄樣品，用 TEM 看內部細節", "Prepare a suitable thin specimen and use TEM for internal detail"), feedback: bi("TEM 適合薄樣品內部的超微結構，SEM 偏向表面。看得更細，也要考慮樣品處理。", "TEM suits ultrastructure inside thin samples; SEM emphasizes surfaces. Finer detail also requires specimen preparation.") },
+        { id: "prepare", label: bi("準備適合的薄樣品，用 TEM（穿透式電子顯微鏡） 看內部細節", "Prepare a suitable thin specimen and use TEM（穿透式電子顯微鏡） for internal detail"), feedback: bi("TEM（穿透式電子顯微鏡） 適合薄樣品內部的超微結構，SEM（掃描式電子顯微鏡） 偏向表面。看得更細，也要考慮樣品處理。", "TEM（穿透式電子顯微鏡） suits ultrastructure inside thin samples; SEM（掃描式電子顯微鏡） emphasizes surfaces. Finer detail also requires specimen preparation.") },
       ],
     },
     icon: "bolt",

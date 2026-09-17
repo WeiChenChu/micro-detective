@@ -115,7 +115,7 @@ export const caseQuestions: Question[] = [
       { id: "leaf", title: bi("葉片", "Leaf"), image: "leaf" },
       {
         id: "fruit-fly",
-        title: bi("成果蠅", "Adult fruit fly"),
+        title: bi("成體果蠅", "Adult fruit fly"),
         image: "fruit-fly",
       },
       {
@@ -138,11 +138,11 @@ export const caseQuestions: Question[] = [
     ],
     correctAnswer: ["leaf", "fruit-fly", "zebrafish"],
     hint: bi(
-      "找找葉子、成果蠅和成魚的外形。卡片上的細胞和細菌示意圖已經放大了！",
+      "找找葉子、成體果蠅和成魚的外形。卡片上的細胞和細菌示意圖已經放大了！",
       "Look for the leaf, adult fly and adult fish. The cell and bacterium on the cards are already enlarged!",
     ),
     explanation: bi(
-      "葉片、成果蠅和成體斑馬魚，肉眼就能看見。一般動物細胞與單隻常見細菌通常太小，需要顯微鏡的幫忙！",
+      "葉片、成體果蠅和成體斑馬魚，肉眼就能看見。一般動物細胞與單隻常見細菌通常太小，需要顯微鏡的幫忙！",
       "We can see leaves, adult fruit flies and adult zebrafish with our eyes. Typical animal cells and single common bacteria are usually too small, so microscopes help!",
     ),
     funFact: bi(
@@ -294,8 +294,8 @@ export const caseQuestions: Question[] = [
       "Electron microscopes use electrons to observe samples and can distinguish smaller structures than compound light microscopes. Making a picture bigger does not always reveal more detail!",
     ),
     funFact: bi(
-      "有些電子顯微鏡擅長看表面（SEM），有些可以看薄樣本內部（TEM）。這張粒線體圖是 TEM 概念示意。",
-      "Some electron microscopes show surfaces (SEM); others show inside thin samples (TEM). This mitochondrion is a TEM concept illustration.",
+      "有些電子顯微鏡擅長看表面（SEM（掃描式電子顯微鏡）），有些可以看薄樣本內部（TEM（穿透式電子顯微鏡））。這張粒線體圖是 TEM（穿透式電子顯微鏡） 概念示意。",
+      "Some electron microscopes show surfaces (SEM（掃描式電子顯微鏡）); others show inside thin samples (TEM（穿透式電子顯微鏡）). This mitochondrion is a TEM（穿透式電子顯微鏡） concept illustration.",
     ),
     microscopeType: "electron",
   },

@@ -43,7 +43,7 @@ export function ConceptReveal({ id, locale, step, onStep }: {
     </div>
     <MicroscopyImage id={step ? "electron-mitochondrion" : "electron-surface"} locale={locale} showCaption />
     <RealImageExample key={step} illustrationId={step ? "electron-mitochondrion" : "electron-surface"} locale={locale} />
-    <p role="status">{step ? t("TEM 常用來觀察薄切片內部：沿著粒線體內膜找找彎曲的皺摺。", "TEM is often used for thin sections: trace the folds of the inner mitochondrial membrane.") : t("SEM 擅長呈現表面形貌：找找果蠅複眼上重複的小面與細毛。", "SEM excels at surface morphology: look for repeating facets and hairs on the fly eye.")}</p>
+    <p role="status">{step ? t("TEM（穿透式電子顯微鏡） 常用來觀察薄切片內部：沿著粒線體內膜找找彎曲的皺摺。", "TEM（穿透式電子顯微鏡） is often used for thin sections: trace the folds of the inner mitochondrial membrane.") : t("SEM（掃描式電子顯微鏡） 擅長呈現表面形貌：找找果蠅複眼上重複的小面與細毛。", "SEM（掃描式電子顯微鏡） excels at surface morphology: look for repeating facets and hairs on the fly eye.")}</p>
     <p>{t("兩張是不同樣品的示意，不是同一個樣品直接切換拍攝。電子顯微鏡通常需要特殊樣品準備。", "These diagrams show different specimens, not a live switch on one sample. Electron microscopy usually requires special preparation.")}</p>
     <p>{seen.length === 2 ? t("兩種線索都找到了！沒有一台最厲害的顯微鏡，只有適不適合你想找的線索。", "Both views explored! No microscope is best for everything; choose one that suits your clue.") : t("也可以切換另一種觀察，看看會得到什麼不同線索。", "Switch views to discover a different kind of clue.")}</p>
   </section>;

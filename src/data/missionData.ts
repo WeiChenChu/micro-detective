@@ -171,9 +171,9 @@ const mystery = (
   microscopeType: tool,
   hint: bi("先找出邊界、表面或特定亮點：哪個選項描述了你實際看到的形狀與位置？", "Look for boundaries, surfaces or selected bright spots. Which option describes the shapes and positions you can actually see?"),
   strongHint: id === "mystery-sem"
-    ? bi("調查記錄：儀器利用電子掃描樣品表面。搭配凸起的小面與細毛，支持 SEM 的判斷；灰色本身不是充分證據。", "Investigation note: electrons scanned the specimen surface. Together with raised facets and hairs, this supports SEM; gray alone is not enough.")
+    ? bi("調查記錄：儀器利用電子掃描樣品表面。搭配凸起的小面與細毛，支持 SEM（掃描式電子顯微鏡） 的判斷；灰色本身不是充分證據。", "Investigation note: electrons scanned the specimen surface. Together with raised facets and hairs, this supports SEM（掃描式電子顯微鏡）; gray alone is not enough.")
     : id === "mystery-tem"
-      ? bi("調查記錄：電子穿過很薄的樣品，呈現內部。搭配構造內的細微皺摺，支持 TEM 的判斷。", "Investigation note: electrons passed through a very thin specimen to reveal the inside. Fine internal folds support TEM.")
+      ? bi("調查記錄：電子穿過很薄的樣品，呈現內部。搭配構造內的細微皺摺，支持 TEM（穿透式電子顯微鏡） 的判斷。", "Investigation note: electrons passed through a very thin specimen to reveal the inside. Fine internal folds support TEM（穿透式電子顯微鏡）.")
       : explanation,
   explanation,
   funFact: bi(
@@ -189,21 +189,21 @@ export const caseQuestions: Question[] = [
     stage: "scale",
     title: bi("誰需要工具幫忙？", "Who needs a tool?"),
     question: bi(
-      "如果只想知道它在哪裡，並看見大致輪廓，哪些小到通常需要顯微鏡幫忙？",
+      "如果只想知道它在哪裡、看清楚大概的形狀，哪些東西小到通常需要用顯微鏡才能看見？",
       "If we only want to find it and see its rough outline, which are usually small enough to need a microscope?",
     ),
     choices: originalCases[0].choices.filter((c) => c.id !== "leaf"),
     correctAnswer: ["animal-cell", "bacterium"],
     hint: bi(
-      "成魚和成果蠅的大致輪廓肉眼可見；卡片上的細胞與細菌已經放大了。",
+      "成魚和成體果蠅的大致輪廓肉眼可見；卡片上的細胞與細菌已經放大了。",
       "An adult fish or fly is visible to our eyes. The cell and bacterium cards are already enlarged.",
     ),
     strongHint: bi(
-      "選出「一般動物細胞」和「常見細菌」。成果蠅雖然小，肉眼仍能發現牠、看見大致輪廓。",
+      "選出「一般動物細胞」和「常見細菌」。成體果蠅雖然小，肉眼仍能發現牠、看見大致輪廓。",
       "Choose the typical animal cell and common bacterium. An adult fly is small but its overall shape is visible.",
     ),
     explanation: bi(
-      "你注意到大小的差別！一般動物細胞和單隻常見細菌通常需要顯微鏡；成魚與成果蠅的大致輪廓肉眼可見。肉眼可見，不代表肉眼適合觀察細節；仔細看完整果蠅可用解剖顯微鏡。",
+      "你注意到大小的差別！一般動物細胞和單隻常見細菌通常需要顯微鏡；成魚與成體果蠅的大致輪廓肉眼可見。肉眼可見，不代表肉眼適合觀察細節；仔細看完整果蠅可用解剖顯微鏡。",
       "You noticed the difference in size! Typical animal cells and single common bacteria need microscopes. Adult fish and flies have outlines visible to our eyes. Being visible does not make our eyes best for details; use a stereomicroscope for a close view of an intact fruit fly.",
     ),
   },
@@ -341,15 +341,15 @@ export const caseQuestions: Question[] = [
       {
         id: "surface",
         title: bi(
-          "表面有凸起的小面與細毛 → 推測是 SEM",
-          "Raised surface facets and hairs → likely SEM",
+          "表面有凸起的小面與細毛 → 推測是 SEM（掃描式電子顯微鏡）",
+          "Raised surface facets and hairs → likely SEM（掃描式電子顯微鏡）",
         ),
       },
       {
         id: "gray",
         title: bi(
-          "像薄切片，看見內部排列 → 推測是 TEM",
-          "Looks like internal arrangements in a thin section → likely TEM",
+          "像薄切片，看見內部排列 → 推測是 TEM（穿透式電子顯微鏡）",
+          "Looks like internal arrangements in a thin section → likely TEM（穿透式電子顯微鏡）",
         ),
       },
       {
@@ -363,8 +363,8 @@ export const caseQuestions: Question[] = [
     "surface",
     "electron",
     bi(
-      "你找到了表面細節！凸起的小面、細毛與電子掃描記錄，支持掃描式電子顯微鏡（SEM）。灰色本身不是充分證據。",
-      "You found surface detail! Raised facets, tiny hairs and the electron scanning note support scanning electron microscopy (SEM). Gray alone is not enough evidence.",
+      "你找到了表面細節！凸起的小面、細毛與電子掃描記錄，支持SEM（掃描式電子顯微鏡）。灰色本身不是充分證據。",
+      "You found surface detail! Raised facets, tiny hairs and the electron scanning note support SEM（掃描式電子顯微鏡）. Gray alone is not enough evidence.",
     ),
   ),
   mystery(
@@ -379,15 +379,15 @@ export const caseQuestions: Question[] = [
       {
         id: "inside",
         title: bi(
-          "橢圓構造內部的細微皺摺 → 推測是 TEM",
-          "Fine folds inside an oval structure → likely TEM",
+          "橢圓構造內部的細微皺摺 → 推測是 TEM（穿透式電子顯微鏡）",
+          "Fine folds inside an oval structure → likely TEM（穿透式電子顯微鏡）",
         ),
       },
       {
         id: "surface",
         title: bi(
-          "凸起的表面形狀 → 推測是 SEM",
-          "Raised surface shapes → likely SEM",
+          "凸起的表面形狀 → 推測是 SEM（掃描式電子顯微鏡）",
+          "Raised surface shapes → likely SEM（掃描式電子顯微鏡）",
         ),
       },
       {
@@ -401,8 +401,8 @@ export const caseQuestions: Question[] = [
     "inside",
     "electron",
     bi(
-      "你深入找到粒線體的內部皺摺！搭配電子穿過薄樣本的記錄，支持穿透式電子顯微鏡（TEM），不是天然顏色的照片。",
-      "You explored the folds inside a mitochondrion! Electrons passing through a thin sample support transmission electron microscopy (TEM), not a photo of natural colors.",
+      "你深入找到粒線體的內部皺摺！搭配電子穿過薄樣本的記錄，支持TEM（穿透式電子顯微鏡），不是天然顏色的照片。",
+      "You explored the folds inside a mitochondrion! Electrons passing through a thin sample support TEM（穿透式電子顯微鏡）, not a photo of natural colors.",
     ),
   ),
   research(
@@ -469,7 +469,7 @@ export const finalQuestions: Question[] = [
     "final",
     bi("調查 1 · 有沒有細胞？", "Investigation 1 · Are there cells?"),
     bi(
-      "神秘樣品裡有沒有一般大小的細胞？先用哪種方法觀察整體細胞輪廓？",
+      "神秘樣品裡藏著肉眼看不清楚的細胞嗎？想先看清楚細胞的整體輪廓，該選哪種觀察工具？",
       "Does the mystery sample contain typical cells? Which method should first reveal their outlines?",
     ),
     "optical",

@@ -41,13 +41,13 @@ export const images: Record<string, ImageData> = {
   "fruit-fly": illustration(
     "fruit-fly",
     "naked-eye",
-    bi("成果蠅", "Adult fruit fly"),
+    bi("成體果蠅", "Adult fruit fly"),
     bi(
       "有透明翅膀與六隻腳的小型昆蟲。",
       "A small insect with transparent wings and six legs.",
     ),
     bi(
-      "成果蠅很小，但肉眼仍能看見大致輪廓；仔細觀察頭、胸、腹與翅膀，解剖顯微鏡更適合。",
+      "成體果蠅很小，但肉眼仍能看見大致輪廓；仔細觀察頭、胸、腹與翅膀，解剖顯微鏡更適合。",
       "An adult fruit fly’s rough outline is visible to our eyes; a stereomicroscope better suits a close view of its head, thorax, abdomen and wings.",
     ),
     "naked-eye",
@@ -145,8 +145,8 @@ export const images: Record<string, ImageData> = {
       "A curved gray surface with repeating small facets and fine hairs.",
     ),
     bi(
-      "SEM 概念圖：電子顯微鏡可觀察昆蟲眼睛的表面細節。",
-      "SEM concept diagram: electron microscopy can reveal details on an insect eye surface.",
+      "SEM（掃描式電子顯微鏡） 概念圖：電子顯微鏡可觀察昆蟲眼睛的表面細節。",
+      "SEM（掃描式電子顯微鏡） concept diagram: electron microscopy can reveal details on an insect eye surface.",
     ),
     "electron",
   ),
@@ -159,8 +159,8 @@ export const images: Record<string, ImageData> = {
       "An elongated gray structure with a double outline and many internal folds.",
     ),
     bi(
-      "TEM 概念圖：薄樣本中可見粒線體內膜的皺摺。",
-      "TEM concept diagram: folds of the inner mitochondrial membrane in a thin sample.",
+      "TEM（穿透式電子顯微鏡） 概念圖：薄樣本中可見粒線體內膜的皺摺。",
+      "TEM（穿透式電子顯微鏡） concept diagram: folds of the inner mitochondrial membrane in a thin sample.",
     ),
     "electron",
   ),
@@ -171,8 +171,8 @@ export const images: Record<string, ImageData> = {
 export const realImageExamples: Record<string, { title: Text; imageId?: string }> = {
   "optical-onion": { title: bi("真正的細胞影像", "Real cell images") },
   "fluorescence-cell": { title: bi("真正的螢光影像", "Real fluorescence images") },
-  "electron-surface": { title: bi("真正的 SEM 影像", "Real SEM images") },
-  "electron-mitochondrion": { title: bi("真正的 TEM 影像", "Real TEM images") },
+  "electron-surface": { title: bi("真正的 SEM（掃描式電子顯微鏡） 影像", "Real SEM（掃描式電子顯微鏡） images") },
+  "electron-mitochondrion": { title: bi("真正的 TEM（穿透式電子顯微鏡） 影像", "Real TEM（穿透式電子顯微鏡） images") },
 };
 
 // Keeps public images working when the static site is hosted in a subdirectory.

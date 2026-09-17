@@ -218,7 +218,7 @@ export const practiceQuestions: Question[] = [
       "A magnifying glass can help observe a fruit fly too. For a close view of its intact body and surface shape, the best choice here is a stereomicroscope.",
     ),
     explanation: bi(
-      "成果蠅肉眼可見；要仔細看完整身體的頭、胸、腹和翅膀，解剖顯微鏡的較大視野與立體感更適合。",
+      "成體果蠅肉眼可見；要仔細看完整身體的頭、胸、腹和翅膀，解剖顯微鏡的較大視野與立體感更適合。",
       "An adult fruit fly is visible to our eyes. A stereomicroscope’s wider field and sense of depth better suit a close view of its head, thorax, abdomen and wings.",
     ),
     funFact: principle,
