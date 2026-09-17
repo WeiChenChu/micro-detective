@@ -5,10 +5,12 @@ import { academyUI as a } from "../data/academyUI";
 import { ConceptReveal } from "./ConceptReveal";
 import { KnowledgeCard } from "./KnowledgeCard";
 import { ConceptCheck } from "./ConceptCheck";
+import { AcademyCompletion } from "./AcademyCompletion";
 import { ToolSummary } from "./ToolSummary";
-export function AcademyModule({ index, locale, collected, onComplete, onBack, onNext }: {
+export function AcademyModule({ index, locale, collected, onComplete, onBack, onNext, allCompleted, onNotebook, onMissions }: {
   index: number; locale: Locale; collected: boolean; onComplete: () => void;
   onBack: () => void; onNext: () => void;
+  allCompleted: boolean; onNotebook: () => void; onMissions: () => void;
 }) {
   const lesson = academyModules[index];
   const [review, setReview] = useState(false);
@@ -36,8 +38,9 @@ export function AcademyModule({ index, locale, collected, onComplete, onBack, on
           {(!lesson.check || checked) && <button className="button primary" onClick={() => { onComplete(); setReview(true); }}>④ {a.collect[locale]}</button>}
         </section>}
       </> : <>
+        {allCompleted && <AcademyCompletion locale={locale} onNotebook={onNotebook} onMissions={onMissions} />}
         <div className="academy-actions">
-          <button className="button primary" onClick={onNext}>{index === academyModules.length - 1 ? a.ready[locale] : `${a.next[locale]}：${academyModules[index + 1].title[locale]}`} →</button>
+          {!allCompleted && <button className="button primary" onClick={onNext}>{index === academyModules.length - 1 ? a.ready[locale] : `${a.next[locale]}：${academyModules[index + 1].title[locale]}`} →</button>}
           <button className="button" onClick={() => setReview(false)}>{a.review[locale]}</button>
           <button className="button" onClick={onBack}>{a.back[locale]}</button>
         </div>

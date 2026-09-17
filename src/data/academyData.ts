@@ -1,7 +1,8 @@
+import { toolIllustrations, type ToolCardVisual } from "./toolIllustrations";
 import { bi, type Text } from "./types";
 import { closeObservationLessons } from "./academyExtensions";
 
-export interface AcademyLesson {
+export interface AcademyLesson extends ToolCardVisual {
   id: string;
   icon: string;
   title: Text;
@@ -18,8 +19,9 @@ export interface AcademyLesson {
 
 export const academyModules: AcademyLesson[] = [
   {
+    ...toolIllustrations.scale,
     id: "scale",
-    icon: "search",
+    icon: "eye",
     title: bi("肉眼觀察：我們能看多小？", "Naked eye: how small can we see?"),
     opening: bi(
       "從成魚到成體果蠅：看得到牠，也看得清楚細節嗎？",
@@ -40,6 +42,7 @@ export const academyModules: AcademyLesson[] = [
   },
   ...closeObservationLessons,
   {
+    ...toolIllustrations.optical,
     id: "optical",
     check: {
       question: bi("這次換成薄薄的洋蔥表皮，為什麼適合用複式光學顯微鏡？", "Why does a compound light microscope suit this thin onion skin?"),
@@ -66,6 +69,7 @@ export const academyModules: AcademyLesson[] = [
     sendoff: bi("你獲得了「看見」的能力！", "You have the power to SEE!"),
   },
   {
+    ...toolIllustrations.fluorescence,
     id: "fluorescence",
     icon: "sparkle",
     title: bi("螢光顯微鏡", "Fluorescence microscope"),
@@ -84,6 +88,7 @@ export const academyModules: AcademyLesson[] = [
     sendoff: bi("你獲得了「尋找」的能力！", "You have the power to FIND!"),
   },
   {
+    ...toolIllustrations.electron,
     id: "electron",
     check: {
       question: bi("想看清楚光學影像中看不清的內膜細節，下一步怎麼做？", "How can we resolve inner membrane details beyond the light image?"),

@@ -4,18 +4,21 @@ import { academyUI as a } from "../data/academyUI";
 import type { Locale } from "../data/types";
 import { Icon } from "./Icon";
 import { ToolSummary } from "./ToolSummary";
+import { AcademyCompletion } from "./AcademyCompletion";
 export function AcademyHome({
   locale,
   completed,
   onModule,
   onMissions,
   onPractice,
+  onNotebook,
 }: {
   locale: Locale;
   completed: string[];
   onModule: (id: number) => void;
   onMissions: () => void;
   onPractice: () => void;
+  onNotebook: () => void;
 }) {
   const next = academyModules.findIndex(lesson => !completed.includes(lesson.id));
   return (
@@ -33,11 +36,10 @@ export function AcademyHome({
           aria-label={a.knowledge[locale]}
         />
       </header>
-      {next === -1 ? <section className="observation-route">
-        <h2>🎉 {a.ready[locale]}</h2>
-        <button className="button primary" onClick={onMissions}>{a.missions[locale]} →</button>
+      {next === -1 ? <>
+        <AcademyCompletion locale={locale} onNotebook={onNotebook} onMissions={onMissions} />
         <ToolSummary locale={locale} />
-      </section> : <section className="observation-route">
+      </> : <section className="observation-route">
         <h2>{locale === "zh-TW" ? "30 秒工具地圖" : "A 30-second tool map"}</h2>
         <p>{o.order[locale]}</p>
         <p>{locale === "zh-TW" ? "有些工具適合看小動物的外觀，有些能看細胞、找特定線索，有些能看更細小的結構。今天不用背工具或倍率，我們一邊觀察、一邊發現什麼時候需要它們。" : "Some tools reveal small animals, some show cells or specific clues, and some reveal finer structures. No names or magnifications to memorize: discover when you need each tool as you explore."}</p>

@@ -51,13 +51,21 @@ export function EvidenceCard({
 export function DetectiveNotebook({
   state,
   locale,
+  review = false,
+  onMissions,
 }: {
   state: GameState;
   locale: Locale;
+  review?: boolean;
+  onMissions?: () => void;
 }) {
   const ids = questionOrder(state).filter((id) => state.completed[id]);
   return (
     <>
+      {review && <section className="knowledge-clue notebook-review">
+        <h3>{a.notebookReviewTitle[locale]}</h3>
+        <p>{a.notebookReviewNote[locale]}</p>
+      </section>}
       <p className="modal-intro">{gameUI.notebookIntro[locale]}</p>
       <h3>
         {a.knowledge[locale]} · {state.academyCompleted.length} /{" "}
@@ -73,6 +81,7 @@ export function DetectiveNotebook({
           />
         ))}
       </div>
+      {onMissions && <div className="academy-actions"><button className="button" onClick={onMissions}>{a.startMissions[locale]}</button></div>}
       {state.practice.finished && (
         <section className="knowledge-clue">
           <h3>🔎 {o.skillTitle[locale]}</h3>

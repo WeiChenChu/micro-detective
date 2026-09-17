@@ -14,6 +14,8 @@ export const MAX_AGE_MS = 24 * 60 * 60 * 1000;
 export type Resolution = "solved" | "assisted";
 export interface GameState {
   schemaVersion: 2;
+  notebookHintSeen?: boolean;
+  notebookReviewSeen?: boolean;
   academyRevision: 2;
   practice: PracticeProgress;
   contentVersion: number;
@@ -69,6 +71,8 @@ export function createGame(
 ): GameState {
   return {
     schemaVersion: 2,
+    notebookHintSeen: false,
+    notebookReviewSeen: false,
     academyRevision: 2,
     practice: createPractice(),
     academyCompleted: [],
@@ -120,6 +124,8 @@ export type Action =
   | { type: "ACADEMY"; module?: number }
   | { type: "COLLECT_LESSON"; id: string }
   | { type: "DISMISS_MIGRATION" }
+  | { type: "NOTEBOOK_HINT_SEEN" }
+  | { type: "NOTEBOOK_REVIEW_SEEN" }
   | { type: "LOCALE"; locale: Locale }
   | { type: "PRACTICE_OPEN" }
   | { type: "PRACTICE_RESTART" }
@@ -131,10 +137,14 @@ export function gameReducer(state: GameState, action: Action): GameState {
     return {
       ...action.fresh,
       academyCompleted: state.academyCompleted,
+      notebookHintSeen: state.notebookHintSeen,
+      notebookReviewSeen: state.notebookReviewSeen,
       practice: state.practice,
       screen: "game",
       started: true,
     };
+  if (action.type === "NOTEBOOK_HINT_SEEN") return { ...state, notebookHintSeen: true };
+  if (action.type === "NOTEBOOK_REVIEW_SEEN") return { ...state, notebookReviewSeen: true };
   if (action.type === "ACADEMY") {
     if (
       action.module !== undefined &&
@@ -301,6 +311,8 @@ export function validateProgress(
 ): value is GameState {
   if (!value || typeof value !== "object") return false;
   const s = value as GameState;
+  // Optional flags preserve valid v0.25 saves without changing the schema or IDs.
+  if ([s.notebookHintSeen, s.notebookReviewSeen].some(flag => flag !== undefined && typeof flag !== "boolean")) return false;
   if (
     s.schemaVersion !== 2 ||
     s.academyRevision !== 2 ||

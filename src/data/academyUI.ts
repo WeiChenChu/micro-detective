@@ -1,5 +1,15 @@
 import { bi } from "./types";
 export const academyUI = {
+  completedTitle: bi("🎉 小偵探課程完成！", "🎉 Detective academy complete!"),
+  completedIntro: bi("你已經認識不同的觀察方法，也學會：", "You have explored different observation methods and learned:"),
+  completedPrinciple: bi("先想知道什麼，再選適合的工具。", "First decide what you want to know, then choose a suitable tool."),
+  completedNote: bi("你的偵探筆記本已經記下這些發現。", "Your detective notebook has recorded these discoveries."),
+  reviewNotebook: bi("📖 翻翻我的偵探筆記本", "📖 Browse my detective notebook"),
+  startMissions: bi("🕵️ 開始小偵探任務", "🕵️ Start detective missions"),
+  notebookReviewTitle: bi("🎓 你目前學會了什麼？", "🎓 What have you learned?"),
+  notebookReviewNote: bi("你已經完成小偵探課程！看看筆記本裡記錄下來的觀察方法吧。", "You have completed the academy! Explore the observation methods recorded in your notebook."),
+  notebookHintTitle: bi("💡 想不起來每個工具能做什麼？", "💡 Need a reminder of what each tool can do?"),
+  notebookHintNote: bi("可以翻翻 📖 偵探筆記本，看看你在課程中學過的觀察方法。", "Open your 📖 detective notebook to review the observation methods from the academy."),
   academy: bi("🎓 小偵探課程", "🎓 Detective Academy"),
   intro: bi("有些東西看得到，卻還看不清楚。一起用不同工具，找找微觀世界的線索！", "Some things are easy to spot but hard to see clearly. Let’s try different tools and find microscopic clues!"),
   firstVisit: bi("第一次來？", "First visit?"),

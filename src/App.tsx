@@ -17,6 +17,7 @@ import { ProgressTracker } from "./components/ProgressTracker";
 import { StageIntro } from "./components/StageIntro";
 import { QuestionCard } from "./components/QuestionCard";
 import { Modal } from "./components/Modal";
+import { NotebookHint } from "./components/NotebookHint";
 import { DetectiveNotebook } from "./components/DetectiveNotebook";
 import { BadgeScreen } from "./components/BadgeScreen";
 import { Credits } from "./components/Credits";
@@ -41,12 +42,14 @@ export default function App() {
   const [modal, setModal] = useState<"notebook" | "restart" | "credits" | null>(
     null,
   );
+  const [notebookReview, setNotebookReview] = useState(false);
   const [storageAvailable, setStorageAvailable] = useState(true);
   const locale = state.locale;
   const question = currentQuestion(state);
   const stage = stages.find((s) => s.id === question.stage)!;
   const count = evidenceCount(state);
   const total = questionOrder(state).length;
+  const academyComplete = academyModules.every(lesson => state.academyCompleted.includes(lesson.id));
   useEffect(() => {
     document.documentElement.lang = locale;
     document.title = `${ui.name[locale]} · ${locale === "zh-TW" ? "Microscopic Detective" : "微觀小偵探"}`;
@@ -86,11 +89,25 @@ export default function App() {
     setModal(null);
     dispatch({ type: "HOME" });
   };
+  const openNotebook = () => {
+    setNotebookReview(false);
+    setModal("notebook");
+  };
+  const reviewNotebook = () => {
+    setNotebookReview(!state.notebookReviewSeen);
+    dispatch({ type: "NOTEBOOK_REVIEW_SEEN" });
+    setModal("notebook");
+  };
+  const startMissions = () => {
+    setModal(null);
+    if (state.started) dispatch({ type: "RESUME" });
+    else start();
+  };
   return (
     <GameShell
       locale={locale}
       onLocale={(value) => dispatch({ type: "LOCALE", locale: value })}
-      onNotebook={() => setModal("notebook")}
+      onNotebook={openNotebook}
       onRestart={() => setModal("restart")}
       onCredits={() => setModal("credits")}
       onHome={home}
@@ -127,6 +144,7 @@ export default function App() {
           <AcademyHome
             locale={locale}
             completed={state.academyCompleted}
+            onNotebook={reviewNotebook}
             onPractice={() => dispatch({ type: "PRACTICE_OPEN" })}
             onModule={(module) => dispatch({ type: "ACADEMY", module })}
             onMissions={() =>
@@ -136,6 +154,9 @@ export default function App() {
         ) : (
           <AcademyModule
             key={state.academyModule}
+            allCompleted={academyComplete}
+            onNotebook={reviewNotebook}
+            onMissions={startMissions}
             index={state.academyModule}
             locale={locale}
             collected={state.academyCompleted.includes(
@@ -187,6 +208,15 @@ export default function App() {
             locale={locale}
           />
           <StageIntro stage={stage} locale={locale} />
+          {question.toolSelection && !state.completed[question.id] && (
+            <NotebookHint
+              key={`notebook-hint-${question.id}`}
+              seen={!!state.notebookHintSeen}
+              locale={locale}
+              dispatch={dispatch}
+              onNotebook={openNotebook}
+            />
+          )}
           <QuestionCard
             key={question.id}
             state={state}
@@ -206,7 +236,7 @@ export default function App() {
           count={count}
           onAgain={start}
           onHome={home}
-          onNotebook={() => setModal("notebook")}
+          onNotebook={openNotebook}
         />
       )}
       {modal && (
@@ -223,7 +253,12 @@ export default function App() {
           className={modal === "restart" ? "compact-modal" : ""}
         >
           {modal === "notebook" && (
-            <DetectiveNotebook state={state} locale={locale} />
+            <DetectiveNotebook
+              state={state}
+              locale={locale}
+              review={notebookReview}
+              onMissions={state.screen === "academy" && academyComplete ? startMissions : undefined}
+            />
           )}
           {modal === "credits" && <Credits locale={locale} />}
           {modal === "restart" && (

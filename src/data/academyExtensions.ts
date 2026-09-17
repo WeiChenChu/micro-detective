@@ -1,7 +1,9 @@
+import { toolIllustrations } from "./toolIllustrations";
 import type { AcademyLesson } from "./academyData";
 import { bi } from "./types";
 export const closeObservationLessons: AcademyLesson[] = [
   {
+    ...toolIllustrations.magnifier,
     id: "magnifier",
     icon: "search",
     title: bi("放大鏡", "Magnifying glass"),
@@ -23,6 +25,7 @@ export const closeObservationLessons: AcademyLesson[] = [
     ),
   },
   {
+    ...toolIllustrations.stereo,
     id: "stereo",
     icon: "microscope",
     title: bi("解剖顯微鏡", "Stereomicroscope"),
