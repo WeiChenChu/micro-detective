@@ -40,7 +40,7 @@ export function AcademyHome({
       </section> : <section className="observation-route">
         <h2>{locale === "zh-TW" ? "30 秒工具地圖" : "A 30-second tool map"}</h2>
         <p>{o.order[locale]}</p>
-        <p>{locale === "zh-TW" ? "有些工具適合看小動物的外觀，有些能看細胞、找特定線索，有些能看更細微的結構。今天不用背工具或倍率，我們一邊觀察、一邊發現什麼時候需要它們。" : "Some tools reveal small animals, some show cells or specific clues, and some reveal finer structures. No names or magnifications to memorize: discover when you need each tool as you explore."}</p>
+        <p>{locale === "zh-TW" ? "有些工具適合看小動物的外觀，有些能看細胞、找特定線索，有些能看更細小的結構。今天不用背工具或倍率，我們一邊觀察、一邊發現什麼時候需要它們。" : "Some tools reveal small animals, some show cells or specific clues, and some reveal finer structures. No names or magnifications to memorize: discover when you need each tool as you explore."}</p>
         <p>{o.orderNote[locale]}</p>
         <button className="button primary" onClick={() => onModule(next)}>{next === 0 ? (locale === "zh-TW" ? "從一隻果蠅開始" : "Start with a fruit fly") : `${a.next[locale]}：${academyModules[next].title[locale]}`} →</button>
         <details>

@@ -47,7 +47,7 @@ export const images: Record<string, ImageData> = {
       "A small insect with transparent wings and six legs.",
     ),
     bi(
-      "成體果蠅很小，但肉眼仍能看見大致輪廓；仔細觀察頭、胸、腹與翅膀，解剖顯微鏡更適合。",
+      "成體果蠅很小，但肉眼就能看出大概的樣子；仔細觀察頭、胸、腹與翅膀，解剖顯微鏡更適合。",
       "An adult fruit fly’s rough outline is visible to our eyes; a stereomicroscope better suits a close view of its head, thorax, abdomen and wings.",
     ),
     "naked-eye",
@@ -117,8 +117,8 @@ export const images: Record<string, ImageData> = {
       "Short green filament-like signals and larger blue-violet regions on a dark background.",
     ),
     bi(
-      "短絲狀訊號代表標記的粒線體；大圓區域代表細胞核。顏色不代表天然外觀。",
-      "Short filaments represent labeled mitochondria; large round regions represent nuclei. These are not natural colors.",
+      "這張示意圖裡，綠色短絲代表標記的粒線體，藍紫色圓形代表細胞核。圖中的顏色不一定是天然顏色。",
+      "In this diagram, green filaments represent labeled mitochondria and blue-violet circles represent nuclei. Image colors are not necessarily natural colors.",
     ),
     "fluorescence",
   ),
@@ -127,7 +127,7 @@ export const images: Record<string, ImageData> = {
     "fluorescence",
     bi("尚未標記的細胞", "Unlabeled cells"),
     bi(
-      "淡灰藍色細胞內，可見圓形區域與細微曲線。",
+      "淡灰藍色細胞內，可見圓形區域與細小曲線。",
       "Pale blue-gray cells with rounded regions and faint curves.",
     ),
     bi(
@@ -145,7 +145,7 @@ export const images: Record<string, ImageData> = {
       "A curved gray surface with repeating small facets and fine hairs.",
     ),
     bi(
-      "SEM（掃描式電子顯微鏡） 概念圖：電子顯微鏡可觀察昆蟲眼睛的表面細節。",
+      "SEM（掃描式電子顯微鏡）概念圖：電子顯微鏡可觀察昆蟲眼睛的表面細節。",
       "SEM（掃描式電子顯微鏡） concept diagram: electron microscopy can reveal details on an insect eye surface.",
     ),
     "electron",
@@ -159,7 +159,7 @@ export const images: Record<string, ImageData> = {
       "An elongated gray structure with a double outline and many internal folds.",
     ),
     bi(
-      "TEM（穿透式電子顯微鏡） 概念圖：薄樣本中可見粒線體內膜的皺摺。",
+      "TEM（穿透式電子顯微鏡）概念圖：薄樣品中可見粒線體內膜的皺摺。",
       "TEM（穿透式電子顯微鏡） concept diagram: folds of the inner mitochondrial membrane in a thin sample.",
     ),
     "electron",
@@ -171,8 +171,8 @@ export const images: Record<string, ImageData> = {
 export const realImageExamples: Record<string, { title: Text; imageId?: string }> = {
   "optical-onion": { title: bi("真正的細胞影像", "Real cell images") },
   "fluorescence-cell": { title: bi("真正的螢光影像", "Real fluorescence images") },
-  "electron-surface": { title: bi("真正的 SEM（掃描式電子顯微鏡） 影像", "Real SEM（掃描式電子顯微鏡） images") },
-  "electron-mitochondrion": { title: bi("真正的 TEM（穿透式電子顯微鏡） 影像", "Real TEM（穿透式電子顯微鏡） images") },
+  "electron-surface": { title: bi("真正的 SEM（掃描式電子顯微鏡）影像", "Real SEM（掃描式電子顯微鏡） images") },
+  "electron-mitochondrion": { title: bi("真正的 TEM（穿透式電子顯微鏡）影像", "Real TEM（穿透式電子顯微鏡） images") },
 };
 
 // Keeps public images working when the static site is hosted in a subdirectory.

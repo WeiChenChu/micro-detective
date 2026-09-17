@@ -1,6 +1,6 @@
 # 微觀小偵探 / Microscopic Detective
 
-**v0.24-dev**（npm 套件版本 `0.24.0-dev`；開發分支 `dev/v0.24`）— 適合國小高年級至國中及親子科普活動的靜態教育遊戲。
+**v0.25-dev**（npm 套件版本 `0.25.0-dev`；開發分支 `dev/v0.25`）— 適合國小三～六年級及親子科普活動的靜態教育遊戲。
 
 React + TypeScript + Vite + 原生 CSS。沒有後端、帳號、個資表單、分析追蹤或外部字型。沿用 v0.1 的所有本機原創 SVG 教學示意圖，並非真實顯微照片。架構檢查、重用元件、風險與實作順序見 [v0.2 遷移分析](docs/v0.2-migration.md)。
 
@@ -25,7 +25,11 @@ npm run preview  # 預覽 dist/ 正式版本
 
 正式部署目標為 GitHub Pages 自訂網域 `https://micro.weichenchu.com/`（根路徑 `/`，與主網站分開）。詳見 [部署步驟](docs/github-pages.md)。部署時上傳 `dist/` 內容到靜態網站主機。網站沒有後端路由；Vite 使用相對 base，可放在子目錄。請由 HTTP(S) 網站伺服器開啟，勿直接雙擊 `dist/index.html`。第一次載入需要可連線的靜態伺服器；這版沒有 service worker 或離線安裝功能。網站程式不要求登入，託管平台的分享／登入政策由平台另行控制。
 
-## v0.24-dev 學習流程
+## v0.25-dev — Children's Language Polish / 兒童語言精修版
+
+先用容易理解的說法，再介紹解析能力等名詞；精簡首頁、課程、任務與最終案件文案，統一電子顯微鏡名稱，區分提示、原因解說與延伸知識。保留科學上的「通常／適合」限制、四堂操作課程與兩個概念確認，以及 Question → Tool → Evidence → New Question 流程。未變更主要互動、架構、題數或存檔格式。
+
+## v0.25-dev 學習流程
 
 首頁提供「🎓 小偵探課程」與「🕵️ 小偵探任務」兩個入口。推薦第一次先學課程，但任務沒有修課門檻。繁中預設，保留完整英語切換。
 
@@ -113,7 +117,7 @@ CHANGELOG.md         版本紀錄
 
 ## 本機進度與共用裝置
 
-- v0.24-dev 延用 v0.2 鍵：`microscopic-detective:progress:v2`，schema 2、content 3、academyRevision 2。本次保留 v0.22／v0.23 的任務、練習、課程 ID、正解與儲存格式；v0.22／v0.23 存檔在原有 24 小時效期內可直接續玩。較舊 v0.2／v0.21 的內容版本仍依既有規則重置。只保存這台裝置的語言、任務作答、課程頁與收藏。
+- v0.25-dev 延用 v0.2 鍵：`microscopic-detective:progress:v2`，schema 2、content 3、academyRevision 2。本次保留 v0.22／v0.23 的任務、練習、課程 ID、正解與儲存格式；v0.22／v0.23 存檔在原有 24 小時效期內可直接續玩。較舊 v0.2／v0.21 的內容版本仍依既有規則重置。只保存這台裝置的語言、任務作答、課程頁與收藏。
 - 原 v0.1 鍵 `microscopic-detective:progress` 保留不動；只接續語言，新任務由頭開始，並顯示版本提醒。不能把舊題答案當作新題通關。
 - 保留 v0.1 的 24 小時閒置失效規則（包括這次課程收藏）；損毀或不相容的 v0.2 存檔安全重置。
 - 重新整理恢復任務作答、提示及課程頁／已收藏卡片。未完成課程的探索操作會從該模組觀察頁重開，不影響已收藏卡片。
@@ -124,7 +128,7 @@ CHANGELOG.md         版本紀錄
 
 ## Git 版本管理
 
-第一個可玩 MVP 以 annotated tag **`v0.1`** 保留；當時的套件版本為 **`0.1.0`**。本次工作目錄已更新為 **`0.24.0-dev`**（顯示 v0.24-dev），尚未新增版本 tag 或發布線上版本。
+第一個可玩 MVP 以 annotated tag **`v0.1`** 保留；當時的套件版本為 **`0.1.0`**。本次工作目錄已更新為 **`0.25.0-dev`**（顯示 v0.25-dev），尚未新增版本 tag 或發布線上版本。
 
 ```powershell
 git status
@@ -149,6 +153,6 @@ git switch -c experiment-from-v0.1 v0.1
 
 此原型的瀏覽器與自動化檢查不等於真實兒童試玩、實機 iPad 測試或完整 WCAG 合規認證。
 
-## v0.24 驗證與待補素材
+## v0.25 驗證與待補素材
 
-詳見 [v0.24 驗證紀錄](docs/v0.24-validation.md)。本次沒有下載或發布真實顯微影像。既有 `source_images/bioart/` 為儀器插圖，`image_credits/IMAGE_CREDIT.md` 為使用者提供的候選素材紀錄，尚不等於網站已載入或已逐項驗證。
+本次結果見 [v0.25 驗證紀錄](docs/v0.25-validation.md)；前版記錄保留於 [v0.24 驗證紀錄](docs/v0.24-validation.md)。本次沒有下載或發布真實顯微影像。既有 `source_images/bioart/` 為儀器插圖，`image_credits/IMAGE_CREDIT.md` 為使用者提供的候選素材紀錄，尚不等於網站已載入或已逐項驗證。

@@ -6,11 +6,11 @@ export const closeObservationLessons: AcademyLesson[] = [
     icon: "search",
     title: bi("放大鏡", "Magnifying glass"),
     opening: bi(
-      "果蠅的細節太小了。移動放大鏡，找找翅膀、眼睛和腳。",
-      "The fly’s details are tiny. Move a lens to find wings, eyes and legs.",
+      "成體果蠅看得到，但細節太小了。移動放大鏡，找找翅膀、眼睛和腳。",
+      "An adult fruit fly is visible, but its details are tiny. Move a lens to find wings, eyes and legs.",
     ),
     concept: bi(
-      "放大鏡利用鏡片，讓局部細節更容易看見；適合觀察葉脈、羽毛或較大型昆蟲翅膀等肉眼可見的表面特徵。",
+      "放大鏡能把局部放大，讓小細節更容易看清楚。可以用來看看葉脈、羽毛或較大昆蟲的翅膀表面。",
       "A magnifying glass uses a lens to make local details easier to see on visible surfaces such as leaf veins, feathers or larger insect wings.",
     ),
     clue: bi(
@@ -31,12 +31,12 @@ export const closeObservationLessons: AcademyLesson[] = [
       "Need a closer view than a hand lens? Explore the same fly with a stereomicroscope.",
     ),
     concept: bi(
-      "解剖顯微鏡使用光，通常以較低倍率、較大視野觀察完整小生物或物體表面，並具有立體感。",
+      "解剖顯微鏡使用光，通常倍率較低，能看到的範圍較大，這叫「視野」。它適合看完整的小生物或物體表面，也能讓我們感覺到高低。",
       "A stereomicroscope uses light, usually with lower magnification and a wider field, to observe intact small organisms or surfaces with a sense of depth.",
     ),
     clue: bi(
-      "看見：保留整體與高低線索。解剖顯微鏡也是光學顯微鏡，不一定要把樣本切開。",
-      "SEE: keep the whole object and depth clues. A stereomicroscope is a light microscope; specimens need not be cut open.",
+      "看見：倍率較低時，比較容易一次看完整隻成體果蠅。想看整體，較大的視野很有幫助！",
+      "SEE: lower magnification makes it easier to fit the whole adult fly in view. A wider field helps us see its whole shape!",
     ),
     sendoff: bi(
       "完整的小生物，也藏著豐富線索！",

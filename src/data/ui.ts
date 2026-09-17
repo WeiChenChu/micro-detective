@@ -3,11 +3,11 @@ export const ui = {
   name: bi("微觀小偵探", "Microscopic Detective"),
   brand: bi("微觀探索計畫", "THE MICROSCOPIC EXPLORER PROJECT"),
   tagline: bi(
-    "肉眼看不到的世界，藏著什麼秘密？",
-    "What secrets hide beyond what our eyes can see?",
+    "有些東西看得到，卻還看不清楚。一起找找微觀世界的線索！",
+    "Some things are easy to spot but hard to see clearly. Let’s find clues in the microscopic world!",
   ),
   intro: bi(
-    "神秘的微觀世界藏著許多線索。只有真正的微觀小偵探，才能使用不同的觀察工具，一步一步破解謎題！",
+    "微觀世界藏著好多線索！化身微觀小偵探，使用不同的觀察工具，一步一步找出答案吧！",
     "The microscopic world is full of hidden clues. Become a microscopic detective, try different observation tools, and solve the mysteries one discovery at a time!",
   ),
   start: bi("開始偵查", "Start investigating"),
@@ -15,7 +15,7 @@ export const ui = {
   newGame: bi("新偵探開始", "Start a new investigation"),
   eyebrow: bi("給好奇心一個新任務", "A NEW MISSION FOR YOUR CURIOSITY"),
   duration: bi("約 5–10 分鐘", "About 5–10 minutes"),
-  audience: bi("7 歲以上・親子一起玩", "Ages 7+ · Explore together"),
+  audience: bi("國小三～六年級・親子一起玩", "Grades 3–6 · Explore together"),
   privacy: bi(
     "免登入・進度只留在這台裝置",
     "No sign-in · Progress stays on this device",

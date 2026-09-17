@@ -1,6 +1,6 @@
 {
   "name": "microscopic-detective",
-  "version": "0.24.0-dev",
+  "version": "0.25.0-dev",
   "private": true,
   "type": "module",
   "scripts": {
@@ -26,5 +26,5 @@
     "typescript-eslint": "^8.70.0",
     "vite": "^7.3.0"
   },
-  "displayVersion": "0.24-dev"
+  "displayVersion": "0.25-dev"
 }
