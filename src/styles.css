@@ -2974,3 +2974,24 @@ button {
   .new-question { padding: 16px; }
   .final-question .feedback-panel { padding: 18px 14px; }
 }
+
+/* v0.26: tool recognition within the existing knowledge cards. */
+.knowledge-card { min-width: 0; overflow-wrap: anywhere; }
+.knowledge-tool-image {
+  display: block;
+  width: 100%;
+  height: 154px;
+  object-fit: contain;
+  margin: 0 auto 16px;
+}
+.knowledge-card .knowledge-summary { font-size: 1rem; }
+.knowledge-card details { margin-top: 16px; }
+.knowledge-card summary { cursor: pointer; min-height: 44px; align-content: center; }
+.knowledge-card details p, .notebook-review p, .notebook-hint p { line-height: 1.8; margin-top: 10px; }
+.notebook-hint { margin: 18px 0; }
+.academy-completion .button, .notebook-hint .button { min-height: 44px; white-space: normal; }
+@media (max-width: 680px) {
+  .knowledge-tool-image { height: 132px; }
+  .academy-completion .academy-actions { align-items: stretch; }
+  .academy-completion .button { width: 100%; }
+}

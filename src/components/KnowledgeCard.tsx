@@ -16,6 +16,7 @@ export function KnowledgeCard({
     <article
       className={`evidence-card knowledge-card ${collected ? "collected-card" : ""}`}
     >
+      <img className="knowledge-tool-image" src={lesson.image} alt={lesson.imageAlt[locale]} width={240} height={210} />
       <div className="evidence-card-heading">
         <span className="evidence-stamp">
           <Icon name={lesson.icon} size={25} />
@@ -25,16 +26,16 @@ export function KnowledgeCard({
             {collected ? `✓ ${a.collected[locale]}` : a.borrow[locale]}
           </span>
           <h3>
-            {lesson.id === "scale" ? a.why[locale] : lesson.title[locale]}
+            {lesson.toolName[locale]}
           </h3>
         </div>
       </div>
+      <p className="knowledge-summary"><strong>{lesson.shortDescription[locale]}</strong></p>
       <p>{lesson.concept[locale]}</p>
-      <p className="knowledge-clue">
-        <strong>🔎 {a.clue[locale]}</strong>
-        <br />
-        {lesson.clue[locale]}
-      </p>
+      <details className="knowledge-clue">
+        <summary>🔎 {a.clue[locale]}</summary>
+        <p>{lesson.clue[locale]}</p>
+      </details>
     </article>
   );
 }
