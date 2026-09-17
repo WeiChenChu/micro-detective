@@ -152,7 +152,7 @@ export default function App() {
               dispatch(
                 state.academyModule! < academyModules.length - 1
                   ? { type: "ACADEMY", module: state.academyModule! + 1 }
-                  : { type: "PRACTICE_OPEN" },
+                  : { type: "ACADEMY" },
               )
             }
           />

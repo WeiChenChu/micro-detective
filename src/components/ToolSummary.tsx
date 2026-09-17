@@ -6,6 +6,8 @@ export function ToolSummary({ locale }: { locale: Locale }) {
   return (
     <section className="tool-summary" aria-labelledby="tool-summary-heading">
       <h2 id="tool-summary-heading">{a.summary[locale]}</h2>
+      <p className="journey">{a.journey[locale]}</p>
+      <p className="family-note">{a.everyday[locale]}</p>
       <div className="ability-grid">
         {toolAbilities.map((tool) => (
           <article key={tool.id}>

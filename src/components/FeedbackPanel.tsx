@@ -3,6 +3,8 @@ import type { Locale, Question, Stage } from "../data/types";
 import type { GameState } from "../game/gameState";
 import { gameUI } from "../data/gameUI";
 import { Icon } from "./Icon";
+import { InvestigationEvidence, InvestigationSummary } from "./InvestigationEvidence";
+import { investigationUI as i } from "../data/investigationData";
 
 export function FeedbackPanel({
   state,
@@ -52,6 +54,8 @@ export function FeedbackPanel({
           <h3 ref={heading} tabIndex={-1}>
             {retry
               ? gameUI.retry[locale]
+              : question.investigation
+                ? question.investigation.evidenceTitle[locale]
               : state.feedback === "assisted"
                 ? gameUI.assisted[locale]
                 : gameUI.success[locale]}
@@ -60,9 +64,10 @@ export function FeedbackPanel({
             {retry
               ? (state.attempts >= 2
                   ? (question.strongHint ?? question.explanation)
-                  : question.hint)[locale]
-              : (question.answerExplanations?.[state.selected[0]] ??
-                  question.explanation)[locale]}
+                  : (question.answerExplanations?.[state.selected[0]] ?? question.hint))[locale]
+              : question.investigation
+                ? question.choices.find(c => c.id === question.correctAnswer[0])?.title[locale]
+                : (question.answerExplanations?.[state.selected[0]] ?? question.explanation)[locale]}
           </p>
         </div>
       </div>
@@ -75,6 +80,10 @@ export function FeedbackPanel({
         )
       ) : (
         <>
+          {question.investigation && <>
+            <InvestigationEvidence question={question} locale={locale} />
+            {!question.investigation.nextQuestion && <InvestigationSummary locale={locale} />}
+          </>}
           {question.stage !== "final" && (
             <div className="reward">
               <Icon name={stage.icon} size={19} />
@@ -91,7 +100,7 @@ export function FeedbackPanel({
                 (state.cursor === total - 1
                   ? gameUI.finish[locale]
                   : question.stage === "final"
-                    ? gameUI.nextFile[locale]
+                    ? i.continue[locale]
                     : gameUI.collect[locale])}
               <Icon name="arrow" size={20} />
             </button>

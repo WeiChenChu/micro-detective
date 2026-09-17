@@ -10,6 +10,7 @@ import {
   toolChoices as originalTools,
 } from "./gameData";
 import { academyUI } from "./academyUI";
+import { investigationSteps } from "./investigationData";
 
 export const CONTENT_VERSION = 3;
 export const toolIcons: Record<MicroscopeType, string> = {
@@ -102,8 +103,8 @@ export const stages: Stage[] = [
       "One mystery sample, three questions",
     ),
     introduction: bi(
-      "實驗室收到神秘樣品！你要協助三次調查：有沒有細胞、蛋白質在哪裡、還有哪些細微結構。",
-      "A mystery sample arrived! Investigate whether it contains cells, where a protein is, and what finer structures are inside.",
+      "實驗室收到神秘樣品！先想知道什麼，再選工具觀察。每一份新證據，都可能帶來下一個問題。",
+      "A mystery sample arrived! Start with a question, choose a tool and observe. Each new piece of evidence may lead to another question.",
     ),
     reward: bi("案件破解！", "Case closed!"),
   },
@@ -125,6 +126,17 @@ const research = (
   question,
   type: "single",
   choices: toolChoices,
+  answerExplanations: answer === "fluorescence" ? {
+    optical: bi("一般光學影像能看細胞輪廓，但輪廓本身不會指出某種蛋白質的位置，需要針對目標的訊號。", "An ordinary light image shows cell outlines, but outlines alone do not identify a particular protein. We need a target-specific signal."),
+    electron: bi("電子顯微鏡能分辨細微結構，卻不會自動認出蛋白質 X；這次先需要特定標記，通常也不必先做電子影像的特殊處理。", "Electron microscopy resolves fine structure but does not automatically identify protein X. This question first needs a specific label, usually without electron microscopy’s special preparation."),
+    "naked-eye": bi("這次目標在細胞內，肉眼的解析能力不足以定位這種蛋白質。", "The target is inside cells; our eyes cannot resolve the location of this protein."),
+  } : answer === "electron" ? {
+    optical: bi("光學影像可以顯示細胞，這次的膜細節卻小到分不開；只增加倍率也無法補出這些結構。", "The light image shows cells, but these membrane details cannot be resolved; magnification alone cannot supply them."),
+    fluorescence: bi("螢光標記適合定位目標；這次想分開更細微的膜形狀，需要不同的解析能力與樣品準備。", "Fluorescence labels locate targets. Resolving finer membrane shapes needs different resolving power and specimen preparation."),
+  } : answer === "optical" ? {
+    electron: bi("電子影像能看得更細，但通常需要特殊處理；先看一般細胞的輪廓，用適合薄樣品的光學觀察就能回答。", "Electron imaging reveals finer detail but usually needs special preparation. Light observation of a suitable thin specimen can answer this first question about cell outlines."),
+    fluorescence: bi("螢光適合尋找已標記的目標；目前還沒指定要追蹤哪種分子，先觀察細胞輪廓即可。", "Fluorescence suits labeled targets. No specific molecule is being tracked yet; start with cell outlines."),
+  } : undefined,
   correctAnswer: [answer],
   microscopeType: answer,
   toolSelection: true,
@@ -157,8 +169,12 @@ const mystery = (
   choices,
   correctAnswer: [answer],
   microscopeType: tool,
-  hint: observation,
-  strongHint: explanation,
+  hint: bi("先找出邊界、表面或特定亮點：哪個選項描述了你實際看到的形狀與位置？", "Look for boundaries, surfaces or selected bright spots. Which option describes the shapes and positions you can actually see?"),
+  strongHint: id === "mystery-sem"
+    ? bi("調查記錄：儀器利用電子掃描樣品表面。搭配凸起的小面與細毛，支持 SEM（掃描式電子顯微鏡） 的判斷；灰色本身不是充分證據。", "Investigation note: electrons scanned the specimen surface. Together with raised facets and hairs, this supports SEM（掃描式電子顯微鏡）; gray alone is not enough.")
+    : id === "mystery-tem"
+      ? bi("調查記錄：電子穿過很薄的樣品，呈現內部。搭配構造內的細微皺摺，支持 TEM（穿透式電子顯微鏡） 的判斷。", "Investigation note: electrons passed through a very thin specimen to reveal the inside. Fine internal folds support TEM（穿透式電子顯微鏡）.")
+      : explanation,
   explanation,
   funFact: bi(
     "同一個樣品可以用不同工具觀察。要搭配影像細節與觀察方法，不能只猜顏色！",
@@ -173,21 +189,21 @@ export const caseQuestions: Question[] = [
     stage: "scale",
     title: bi("誰需要工具幫忙？", "Who needs a tool?"),
     question: bi(
-      "如果只想知道它在哪裡，並看見大致輪廓，哪些小到通常需要顯微鏡幫忙？",
+      "如果只想知道它在哪裡、看清楚大概的形狀，哪些東西小到通常需要用顯微鏡才能看見？",
       "If we only want to find it and see its rough outline, which are usually small enough to need a microscope?",
     ),
     choices: originalCases[0].choices.filter((c) => c.id !== "leaf"),
     correctAnswer: ["animal-cell", "bacterium"],
     hint: bi(
-      "成魚和成果蠅的大致輪廓肉眼可見；卡片上的細胞與細菌已經放大了。",
+      "成魚和成體果蠅的大致輪廓肉眼可見；卡片上的細胞與細菌已經放大了。",
       "An adult fish or fly is visible to our eyes. The cell and bacterium cards are already enlarged.",
     ),
     strongHint: bi(
-      "選出「一般動物細胞」和「常見細菌」。成果蠅雖然小，肉眼仍能發現牠、看見大致輪廓。",
+      "選出「一般動物細胞」和「常見細菌」。成體果蠅雖然小，肉眼仍能發現牠、看見大致輪廓。",
       "Choose the typical animal cell and common bacterium. An adult fly is small but its overall shape is visible.",
     ),
     explanation: bi(
-      "你注意到大小的差別！一般動物細胞和單隻常見細菌通常需要顯微鏡；成魚與成果蠅的大致輪廓肉眼可見。肉眼可見，不代表肉眼適合觀察細節；仔細看完整果蠅可用解剖顯微鏡。",
+      "你注意到大小的差別！一般動物細胞和單隻常見細菌通常需要顯微鏡；成魚與成體果蠅的大致輪廓肉眼可見。肉眼可見，不代表肉眼適合觀察細節；仔細看完整果蠅可用解剖顯微鏡。",
       "You noticed the difference in size! Typical animal cells and single common bacteria need microscopes. Adult fish and flies have outlines visible to our eyes. Being visible does not make our eyes best for details; use a stereomicroscope for a close view of an intact fruit fly.",
     ),
   },
@@ -318,37 +334,37 @@ export const caseQuestions: Question[] = [
     "electron-surface",
     bi("檔案 C · 昆蟲眼睛表面", "File C · Insect eye surface"),
     bi(
-      "觀察表面一顆顆小面與細毛。記錄：電子掃描樣本表面。",
-      "Observe the surface facets and tiny hairs. Lab note: electrons scanned the specimen surface.",
+      "影像呈現大量凸起的小面與細毛，主要看見樣品表面的細節。",
+      "Raised facets and tiny hairs cover a curved surface; the visible clues are on the outside.",
     ),
     [
       {
         id: "surface",
         title: bi(
-          "電子掃描呈現表面的小面與細毛 → SEM",
-          "Electron scanning reveals surface facets and hairs → SEM",
+          "表面有凸起的小面與細毛 → 推測是 SEM（掃描式電子顯微鏡）",
+          "Raised surface facets and hairs → likely SEM（掃描式電子顯微鏡）",
         ),
       },
       {
         id: "gray",
         title: bi(
-          "只因為灰色，就能確定是電子影像",
-          "Gray alone proves it is an electron image",
+          "像薄切片，看見內部排列 → 推測是 TEM（穿透式電子顯微鏡）",
+          "Looks like internal arrangements in a thin section → likely TEM（穿透式電子顯微鏡）",
         ),
       },
       {
         id: "inside",
         title: bi(
-          "這張主要看見細胞內部的皺摺",
-          "This image mainly shows folds inside a cell",
+          "亮點標出特定構造的位置 → 推測是螢光",
+          "Bright signals locate selected structures → likely fluorescence",
         ),
       },
     ],
     "surface",
     "electron",
     bi(
-      "你找到了表面細節！凸起的小面、細毛與電子掃描記錄，支持掃描式電子顯微鏡（SEM）。灰色本身不是充分證據。",
-      "You found surface detail! Raised facets, tiny hairs and the electron scanning note support scanning electron microscopy (SEM). Gray alone is not enough evidence.",
+      "你找到了表面細節！凸起的小面、細毛與電子掃描記錄，支持SEM（掃描式電子顯微鏡）。灰色本身不是充分證據。",
+      "You found surface detail! Raised facets, tiny hairs and the electron scanning note support SEM（掃描式電子顯微鏡）. Gray alone is not enough evidence.",
     ),
   ),
   mystery(
@@ -356,37 +372,37 @@ export const caseQuestions: Question[] = [
     "electron-mitochondrion",
     bi("檔案 D · 內部皺摺", "File D · Internal folds"),
     bi(
-      "橢圓形構造裡有許多皺摺。記錄：電子穿過很薄的樣本。",
-      "Many folds appear inside an oval structure. Lab note: electrons passed through a very thin sample.",
+      "橢圓形構造內有一道道細微皺摺，能沿著內部邊界追蹤它們。",
+      "Fine folds appear inside an oval structure; trace them along its internal boundaries.",
     ),
     [
       {
         id: "inside",
         title: bi(
-          "薄樣本內的細微皺摺 → TEM",
-          "Fine folds inside a thin sample → TEM",
+          "橢圓構造內部的細微皺摺 → 推測是 TEM（穿透式電子顯微鏡）",
+          "Fine folds inside an oval structure → likely TEM（穿透式電子顯微鏡）",
         ),
       },
       {
         id: "surface",
         title: bi(
-          "這張主要是在看昆蟲眼睛的表面",
-          "This mainly shows the surface of an insect eye",
+          "凸起的表面形狀 → 推測是 SEM（掃描式電子顯微鏡）",
+          "Raised surface shapes → likely SEM（掃描式電子顯微鏡）",
         ),
       },
       {
         id: "natural",
         title: bi(
-          "灰色表示粒線體本來就是灰色",
-          "Gray means mitochondria naturally look gray",
+          "特定位置的標記訊號 → 推測是螢光",
+          "Labeled signals in selected locations → likely fluorescence",
         ),
       },
     ],
     "inside",
     "electron",
     bi(
-      "你深入找到粒線體的內部皺摺！搭配電子穿過薄樣本的記錄，支持穿透式電子顯微鏡（TEM），不是天然顏色的照片。",
-      "You explored the folds inside a mitochondrion! Electrons passing through a thin sample support transmission electron microscopy (TEM), not a photo of natural colors.",
+      "你深入找到粒線體的內部皺摺！搭配電子穿過薄樣本的記錄，支持TEM（穿透式電子顯微鏡），不是天然顏色的照片。",
+      "You explored the folds inside a mitochondrion! Electrons passing through a thin sample support TEM（穿透式電子顯微鏡）, not a photo of natural colors.",
     ),
   ),
   research(
@@ -453,7 +469,7 @@ export const finalQuestions: Question[] = [
     "final",
     bi("調查 1 · 有沒有細胞？", "Investigation 1 · Are there cells?"),
     bi(
-      "神秘樣品裡有沒有一般大小的細胞？先用哪種方法觀察整體細胞輪廓？",
+      "神秘樣品裡藏著肉眼看不清楚的細胞嗎？想先看清楚細胞的整體輪廓，該選哪種觀察工具？",
       "Does the mystery sample contain typical cells? Which method should first reveal their outlines?",
     ),
     "optical",
@@ -471,8 +487,8 @@ export const finalQuestions: Question[] = [
     "final",
     bi("調查 2 · 蛋白質在哪裡？", "Investigation 2 · Where is the protein?"),
     bi(
-      "樣品裡找到細胞了！現在想追查某種特定蛋白質的位置，選哪種方法？",
-      "We found cells! Now we want to locate one particular protein. Which method fits?",
+      "樣品裡找到細胞了！現在想追查蛋白質 X 的位置，選哪種方法？",
+      "We found cells! Now we want to locate protein X. Which method fits?",
     ),
     "fluorescence",
     bi(
@@ -505,7 +521,7 @@ export const finalQuestions: Question[] = [
       "Electron microscopes form images with electrons to reveal fine structures. Three questions, different tools: case closed!",
     ),
   ),
-];
+].map((question, index) => ({ ...question, ...investigationSteps[index] }));
 export const questionsById = Object.fromEntries(
   [...caseQuestions, ...finalQuestions].map((q) => [q.id, q]),
 );

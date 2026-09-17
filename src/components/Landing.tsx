@@ -3,7 +3,6 @@ import { ui } from "../data/ui";
 import { academyUI as a } from "../data/academyUI";
 import { Icon } from "./Icon";
 import { MicroscopyImage } from "./MicroscopyImage";
-import { ToolSummary } from "./ToolSummary";
 
 export function Landing({
   locale,
@@ -27,19 +26,15 @@ export function Landing({
             {ui.name[locale]}
             <span className="title-period">.</span>
           </h1>
-          <p>{a.loop[locale]}</p>
+          <p>{a.intro[locale]}</p>
         </div>
         <span className="welcome-icon" aria-hidden="true">
           <Icon name="microscope" size={90} />
         </span>
       </section>
-      <p className="first-visit">
-        <Icon name="lightbulb" size={23} />
-        {a.recommended[locale]}
-      </p>
       <section className="path-grid" aria-label={ui.routeTitle[locale]}>
         <article className="path-card academy-path">
-          <span className="path-kicker">LEARN & OBSERVE</span>
+          <span className="path-kicker">{a.firstVisit[locale]}</span>
           <h2>{a.academy[locale]}</h2>
           <p>{a.academyDescription[locale]}</p>
           <div className="path-specimens" aria-hidden="true">
@@ -52,7 +47,7 @@ export function Landing({
           </button>
         </article>
         <article className="path-card missions-path">
-          <span className="path-kicker">APPLY & DISCOVER</span>
+          <span className="path-kicker">{a.prepared[locale]}</span>
           <h2>{a.missions[locale]}</h2>
           <p>{a.missionsDescription[locale]}</p>
           <div className="path-specimens" aria-hidden="true">
@@ -70,7 +65,6 @@ export function Landing({
         </article>
       </section>
       <p className="path-freedom">{a.freedom[locale]}</p>
-      <ToolSummary locale={locale} />
     </main>
   );
 }

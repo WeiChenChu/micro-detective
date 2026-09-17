@@ -8,6 +8,7 @@ import { MicroscopyImage } from "./MicroscopyImage";
 import { academyModules } from "../data/academyData";
 import { academyUI as a } from "../data/academyUI";
 import { KnowledgeCard } from "./KnowledgeCard";
+import { InvestigationEvidence } from "./InvestigationEvidence";
 
 export function EvidenceCard({
   question,
@@ -38,7 +39,7 @@ export function EvidenceCard({
         </div>
         <Icon name="check" className="evidence-check" size={20} />
       </div>
-      {image && <MicroscopyImage id={image} locale={locale} />}
+      {question.investigation ? <InvestigationEvidence question={question} locale={locale} /> : image && <MicroscopyImage id={image} locale={locale} />}
       <p>{question.explanation[locale]}</p>
       <details className="fun-fact">
         <summary>{gameUI.funFact[locale]}</summary>

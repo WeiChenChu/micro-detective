@@ -191,6 +191,13 @@ const principle = bi(
 export const practiceQuestions: Question[] = [
   {
     id: "practice-whole",
+    observation: bi("果蠅很小，但可以分出頭、胸、腹與翅膀。我們想一次比較牠的完整外形。", "The fly is small, with a head, thorax, abdomen and wings. We want to compare its complete shape in one view."),
+    answerExplanations: {
+      "naked-eye": bi("肉眼能發現果蠅；要仔細比較這麼小的身體各部分，細節還不夠清楚。", "Our eyes find the fly, but do not show enough detail to compare its tiny body parts closely."),
+      magnifier: bi("放大鏡也能幫忙看局部；這次要穩定地比較完整外形，較大視野與立體感更有幫助。", "A hand lens helps with local details. For a steady comparison of the whole shape, a wider field and sense of depth help more."),
+      optical: bi("複式光學顯微鏡常用於薄樣品的細胞；完整果蠅較厚，這次需要容納整隻的視野與表面觀察。", "Compound light microscopy often suits cells in thin specimens. An intact fly is thick; this question needs a whole-body field and surface view."),
+      electron: bi("電子顯微鏡能看細微結構，但通常需特殊處理；這次看完整果蠅外形，不必付出這個代價。", "Electron microscopy resolves fine structure but usually needs special preparation. The whole fly’s shape does not require that tradeoff."),
+    },
     stage: "tools",
     type: "single",
     toolSelection: true,
@@ -211,7 +218,7 @@ export const practiceQuestions: Question[] = [
       "A magnifying glass can help observe a fruit fly too. For a close view of its intact body and surface shape, the best choice here is a stereomicroscope.",
     ),
     explanation: bi(
-      "成果蠅肉眼可見；要仔細看完整身體的頭、胸、腹和翅膀，解剖顯微鏡的較大視野與立體感更適合。",
+      "成體果蠅肉眼可見；要仔細看完整身體的頭、胸、腹和翅膀，解剖顯微鏡的較大視野與立體感更適合。",
       "An adult fruit fly is visible to our eyes. A stereomicroscope’s wider field and sense of depth better suit a close view of its head, thorax, abdomen and wings.",
     ),
     funFact: principle,

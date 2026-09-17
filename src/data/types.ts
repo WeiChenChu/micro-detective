@@ -23,8 +23,10 @@ export interface ImageData {
   caption: Text;
   microscopeType: MicroscopeType;
   placeholder: boolean;
+  type: "illustration" | "real";
   credit: {
     creator: string;
+    source?: string;
     license: string;
     sourceUrl?: string;
     licenseUrl?: string;
@@ -54,6 +56,13 @@ export interface Question {
   hint: Text;
   strongHint?: Text;
   observation?: Text;
+  investigation?: {
+    evidenceImage: string;
+    evidenceTitle: Text;
+    evidence: Text;
+    preparation: Text;
+    nextQuestion?: Text;
+  };
   toolSelection?: boolean;
   microscopeType?: MicroscopeType;
 }
