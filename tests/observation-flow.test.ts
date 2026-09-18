@@ -192,7 +192,7 @@ test("first-time practice saves reload; malformed and premature completion state
     },
   };
   writeProgress(storage, s, s.updatedAt);
-  assert.deepEqual(readProgress(storage), s);
+  assert.deepEqual(readProgress(storage), { ...s, screen: "academy", academyModule: null });
   for (const change of [
     { cursor: 10 },
     { finished: true },

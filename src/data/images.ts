@@ -38,6 +38,11 @@ export const images: Record<string, ImageData> = {
     ),
     "naked-eye",
   ),
+  "fruit-fly-outline": illustration(
+    "fruit-fly-outline", "naked-eye", bi("成體果蠅", "Adult fruit fly"),
+    bi("簡化的成體果蠅：頭、身體、翅膀與腳，沒有細小翅脈。", "Simplified adult fly: head, body, wings and legs, without fine wing veins."),
+    bi("手持放大鏡讓較大的外部構造更容易辨認。", "A hand lens makes larger external structures easier to recognize."), "magnifier",
+  ),
   "fruit-fly": illustration(
     "fruit-fly",
     "naked-eye",

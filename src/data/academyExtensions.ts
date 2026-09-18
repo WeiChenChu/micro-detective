@@ -8,8 +8,8 @@ export const closeObservationLessons: AcademyLesson[] = [
     icon: "search",
     title: bi("放大鏡", "Magnifying glass"),
     opening: bi(
-      "成體果蠅看得到，但細節太小了。移動放大鏡，找找翅膀、眼睛和腳。",
-      "An adult fruit fly is visible, but its details are tiny. Move a lens to find wings, eyes and legs.",
+      "移動放大鏡，看看果蠅的頭、身體、翅膀或腳。",
+      "Move the lens to find the fly’s head, body, wings or legs.",
     ),
     concept: bi(
       "放大鏡能把局部放大，讓小細節更容易看清楚。可以用來看看葉脈、羽毛或較大昆蟲的翅膀表面。",

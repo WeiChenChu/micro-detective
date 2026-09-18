@@ -94,6 +94,7 @@ export const observationUI = {
 export const magnifierSpecimens = [
   {
     id: "leaf",
+    image: "leaf",
     name: bi("葉片", "Leaf"),
     spots: [
       {
@@ -118,17 +119,18 @@ export const magnifierSpecimens = [
   },
   {
     id: "fruit-fly",
+    image: "fruit-fly-outline",
     name: bi("成體果蠅", "Adult fruit fly"),
     spots: [
-      { x: 0.5, y: 0.34, r: 0.10, label: bi("發現眼睛：頭部兩側有一對眼睛。", "Eye discovery: a pair of eyes on the head.") },
-      { x: 0.68, y: 0.62, r: 0.10, label: bi("發現腳：沿著細長的腳找找關節。", "Leg discovery: trace the slender legs and joints.") },
+      { x: 0.5, y: 0.34, r: 0.10, label: bi("發現頭部：牠的頭在身體前方。", "Head discovery: the head is at the front of the body.") },
+      { x: 0.68, y: 0.62, r: 0.10, label: bi("發現腳：身體兩旁伸出了腳。", "Leg discovery: legs extend from the body.") },
       {
         x: 0.33,
         y: 0.39,
-        r: 0.16,
+        r: 0.11,
         label: bi(
-          "發現翅膀：薄薄的翅膀裡有細線般的翅脈。",
-          "Wing discovery: thin vein-like lines run across the delicate wings.",
+          "發現翅膀：現在更容易辨認一對翅膀的外形。",
+          "Wing discovery: the outlines of the two wings are easier to recognize.",
         ),
       },
       {
@@ -136,8 +138,8 @@ export const magnifierSpecimens = [
         y: 0.64,
         r: 0.13,
         label: bi(
-          "發現腹部：留意一節一節的紋路。",
-          "Abdomen discovery: notice the repeating segmented pattern.",
+          "發現身體：翅膀下方是細長的腹部。",
+          "Body discovery: the long abdomen sits below the wings.",
         ),
       },
     ],

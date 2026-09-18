@@ -1,25 +1,13 @@
-import { toolAbilities } from "../data/academyData";
-import { academyUI as a } from "../data/academyUI";
+import { academyModules } from "../data/academyData";
+import { toolRecap } from "../data/academyFlow";
 import type { Locale } from "../data/types";
-import { Icon } from "./Icon";
 export function ToolSummary({ locale }: { locale: Locale }) {
-  return (
-    <section className="tool-summary" aria-labelledby="tool-summary-heading">
-      <h2 id="tool-summary-heading">{a.summary[locale]}</h2>
-      <p className="journey">{a.journey[locale]}</p>
-      <p className="family-note">{a.everyday[locale]}</p>
-      <div className="ability-grid">
-        {toolAbilities.map((tool) => (
-          <article key={tool.id}>
-            <Icon name={tool.icon} size={30} />
-            <h3>{tool.verb[locale]}</h3>
-            <strong>{tool.name[locale]}</strong>
-            <p>{tool.description[locale]}</p>
-          </article>
-        ))}
-      </div>
-      <p className="family-note">{a.family[locale]}</p>
-      <p className="central-message">{a.conclusion[locale]}</p>
-    </section>
-  );
+  return <section className="tool-summary" aria-labelledby="tool-summary-heading">
+    <h2 id="tool-summary-heading">{locale === "zh-TW" ? "你已經認識所有偵探工具了！" : "You have explored all the detective tools!"}</h2>
+    <div className="ability-grid tool-recap">{academyModules.map(tool => <article key={tool.id}>
+      <img src={tool.image} alt={tool.imageAlt[locale]} width="120" height="105" />
+      <h3>{tool.toolName[locale]}</h3><p>{toolRecap[tool.id][locale]}</p>
+    </article>)}</div>
+    <p className="central-message">{locale === "zh-TW" ? "不同問題，需要不同工具。這些發現都在你的偵探筆記本裡。" : "Different questions need different tools. Your notebook keeps these discoveries."}</p>
+  </section>;
 }

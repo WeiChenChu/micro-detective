@@ -1,8 +1,8 @@
 import { bi } from "./types";
 export const academyUI = {
-  completedTitle: bi("🎉 小偵探課程完成！", "🎉 Detective academy complete!"),
+  completedTitle: bi("小偵探訓練完成！", "🎉 Detective academy complete!"),
   completedIntro: bi("你已經認識不同的觀察方法，也學會：", "You have explored different observation methods and learned:"),
-  completedPrinciple: bi("先想知道什麼，再選適合的工具。", "First decide what you want to know, then choose a suitable tool."),
+  completedPrinciple: bi("先想找什麼線索，再選適合的工具！", "First decide what you want to know, then choose a suitable tool."),
   completedNote: bi("你的偵探筆記本已經記下這些發現。", "Your detective notebook has recorded these discoveries."),
   reviewNotebook: bi("📖 翻翻我的偵探筆記本", "📖 Browse my detective notebook"),
   startMissions: bi("🕵️ 開始小偵探任務", "🕵️ Start detective missions"),

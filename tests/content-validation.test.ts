@@ -12,6 +12,8 @@ import {
   toolAbilities,
 } from "../src/data/academyData";
 import { academyUI } from "../src/data/academyUI";
+import { academyChallenges, discoveries, toolRecap } from "../src/data/academyFlow";
+import { fluorescenceSignals } from "../src/data/fluorescenceData";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
@@ -56,6 +58,7 @@ test("all localized educational and interface strings have both languages", () =
       Object.entries(o).forEach(([key, v]) => inspect(v, `${path}.${key}`));
   }
   inspect({
+    academyChallenges, discoveries, toolRecap, fluorescenceSignals,
     academyModules,
     observationUI,
     practiceQuestions,
@@ -95,7 +98,7 @@ test("all image files exist locally; original SVG placeholders have no scripts o
   }
 });
 
-test("academy preserves six concepts, with four actions and two focused checks", () => {
+test("academy preserves six concepts and optional sample reflections", () => {
   assert.deepEqual(
     academyModules.map((m) => m.id),
     ["scale", "magnifier", "stereo", "optical", "fluorescence", "electron"],
@@ -158,8 +161,13 @@ test("fluorescence channels preserve aligned, transparent, independent specimen 
     assert.match(svg, /viewBox="0 0 800 600"/);
     assert.doesNotMatch(svg, /<rect|<script|<foreignObject|onload=|href="https?:/i);
   }
-  assert.match(nucleus, /fill="url\(#nucleus\)"/);
-  assert.doesNotMatch(mitochondria, /fill="url\(#nucleus\)"/);
-  assert.match(mitochondria, /M252 244/);
-  assert.doesNotMatch(nucleus, /M252 244/);
+  const boundary = readFileSync("public/images/fluorescence/channel-boundary.svg", "utf8");
+  assert.match(nucleus, /<ellipse/);
+  assert.match(boundary, /fill="none"/);
+  assert.match(mitochondria, /<path/);
+  for (const svg of [nucleus, boundary, mitochondria]) {
+    assert.match(svg, /translate\(225 175\)/);
+    assert.match(svg, /translate\(565 215\)/);
+    assert.match(svg, /translate\(325 435\)/);
+  }
 });

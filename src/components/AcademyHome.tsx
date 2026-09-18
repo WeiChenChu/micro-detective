@@ -1,91 +1,31 @@
-import { observationUI as o } from "../data/observationData";
 import { academyModules } from "../data/academyData";
-import { academyUI as a } from "../data/academyUI";
 import type { Locale } from "../data/types";
-import { Icon } from "./Icon";
 import { ToolSummary } from "./ToolSummary";
 import { AcademyCompletion } from "./AcademyCompletion";
-export function AcademyHome({
-  locale,
-  completed,
-  onModule,
-  onMissions,
-  onPractice,
-  onNotebook,
-}: {
-  locale: Locale;
-  completed: string[];
-  onModule: (id: number) => void;
-  onMissions: () => void;
-  onPractice: () => void;
-  onNotebook: () => void;
+export function AcademyHome({ locale, completed, onModule, onMissions, onNotebook }: {
+  locale: Locale; completed: string[]; onModule: (id: number) => void;
+  onMissions: () => void; onNotebook: () => void;
 }) {
   const next = academyModules.findIndex(lesson => !completed.includes(lesson.id));
-  return (
-    <main id="main" tabIndex={-1} className="academy-home game-main">
-      <header className="academy-heading">
-        <p className="eyebrow">DETECTIVE ACADEMY</p>
-        <h1>{a.academy[locale]}</h1>
-        <p>{a.duration[locale]}</p>
-        <p>
-          {a.knowledge[locale]} {completed.length} / {academyModules.length}
-        </p>
-        <progress
-          max={academyModules.length}
-          value={completed.length}
-          aria-label={a.knowledge[locale]}
-        />
-      </header>
-      {next === -1 ? <>
-        <AcademyCompletion locale={locale} onNotebook={onNotebook} onMissions={onMissions} />
-        <ToolSummary locale={locale} />
-      </> : <section className="observation-route">
-        <h2>{locale === "zh-TW" ? "30 秒工具地圖" : "A 30-second tool map"}</h2>
-        <p>{o.order[locale]}</p>
-        <p>{locale === "zh-TW" ? "有些工具適合看小動物的外觀，有些能看細胞、找特定線索，有些能看更細小的結構。今天不用背工具或倍率，我們一邊觀察、一邊發現什麼時候需要它們。" : "Some tools reveal small animals, some show cells or specific clues, and some reveal finer structures. No names or magnifications to memorize: discover when you need each tool as you explore."}</p>
-        <p>{o.orderNote[locale]}</p>
-        <button className="button primary" onClick={() => onModule(next)}>{next === 0 ? (locale === "zh-TW" ? "從一隻果蠅開始" : "Start with a fruit fly") : `${a.next[locale]}：${academyModules[next].title[locale]}`} →</button>
-        <details>
-          <summary>{o.familyTitle[locale]}</summary>
-          <p>{o.family[locale]}</p>
-        </details>
-      </section>}
-      <details className="course-map">
-      <summary>{a.back[locale]}</summary>
-      <div className="academy-grid">
-        {academyModules.map((lesson, index) => (
-          <button
-            className={`academy-door ${completed.includes(lesson.id) ? "is-collected" : ""}`}
-            key={lesson.id}
-            onClick={() => onModule(index)}
-          >
-            <span className="door-number">0{index + 1}</span>
-            <Icon name={lesson.icon} size={36} />
-            <h2>{lesson.title[locale]}</h2>
-            <p>{lesson.opening[locale]}</p>
-            <span className="door-action">
-              {completed.includes(lesson.id)
-                ? `✓ ${a.collected[locale]} · ${a.review[locale]}`
-                : a.learn[locale]}{" "}
-              →
-            </span>
-          </button>
-        ))}
-      </div>
-      </details>
-      <section className="practice-entry">
-        <h2>{o.practice[locale]}</h2>
-        <p>{o.practiceIntro[locale]}</p>
-        <button className="button primary" onClick={onPractice}>
-          {o.practiceAction[locale]} →
-        </button>
-      </section>
-      <div className="academy-actions">
-        <button className="button primary" onClick={onMissions}>
-          {a.missions[locale]} →
-        </button>
-        <p>{a.freedom[locale]}</p>
-      </div>
-    </main>
-  );
+  const t = (zh: string, en: string) => locale === "zh-TW" ? zh : en;
+  return <main id="main" tabIndex={-1} className="academy-home game-main">
+    <header className="academy-heading">
+      <p className="eyebrow">DETECTIVE ACADEMY</p>
+      <h1>{t("小偵探課程", "Detective Academy")}</h1>
+      <progress max={6} value={completed.length} aria-label={t("完成的課程", "Completed lessons")} />
+    </header>
+    {next === -1 ? <>
+      <AcademyCompletion locale={locale} onNotebook={onNotebook} onMissions={onMissions} />
+      <ToolSummary locale={locale} />
+    </> : <section className="observation-route">
+      <h2>{t("準備好成為微觀小偵探了嗎？", "Ready to become a microscopic detective?")}</h2>
+      <p>{t("一起找出最適合觀察線索的工具！", "Discover the tools that help us find clues!")}</p>
+      <button className="button primary" onClick={() => onModule(next)}>{next === 0 ? t("開始訓練", "Start training") : t("繼續訓練", "Continue training")} →</button>
+    </section>}
+    {completed.length > 0 && <details className="course-map">
+      <summary>{t("回顧學過的工具", "Review tools you have explored")}</summary>
+      <div className="specimen-switch">{academyModules.map((lesson, index) => completed.includes(lesson.id) &&
+        <button className="button" key={lesson.id} onClick={() => onModule(index)}>{lesson.toolName[locale]}</button>)}</div>
+    </details>}
+  </main>;
 }
