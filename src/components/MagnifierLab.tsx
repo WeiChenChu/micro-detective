@@ -76,7 +76,6 @@ export function MagnifierLab({
   };
   return (
     <section className="magnifier-lab" aria-label={o.magnifierLabel[locale]}>
-      <h2>{o.drag[locale]}</h2>
       <div
         className="specimen-switch"
         role="group"
@@ -116,7 +115,7 @@ export function MagnifierLab({
             event.currentTarget.releasePointerCapture(event.pointerId);
         }}
       >
-        <MicroscopyImage id={specimen.id} locale={locale} />
+        <MicroscopyImage id={specimen.image} locale={locale} />
         <button
           ref={lens}
           type="button"
@@ -132,7 +131,7 @@ export function MagnifierLab({
           onKeyDown={onKey}
         >
           <img
-            src={imageUrl(images[specimen.id])}
+            src={imageUrl(images[specimen.image])}
             alt=""
             aria-hidden="true"
             draggable={false}

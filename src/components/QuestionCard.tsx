@@ -5,6 +5,7 @@ import { gameUI } from "../data/gameUI";
 import { Icon } from "./Icon";
 import { ImageChoice } from "./ImageChoice";
 import { MicroscopyImage } from "./MicroscopyImage";
+import { EvidenceTargets } from "./EvidenceTargets";
 import { FeedbackPanel } from "./FeedbackPanel";
 
 export function QuestionCard({
@@ -34,7 +35,7 @@ export function QuestionCard({
   const hasImages = question.choices.some((c) => c.image);
   return (
     <article
-      className={`question-card ${final ? "final-question" : ""}`}
+      className={`question-card ${final ? "final-question" : ""} ${question.stage === "mystery" ? "mystery-question" : ""}`}
       data-question-id={question.id}
     >
       <div className="question-topline">
@@ -48,7 +49,7 @@ export function QuestionCard({
       <h2 id="question-heading" tabIndex={-1}>
         {question.question[locale]}
       </h2>
-      {!(final && resolved) && <p className="question-instruction">
+      {!(final && resolved) && !question.evidenceTargets && <p className="question-instruction">
         {toolSelection
           ? gameUI.finalInstruction[locale]
           : question.type === "multiple"
@@ -61,7 +62,7 @@ export function QuestionCard({
         {final && !question.image && <div className="mystery-sample"><span aria-hidden="true">?</span><p>{question.observation?.[locale]}</p></div>}
         {question.image && (
           <div className="final-evidence">
-            <MicroscopyImage id={question.image} locale={locale} />
+            {question.evidenceTargets ? <EvidenceTargets question={question} locale={locale} selected={state.selected} disabled={resolved} onSelect={id => dispatch({ type: "ANSWER", ids: [id] })} /> : <MicroscopyImage id={question.image} locale={locale} />}
             <div className="observation-clue">
               <span>
                 <Icon name="search" size={19} />
@@ -72,7 +73,7 @@ export function QuestionCard({
           </div>
         )}
         <div className="answer-area">
-          <div
+          {!question.evidenceTargets && <div
             role="group"
             aria-labelledby="question-heading"
             className={`choices-grid ${hasImages ? "has-images" : ""} ${question.type === "multiple" ? "multi-grid" : ""} ${toolSelection ? "tool-grid" : ""}`}
@@ -88,14 +89,14 @@ export function QuestionCard({
                 isTool={toolSelection}
                 onSelect={() =>
                   dispatch(
-                    toolSelection
+                    question.type === "single"
                       ? { type: "ANSWER", ids: [choice.id] }
                       : { type: "SELECT", id: choice.id },
                   )
                 }
               />
             ))}
-          </div>
+          </div>}
           {!resolved && !toolSelection && (
             <div className="answer-toolbar">
               <button
@@ -105,14 +106,14 @@ export function QuestionCard({
                 <Icon name="lightbulb" size={21} />
                 {gameUI.hint[locale]}
               </button>
-              <button
+              {question.type === "multiple" && <button
                 className="button primary"
                 disabled={!state.selected.length}
                 onClick={() => dispatch({ type: "ANSWER" })}
               >
                 {gameUI.check[locale]}
                 <Icon name="arrow" size={21} />
-              </button>
+              </button>}
             </div>
           )}
         </div>

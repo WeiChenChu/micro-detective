@@ -12,7 +12,7 @@ export interface AcademyLesson extends ToolCardVisual {
   sendoff: Text;
   check?: {
     question: Text;
-    choices: { id: string; label: Text; feedback: Text }[];
+    choices: { id: string; label: Text; feedback: Text; image?: string; imageAlt?: Text }[];
     answer: string;
   };
 }
@@ -24,8 +24,8 @@ export const academyModules: AcademyLesson[] = [
     icon: "eye",
     title: bi("肉眼觀察：我們能看多小？", "Naked eye: how small can we see?"),
     opening: bi(
-      "從成魚到成體果蠅：看得到牠，也看得清楚細節嗎？",
-      "From an adult fish to a tiny fly: visible, but are the details clear?",
+      "我看得到果蠅！可是，你能看清楚牠的身體嗎？",
+      "I can see the fruit fly! But can you see its body clearly?",
     ),
     concept: bi(
       "成體果蠅肉眼可以看到，但眼睛、翅膀和腳的細節不容易看清楚；不同工具能幫我們觀察。",
@@ -55,8 +55,8 @@ export const academyModules: AcademyLesson[] = [
     icon: "microscope",
     title: bi("複式光學顯微鏡", "Compound light microscope"),
     opening: bi(
-      "成體果蠅肉眼看得到，那細胞呢？換一片薄薄的洋蔥表皮來觀察。",
-      "We can see a fly with our eyes. What about cells? Try a thin piece of onion skin.",
+      "果蠅的外表看清楚了。想看細胞呢？換一片洋蔥表皮試試。",
+      "We have explored the fly’s outside. What about cells? Try some onion skin.",
     ),
     concept: bi(
       "使用光和鏡片，幫助我們觀察肉眼看不清楚的微小世界。",
@@ -74,16 +74,16 @@ export const academyModules: AcademyLesson[] = [
     icon: "sparkle",
     title: bi("螢光顯微鏡", "Fluorescence microscope"),
     opening: bi(
-      "細胞裡有很多構造，只想找到其中一種，該怎麼辦？",
-      "There are many structures inside a cell. How can we find just one kind?",
+      "好多細胞！細胞核在哪裡？",
+      "So many cells! Where are the nuclei?",
     ),
     concept: bi(
       "螢光顯微鏡是光學顯微鏡的一種。螢光標記可以幫助科學家找到特定的細胞或構造。",
       "Fluorescence microscopy is a type of light microscopy. Fluorescent labels help scientists find particular cells or structures.",
     ),
     clue: bi(
-      "尋找：螢光標記就像替重要線索做記號；影像的顏色不一定是天然顏色。",
-      "FIND: fluorescent labels mark important clues. Image colors are not necessarily natural colors.",
+      "尋找：不同標記可以顯示細胞核、細胞邊界或粒線體；合併訊號就能比較它們的位置。螢光標記就像替重要線索做記號；影像的顏色不一定是天然顏色。",
+      "FIND: different labels reveal nuclei, cell boundaries or mitochondria; combined signals show their relative positions. Fluorescent labels mark important clues. Image colors are not necessarily natural colors.",
     ),
     sendoff: bi("你獲得了「尋找」的能力！", "You have the power to FIND!"),
   },
@@ -101,8 +101,8 @@ export const academyModules: AcademyLesson[] = [
     icon: "bolt",
     title: bi("電子顯微鏡", "Electron microscope"),
     opening: bi(
-      "知道目標在哪裡了，還想看清楚更細小的構造？來試試電子顯微鏡的兩種觀察方法。",
-      "After finding signals, explore finer structures with two electron microscopy views.",
+      "如果還想看得更細呢？看看表面，再看看裡面。",
+      "What if we want finer detail? Explore a surface, then look inside.",
     ),
     concept: bi(
       "使用電子形成影像，可以觀察非常細小的結構。但樣品通常需要特殊準備，而且通常不能直接觀察活著、正在活動的生物。",

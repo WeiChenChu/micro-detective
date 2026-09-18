@@ -1,6 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
-<defs><radialGradient id="nucleus"><stop stop-color="#6460C8"/><stop offset=".7" stop-color="#6254C0"/><stop offset="1" stop-color="#426ACB"/></radialGradient></defs>
-<g stroke="#79F76B" stroke-width="13" opacity=".14" stroke-linecap="round" stroke-linejoin="round"><path d="M252 244C264 221 287 245 302 220C315 197 306 179 326 168"/><path d="M228 292C246 269 270 296 286 279"/><path d="M256 348C275 323 299 331 304 351C313 371 283 392 308 413"/><path d="M323 392C340 371 359 392 354 415C351 434 375 446 388 428"/><path d="M437 424C455 439 464 418 470 402C478 385 499 399 511 383"/><path d="M529 372C559 383 570 357 557 341C545 326 567 306 585 318"/><path d="M549 273C573 254 556 232 535 240C514 248 509 223 518 207"/><path d="M448 175C468 152 491 171 479 191C468 210 489 214 500 221"/><path d="M363 185C376 167 403 173 407 193"/><path d="M309 296C325 278 311 258 298 254"/><path d="M471 320C486 335 507 323 502 304"/><path d="M447 364C463 351 478 369 491 356"/><path d="M351 218C355 236 337 243 331 256"/><path d="M377 388C396 374 416 392 423 410"/></g>
-<g stroke="#80F778" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M252 244C264 221 287 245 302 220C315 197 306 179 326 168"/><path d="M228 292C246 269 270 296 286 279"/><path d="M256 348C275 323 299 331 304 351C313 371 283 392 308 413"/><path d="M323 392C340 371 359 392 354 415C351 434 375 446 388 428"/><path d="M437 424C455 439 464 418 470 402C478 385 499 399 511 383"/><path d="M529 372C559 383 570 357 557 341C545 326 567 306 585 318"/><path d="M549 273C573 254 556 232 535 240C514 248 509 223 518 207"/><path d="M448 175C468 152 491 171 479 191C468 210 489 214 500 221"/><path d="M363 185C376 167 403 173 407 193"/><path d="M309 296C325 278 311 258 298 254"/><path d="M471 320C486 335 507 323 502 304"/><path d="M447 364C463 351 478 369 491 356"/><path d="M351 218C355 236 337 243 331 256"/><path d="M377 388C396 374 416 392 423 410"/></g>
-<g stroke="#8CF789" stroke-width="4" stroke-linecap="round" opacity=".55"><path d="M70 111C59 77 103 64 110 82M157 76C181 79 192 103 177 115M86 159C109 146 110 180 131 180M667 433C646 451 654 473 674 477M726 495C752 485 751 464 742 449"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+<g transform="translate(225 175)">
+<path d="M-85 -35l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M65 -65l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M80 25l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M-60 65l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M20 70l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M-95 18l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+</g>
+<g transform="translate(565 215)">
+<path d="M-85 -35l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M65 -65l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M80 25l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M-60 65l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M20 70l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M-95 18l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+</g>
+<g transform="translate(325 435)">
+<path d="M-85 -35l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M65 -65l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M80 25l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M-60 65l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M20 70l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+<path d="M-95 18l20 -9" stroke="#fde047" stroke-width="10" stroke-linecap="round" opacity="1"/>
+</g>
 </svg>

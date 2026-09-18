@@ -4,17 +4,14 @@ export const gameUI = {
   evidenceLabel: bi("證據檔案", "EVIDENCE FILE"),
   clues: bi("份線索", "clues"),
   collected: bi("已收集", "Collected"),
-  selectMany: bi(
-    "選出所有合適的卡片，再確認線索。",
-    "Choose all the cards that fit, then check your clues.",
-  ),
+  selectMany: bi("可以選不只一個喔！圖片已放大展示，不是物體的真實大小。", "You can choose more than one! These enlarged pictures do not show actual sizes."),
   selectOne: bi(
-    "選一張卡片，再確認線索。",
-    "Choose one card, then check your clue.",
+    "點一張卡片，看看你的發現。",
+    "Tap a card to discover the result.",
   ),
   selectAnswer: bi(
-    "選一個答案，再確認線索。",
-    "Choose one answer, then check your clue.",
+    "選出符合影像的線索。",
+    "Choose the clue that matches the image.",
   ),
   finalInstruction: bi(
     "先想想科學家要回答什麼，再點選最適合的工具。",

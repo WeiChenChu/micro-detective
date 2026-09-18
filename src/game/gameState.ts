@@ -443,7 +443,10 @@ export function readProgress(
       return null;
     }
     const value: unknown = upgradeAcademyProgress(JSON.parse(raw));
-    if (validateProgress(value, now)) return value;
+    if (validateProgress(value, now)) {
+      // Retire the parallel practice screen without discarding compatible progress.
+      return value.screen === "practice" ? { ...value, screen: "academy", academyModule: null } : value;
+    }
     storage.removeItem(STORAGE_KEY);
     return null;
   } catch {

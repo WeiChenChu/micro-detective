@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+<rect width="800" height="600" fill="#e2e8ec"/>
+<g transform="translate(225 175)">
+<ellipse rx="145" ry="115" stroke="#64748b" stroke-width="7"/>
+<ellipse rx="38" ry="30" fill="#64748b" opacity="0.3"/>
+<path d="M-85 -35l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M65 -65l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M80 25l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M-60 65l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M20 70l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M-95 18l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+</g>
+<g transform="translate(565 215)">
+<ellipse rx="150" ry="135" stroke="#64748b" stroke-width="7"/>
+<ellipse rx="38" ry="30" fill="#64748b" opacity="0.3"/>
+<path d="M-85 -35l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M65 -65l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M80 25l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M-60 65l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M20 70l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M-95 18l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+</g>
+<g transform="translate(325 435)">
+<ellipse rx="180" ry="115" stroke="#64748b" stroke-width="7"/>
+<ellipse rx="38" ry="30" fill="#64748b" opacity="0.3"/>
+<path d="M-85 -35l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M65 -65l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M80 25l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M-60 65l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M20 70l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+<path d="M-95 18l20 -9" stroke="#64748b" stroke-width="10" stroke-linecap="round" opacity="0.25"/>
+</g>
+</svg>

@@ -1,52 +1,45 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import type { Locale } from "../data/types";
 import { academyModules } from "../data/academyData";
-import { academyUI as a } from "../data/academyUI";
+import { academyChallenges, discoveries } from "../data/academyFlow";
 import { ConceptReveal } from "./ConceptReveal";
 import { KnowledgeCard } from "./KnowledgeCard";
 import { ConceptCheck } from "./ConceptCheck";
-import { AcademyCompletion } from "./AcademyCompletion";
-import { ToolSummary } from "./ToolSummary";
-export function AcademyModule({ index, locale, collected, onComplete, onBack, onNext, allCompleted, onNotebook, onMissions }: {
+export function AcademyModule({ index, locale, collected, onComplete, onBack, onNext }: {
   index: number; locale: Locale; collected: boolean; onComplete: () => void;
   onBack: () => void; onNext: () => void;
-  allCompleted: boolean; onNotebook: () => void; onMissions: () => void;
 }) {
   const lesson = academyModules[index];
-  const [review, setReview] = useState(false);
   const [step, setStep] = useState(0);
   const [observed, setObserved] = useState(false);
-  const [checked, setChecked] = useState(false);
-  const heading = useRef<HTMLHeadingElement>(null);
-  useEffect(() => {
-    heading.current?.focus();
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [review]);
+  const t = (zh: string, en: string) => locale === "zh-TW" ? zh : en;
+  const ready = observed || collected;
+  const challenge = academyChallenges[lesson.id];
+  const inlineChallenge = ["stereo", "fluorescence", "electron"].includes(lesson.id);
   return <main id="main" className="game-main academy-module" tabIndex={-1}>
-    <button className="button text-button" onClick={onBack}>← {a.back[locale]}</button>
-    <div className="lesson-topline"><span>{a.academy[locale]} · {index + 1} / 6</span></div>
-    <p className="review-prompt">{a.loop[locale]}</p>
+    <button className="button text-button" onClick={onBack}>← {t("課程首頁", "Academy home")}</button>
+    <div className="lesson-topline"><span>{lesson.toolName[locale]} · {index + 1} / 6</span></div>
     <article className="question-card">
-      <h1 ref={heading} tabIndex={-1}>{(review ? lesson.sendoff : lesson.opening)[locale]}</h1>
-      {!review ? <>
-        <h2>{locale === "zh-TW" ? "① 看一看 · ② 動一動" : "① Look · ② Explore"}</h2>
-        <ConceptReveal id={lesson.id} locale={locale} step={step} onStep={(n, complete = true) => { setStep(n); if (complete) setObserved(true); }} />
-        {observed && <section className="feedback-panel feedback-success" aria-live="polite">
-          <h2>{locale === "zh-TW" ? "③ 發現線索！" : "③ Discovery!"}</h2>
-          <p>{lesson.clue[locale]}</p>
-          {lesson.check && <ConceptCheck check={lesson.check} locale={locale} onComplete={() => setChecked(true)} />}
-          {(!lesson.check || checked) && <button className="button primary" onClick={() => { onComplete(); setReview(true); }}>④ {a.collect[locale]}</button>}
-        </section>}
-      </> : <>
-        {allCompleted && <AcademyCompletion locale={locale} onNotebook={onNotebook} onMissions={onMissions} />}
-        <div className="academy-actions">
-          {!allCompleted && <button className="button primary" onClick={onNext}>{index === academyModules.length - 1 ? a.ready[locale] : `${a.next[locale]}：${academyModules[index + 1].title[locale]}`} →</button>}
-          <button className="button" onClick={() => setReview(false)}>{a.review[locale]}</button>
-          <button className="button" onClick={onBack}>{a.back[locale]}</button>
-        </div>
-        <KnowledgeCard lesson={lesson} locale={locale} collected={collected} />
-        {index === academyModules.length - 1 && <ToolSummary locale={locale} />}
+      <h1>{lesson.opening[locale]}</h1>
+      <ConceptReveal id={lesson.id} locale={locale} step={step} onStep={(n, complete = true) => { setStep(n); if (complete) setObserved(true); }} />
+      {ready && <>
+        <p className="lesson-discovery" role="status">{discoveries[lesson.id][locale]}</p>
+        {challenge && inlineChallenge && <ConceptCheck check={challenge} locale={locale} />}
       </>}
+      <div className="academy-actions">
+        <button className="button primary" disabled={!ready} onClick={() => { onComplete(); onNext(); }}>
+          {index === 5 ? t("完成訓練，看看工具總整理", "Finish training and review the tools") : `${t("繼續探索", "Keep exploring")}：${academyModules[index + 1].toolName[locale]}`} →
+        </button>
+      </div>
+      {ready && challenge && !inlineChallenge && <details className="observation-notes">
+        <summary>{t("再試一個小挑戰（自由選擇）", "Try a mini challenge (optional)")}</summary>
+        <ConceptCheck check={challenge} locale={locale} />
+      </details>}
+      {ready && <details className="observation-notes">
+        <summary>{t("翻看這張知識卡（自由閱讀）", "Read this knowledge card (optional)")}</summary>
+        <KnowledgeCard lesson={lesson} locale={locale} collected={collected} />
+        {lesson.check && <ConceptCheck check={lesson.check} locale={locale} />}
+      </details>}
     </article>
   </main>;
 }

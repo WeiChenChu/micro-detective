@@ -1,4 +1,3 @@
-import { observationUI as o } from "../data/observationData";
 import type { Locale, Question } from "../data/types";
 import { gameUI } from "../data/gameUI";
 import { questionsById, stages, toolIcons } from "../data/missionData";
@@ -82,12 +81,6 @@ export function DetectiveNotebook({
         ))}
       </div>
       {onMissions && <div className="academy-actions"><button className="button" onClick={onMissions}>{a.startMissions[locale]}</button></div>}
-      {state.practice.finished && (
-        <section className="knowledge-clue">
-          <h3>🔎 {o.skillTitle[locale]}</h3>
-          <p>{o.orderNote[locale]}</p>
-        </section>
-      )}
       <h3 className="notebook-section-title">
         {gameUI.evidenceLabel[locale]} · {ids.length}
       </h3>

@@ -86,8 +86,8 @@ export const stages: Stage[] = [
     shortTitle: bi("選對工具", "Choose a tool"),
     subtitle: bi("先問問題，再選工具", "Ask a question, then choose a tool"),
     introduction: bi(
-      "科學家想回答什麼？選擇最適合這個問題的方法。",
-      "What does the scientist want to know? Choose the method that fits the question.",
+      "現在真的換你自己做判斷了！科學家想找什麼線索？",
+      "Now it is your turn to decide! What clue does the scientist need?",
     ),
     reward: bi("研究線索已收進筆記本", "Research clue collected"),
   },
@@ -157,6 +157,12 @@ const research = (
         ? bi("有些細胞很透明，染色可以讓它們的構造更容易看清楚。", "Some cells are very transparent. Staining can make their structures easier to see.")
         : bi("想看游動方向，可以看整條魚；想看魚身上的細胞，就要換一個觀察方法。", "Watch the whole fish for swimming direction. To see its cells, choose another observation method."),
 });
+const mysteryLabels: Record<string, Text[]> = {
+  "mystery-light": [bi("細胞邊界", "Cell boundary"), bi("圓形區域", "Round region"), bi("空白區域", "Empty region")],
+  "mystery-glow": [bi("圓形亮區", "Bright oval"), bi("短絲訊號", "Filament signals"), bi("深色背景", "Dark background")],
+  "mystery-sem": [bi("表面凸起 · SEM（掃描式電子顯微鏡）", "Raised surface · SEM (scanning electron microscope)"), bi("內部排列 · TEM（穿透式電子顯微鏡）", "Inside · TEM (transmission electron microscope)"), bi("標記亮點 · 螢光顯微鏡", "Labeled signals · fluorescence microscope")],
+  "mystery-tem": [bi("看裡面 · TEM（穿透式電子顯微鏡）", "Inside · TEM (transmission electron microscope)"), bi("看表面 · SEM（掃描式電子顯微鏡）", "Surface · SEM (scanning electron microscope)"), bi("找標記 · 螢光顯微鏡", "Labels · fluorescence microscope")],
+};
 const mystery = (
   id: string,
   image: string,
@@ -173,11 +179,15 @@ const mystery = (
   title,
   image,
   observation,
-  question: bi(
-    "這張影像裡，哪個線索最能支持你的判斷？",
-    "Which clue in this image best supports your judgment?",
-  ),
-  choices,
+  question: id === "mystery-light" ? bi("點出一格格細胞的邊界。", "Tap the boundaries between cells.")
+    : id === "mystery-glow" ? bi("點出被標記的細胞核。", "Tap the labeled nucleus.")
+    : id === "mystery-sem" ? bi("這些凸起的小面，是表面還是裡面的線索？", "Are these raised facets clues from the surface or inside?")
+    : bi("這次看到橢圓構造裡的皺摺，用哪種方法觀察？", "This time we see folds inside an oval. Which method shows them?"),
+  choices: choices.map((choice, index) => ({ ...choice, title: mysteryLabels[id][index] })),
+  evidenceTargets: id === "mystery-light" ? [{ choiceId: "walls", x: 27, y: 82 }, { choiceId: "color", x: 42, y: 56 }, { choiceId: "zoom", x: 69, y: 56 }]
+    : id === "mystery-glow" ? [{ choiceId: "signals", x: 51, y: 49 }, { choiceId: "natural", x: 29, y: 48 }, { choiceId: "electrons", x: 84, y: 18 }] : undefined,
+  answerExplanations: id === "mystery-light" ? { color: bi("這是細胞裡的圓形區域。找找把細胞隔開的線。", "This is a round region inside a cell. Find the lines between cells."), zoom: bi("這是細胞裡的空白區域，邊界在外圍的線上。", "This is an empty-looking region within a cell; its boundary is the outline.") }
+    : id === "mystery-glow" ? { natural: bi("這些短絲是另一種標記。細胞核是較大的圓形區域。", "These filaments use another label. The nucleus is the larger round region."), electrons: bi("這是背景。找找細胞裡較大的圓形亮區。", "This is the background. Find the larger bright round region inside the cell.") } : undefined,
   correctAnswer: [answer],
   microscopeType: tool,
   hint: bi("先找出邊界、表面或特定亮點：哪個選項描述了你實際看到的形狀與位置？", "Look for boundaries, surfaces or selected bright spots. Which option describes the shapes and positions you can actually see?"),
@@ -186,8 +196,8 @@ const mystery = (
     : id === "mystery-tem"
       ? bi("再看一條記錄：電子穿過很薄的樣品，讓我們看見內部。哪個選項描述的是裡面的皺摺？", "Another lab note: electrons passed through a very thin specimen to reveal the inside. Which option describes internal folds?")
       : id === "mystery-light"
-        ? bi("再讀一次記錄：光穿過了薄薄的洋蔥表皮。哪個選項也提到光和細胞邊界？", "Read the note again: light passed through thin onion skin. Which option mentions light and cell boundaries?")
-        : bi("記錄裡提到加上標記，再用適合的光照射。找找和發光標記有關的選項。", "The note mentions labels and suitable light. Look for the option about glowing labels."),
+        ? bi("找找 1 號圈：把一格格細胞隔開的線，就是細胞邊界。", "Look at circle 1: the lines separating the cells are their boundaries.")
+        : bi("找找 1 號圈：較大的藍紫色圓形亮區，是標記的細胞核。", "Look at circle 1: the larger blue-violet bright region is the labeled nucleus."),
   explanation,
   funFact: id === "mystery-light"
     ? bi("圖裡一格格的框線是細胞壁；動物細胞沒有細胞壁，不是所有細胞都像小方格。", "The box-like outlines are cell walls. Animal cells have no cell wall; not all cells look like little boxes.")
@@ -244,8 +254,8 @@ export const caseQuestions: Question[] = [
       {
         id: "labels",
         title: bi(
-          "幫細胞核加上螢光標記，再用適合的光照射",
-          "Label nuclei and illuminate them with suitable light",
+          "幫細胞核加上螢光標記",
+          "Fluorescent labels on nuclei",
         ),
         image: "fluorescence-cell",
       },

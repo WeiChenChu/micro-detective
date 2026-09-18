@@ -47,6 +47,7 @@ export interface Question {
   type: "single" | "multiple";
   image?: string;
   choices: Choice[];
+  evidenceTargets?: { choiceId: string; x: number; y: number }[];
   correctAnswer: string[];
   /** In single-choice activities, any ONE of these choices is acceptable. */
   acceptedAnswers?: string[];

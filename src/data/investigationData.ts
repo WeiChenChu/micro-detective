@@ -20,12 +20,12 @@ export const investigationSteps: Pick<Question, "image" | "observation" | "inves
       evidenceTitle: bi("特定位置出現螢光訊號！", "Signals appeared at specific locations!"),
       evidence: bi("這張案件示意圖裡，綠色短絲上的標記指出蛋白質 X 的位置。藍紫色圓形代表細胞核，幫我們比較位置。這些是螢光訊號的顏色，不一定是天然顏色。", "In this teaching case, the label for protein X appears in green filament-like regions. Blue-violet circles mark nuclei for orientation. Colors represent signals, not necessarily natural colors."),
       preparation: bi("研究員先幫目標加上標記，再用適合的光照射。我們知道目標在哪裡了，但附近更細小的膜還看不清楚。", "The researcher adds target-specific labels and uses suitable illumination. The signal location does not yet resolve nearby fine membrane structures."),
-      nextQuestion: bi("發光位置附近的膜長什麼樣？光學影像還看不清楚這些細節。", "What do membranes near the signal look like? The light image cannot resolve these details."),
+      nextQuestion: bi("蛋白質的位置找到了！研究員還有另一個問題：細胞裡更細小的構造長什麼樣？", "Protein located! The researcher has another question: what do finer structures inside cells look like?"),
     },
   },
   {
     image: "fluorescence-cell",
-    observation: bi("前一份證據：知道目標在哪裡了！現在想看清楚裡面更細小的構造。", "Previous evidence: the target signal is located. Now investigate finer internal structures."),
+    observation: bi("前一份螢光證據已找到蛋白質。這次需要另外準備適合電子顯微鏡的樣品，觀察更細小的內部構造。", "The previous fluorescence evidence located the protein. This time, prepare a separate specimen suitable for electron microscopy to explore finer internal structures."),
     investigation: {
       evidenceImage: "electron-mitochondrion",
       evidenceTitle: bi("看清楚內部的細小皺摺！", "Fine internal folds resolved!"),

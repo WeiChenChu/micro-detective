@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
 <g transform="translate(225 175)">
-<ellipse rx="38" ry="30" fill="#67e8f9" opacity="1"/>
+<ellipse rx="145" ry="115" stroke="#f472b6" stroke-width="7"/>
 </g>
 <g transform="translate(565 215)">
-<ellipse rx="38" ry="30" fill="#67e8f9" opacity="1"/>
+<ellipse rx="150" ry="135" stroke="#f472b6" stroke-width="7"/>
 </g>
 <g transform="translate(325 435)">
-<ellipse rx="38" ry="30" fill="#67e8f9" opacity="1"/>
+<ellipse rx="180" ry="115" stroke="#f472b6" stroke-width="7"/>
 </g>
 </svg>

@@ -22,7 +22,6 @@ import { DetectiveNotebook } from "./components/DetectiveNotebook";
 import { BadgeScreen } from "./components/BadgeScreen";
 import { Credits } from "./components/Credits";
 import { useWebMCP } from "./game/useWebMCP";
-import { ToolPractice } from "./components/ToolPractice";
 import { AcademyHome } from "./components/AcademyHome";
 import { AcademyModule } from "./components/AcademyModule";
 import { academyModules } from "./data/academyData";
@@ -145,7 +144,6 @@ export default function App() {
             locale={locale}
             completed={state.academyCompleted}
             onNotebook={reviewNotebook}
-            onPractice={() => dispatch({ type: "PRACTICE_OPEN" })}
             onModule={(module) => dispatch({ type: "ACADEMY", module })}
             onMissions={() =>
               state.started ? dispatch({ type: "RESUME" }) : start()
@@ -154,9 +152,6 @@ export default function App() {
         ) : (
           <AcademyModule
             key={state.academyModule}
-            allCompleted={academyComplete}
-            onNotebook={reviewNotebook}
-            onMissions={startMissions}
             index={state.academyModule}
             locale={locale}
             collected={state.academyCompleted.includes(
@@ -178,18 +173,6 @@ export default function App() {
             }
           />
         ))}
-      {state.screen === "practice" && (
-        <ToolPractice
-          state={state}
-          locale={locale}
-          onAction={(action) => dispatch({ type: "PRACTICE", action })}
-          onBack={() => dispatch({ type: "ACADEMY" })}
-          onMissions={() =>
-            state.started ? dispatch({ type: "RESUME" }) : start()
-          }
-          onAgain={() => dispatch({ type: "PRACTICE_RESTART" })}
-        />
-      )}
       {state.screen === "game" && (
         <main id="main" className="game-main" tabIndex={-1}>
           <div className="mission-navigation">
