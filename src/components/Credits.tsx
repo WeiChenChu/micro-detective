@@ -1,3 +1,4 @@
+import { ImageAttribution } from "./ImageAttribution";
 import type { Locale } from "../data/types";
 import { ui } from "../data/ui";
 import { gameUI } from "../data/gameUI";
@@ -7,28 +8,12 @@ export function Credits({ locale }: { locale: Locale }) {
   return (
     <>
       <p className="modal-intro">{ui.creditsIntro[locale]}</p>
+      <h3>{locale === "zh-TW" ? "圖片來源與授權" : "Image credits & licenses"}</h3>
       <ul className="credits-list">
         {Object.values(images).map((image) => (
           <li key={image.id}>
             <strong>{image.title[locale]}</strong>
-            <span>
-              {image.credit.creator} · {image.credit.license}
-            </span>
-            {image.credit.sourceUrl && (
-              <a href={image.credit.sourceUrl} target="_blank" rel="noreferrer">
-                {image.credit.sourceUrl}
-              </a>
-            )}
-            {image.credit.licenseUrl && (
-              <a
-                href={image.credit.licenseUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {image.credit.license}
-              </a>
-            )}
-            {image.credit.changes && <p>{image.credit.changes}</p>}
+            <ImageAttribution image={image} locale={locale} />
           </li>
         ))}
       </ul>
@@ -38,7 +23,7 @@ export function Credits({ locale }: { locale: Locale }) {
           <a
             href="https://www.microscopyu.com/techniques/fluorescence/introduction-to-fluorescence-microscopy"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             Nikon MicroscopyU — Fluorescence microscopy ↗
             <span className="sr-only"> ({gameUI.externalLink[locale]})</span>
@@ -48,7 +33,7 @@ export function Credits({ locale }: { locale: Locale }) {
           <a
             href="https://open.oregonstate.education/cellbiology/chapter/microscopy/"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             Oregon State University — Visualizing cells ↗
             <span className="sr-only"> ({gameUI.externalLink[locale]})</span>
@@ -58,7 +43,7 @@ export function Credits({ locale }: { locale: Locale }) {
           <a
             href="https://www.jeol.com/products/science/sem.php"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             JEOL — Electron microscopy ↗
             <span className="sr-only"> ({gameUI.externalLink[locale]})</span>

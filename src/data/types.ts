@@ -24,13 +24,20 @@ export interface ImageData {
   microscopeType: MicroscopeType;
   placeholder: boolean;
   type: "illustration" | "real";
+  width?: number;
+  height?: number;
+  modality?: "optical" | "fluorescence" | "sem" | "tem";
+  observationClue?: Text;
   credit: {
+    originalTitle?: string;
+    details?: Text;
     creator: string;
     source?: string;
+    creatorUrl?: string;
     license: string;
     sourceUrl?: string;
     licenseUrl?: string;
-    changes?: string;
+    changes?: string | Text;
   };
 }
 export interface Choice {

@@ -9,50 +9,48 @@
 | `zebrafish`              | `naked-eye/zebrafish.svg`             | 尺度任務、成魚游動                   |
 | `animal-cell`            | `optical/animal-cell.svg`             | 尺度任務、細胞概念圖             |
 | `bacterium`              | `optical/bacterium.svg`               | 尺度任務             |
-| `optical-onion`          | `optical/optical-onion.svg`           | 複式光學顯微鏡課程、神秘影像 A       |
-| `fluorescence-cell`      | `fluorescence/fluorescence-cell.svg`  | 螢光圖層來源、找目標、神秘影像 B |
+| `optical-onion`          | `optical/optical-onion.svg`           | 複式光學顯微鏡課程、最終案件       |
+| `fluorescence-cell`      | `fluorescence/fluorescence-cell.svg`  | 螢光示意、找目標、最終案件 |
 | `cell-unmarked`          | `fluorescence/cell-unmarked.svg`      | 一般細胞輪廓示意、Final Case 第一份證據                     |
-| `electron-mitochondrion` | `electron/electron-mitochondrion.svg` | 電子課程、神秘影像 D       |
-| `electron-surface`       | `electron/electron-surface.svg`       | 電子探索與神秘影像 C    |
+| `electron-mitochondrion` | `electron/electron-mitochondrion.svg` | 電子課程、最終案件       |
+| `electron-surface`       | `electron/electron-surface.svg`       | 電子課程的表面探索    |
 
 `microscopeType` 表示這份教學素材的預定觀察分類，並非該生物只能被該工具觀察。細胞／細菌概念圖的細節不代表一般光學照片一定能看見全部構造。
 
 ## 保留示意圖並新增真實影像
 
-假設有自己拍攝、可供此活動使用的洋蔥明視野影像：
+四張真實影像已在 `src/data/images.ts` 的既有 `ImageData` 登錄，由 `realImageExamples` 配對；不替換示意互動。光學與電子課程沿用 `RealImageExample`，螢光課程也使用同一元件。
 
-1. 儲存為 `public/images/microscopy/onion-real.webp`，先人工確認授權與科學圖說。
-2. 保留 `optical-onion` 示意，新增獨立的 `onion-real` 記錄。下列只是未啟用的格式範例；作者與描述應依實際來源修改。
+| 示意 ID | 真實影像 ID | public/images/microscopy/ 下的檔案 | source_images/ 下的原始檔案 |
+| --- | --- | --- | --- |
+| optical-onion | onion-real | optical/onion_epidermis.webp | optical/onion_epidermis.jpg |
+| fluorescence-cell | fluorescence-real | fluorescence/Cells_FL_mitochondria_cytoskeleton_nuclei.webp | fluorescence/Cells_FL_mitochondria_cytoskeleton_nuclei.jpg |
+| electron-surface | sem-eye-real | sem/Drosophilida-compound-eye-sem.webp | sem/Drosophilida-compound-eye-sem.jpg |
+| electron-mitochondrion | tem-mitochondrion-real | tem/mitochondrion-tem.webp | tem/mitochondrion-tem.jpg |
 
-```ts
-'onion-real': {
-  id: 'onion-real',
-  src: 'images/microscopy/onion-real.webp',
-  type: 'real',
-  title: bi('洋蔥表皮', 'Onion skin'),
-  imageAlt: bi('相鄰細胞有清楚邊界，部分內有深色橢圓。',
-               'Adjacent cells have clear boundaries; some contain dark ovals.'),
-  caption: bi('洋蔥表皮明視野影像。', 'Brightfield image of onion skin.'),
-  microscopeType: 'optical',
-  placeholder: false,
-  credit: {
-    creator: '填入實際作者／設施',
-    source: '填入來源資料庫或設施',
-    license: '填入實際授權或使用許可',
-    // sourceUrl: '實際原始來源網址',
-    // licenseUrl: '實際授權網址',
-    // changes: '若曾裁切、調色或加標記，描述變更',
-  },
-},
-```
+新增影像時：
 
-正式授權影像不應冒用此範例文字。CC BY 需保留實際作者、來源、授權及變更說明。真實影像附近的展開面板會呈現這些欄位。請提供可追溯的來源網址（設施自有影像可連到公開來源說明），不要填入杜撰的網址。
+1. 原始檔保留於 `source_images/<modality>/` 供來源追溯；網站只使用 `public/images/microscopy/<modality>/` 的最佳化檔。`src` 不加開頭斜線，由既有 `imageUrl` 支援子目錄部署。
+2. 在 `images.ts` 新增 `type: "real"`、`placeholder: false` 的記錄，保留示意 ID。填入 `microscopeType`、`modality`（optical / fluorescence / sem / tem）及實際 `width` / `height`，避免載入位移。
+3. 使用 `bi(...)` 填寫 `title`、`imageAlt`、`caption` 及 `observationClue`。描述孩子能看到的構造，不把不同樣品說成連續放大；不得杜撰比例尺。
+4. `credit` 填入 `creator`、`source`、`sourceUrl`、`license`、適用的 `licenseUrl`、可選 `creatorUrl` 與雙語 `changes`。CC0 1.0 的全名為 CC0 1.0 Universal Public Domain Dedication。來源、作者與授權以 `images.ts` 為 UI 的唯一資料來源。
+5. `realImageExamples[illustrationId].imageId` 指向新 ID。圖片下方的 `ImageAttribution` 常駐顯示作者、授權、來源；只有變更說明收合。CC BY 必須保留作者、可點選來源及授權連結；本次 NICHD 影像為 CC BY 2.0，並記錄 WebP 轉換／最佳化，不表示 NICHD 背書。
+6. 全站「影像與製作說明」自動列出相同資料。Public Domain 與 CC0 也保留來源。
+7. 真實照片顏色及標記不一定等同示意。三色照片的紅色是肌動蛋白細胞骨架，不能當作互動中的細胞邊界通道。
+8. 檢查桌機、平板與手機直向的完整視野、雙語文字及連結換行，再執行既有測試、lint 與 build。
 
-3. 在 `realImageExamples["optical-onion"].imageId` 設為 `"onion-real"`。這只啟用課程的示意→真實影像區塊，不改掉互動原圖。未設定時顯示待補提示，不載入任何假路徑。確認真實樣品與配對示意的教學目標相符。
-4. 螢光圖若不是「細胞核＋粒線體」標記，需一併調整圖層、channel 按鈕與圖說、相關任務與相依趣味知識。不要讓綠色＝粒線體成為固定科學規則。
-5. `cell-unmarked` 與 `fluorescence-cell` 為一組比較：更換時使用對應標本或明確說明只是概念示意。
-6. 保留合理解析度與原始比例；建議素材最長邊約 1200–1600 px，按用途壓縮。不要以壓縮破壞要觀察的微小特徵。
-7. 如果需要比例尺，採用原圖內已正確校準的比例尺。不要憑放大倍率或畫面大小重新畫數值比例尺。
+## v0.29 任務專用真實影像
+
+`missionData.ts` 的 `mystery-light / glow / sem / tem` 分別使用 `mission-blood-real`、`mission-fluorescence-real`、`mission-pollen-real`、`mission-tem-real`。它們只使用 `public/images/microscopy/missions/*.webp`，原始 JPG/PNG 留在 `source_images/missions/`。不得改動課程的 `realImageExamples` 配對，也保留 `mission-target` 的配對示意圖。
+
+- 四題以新影像的形狀、標記、表面或薄切片內部為線索；不沿用舊示意圖的點選熱點。
+- 作答前的 alt/caption 描述可見內容，不直接說出血液、花粉或正確工具。解答揭露樣品；來源詳情仍可隨時存取原始標題。
+- 在 `images.ts` 的既有 `credit` 記錄 `originalTitle`、`creator`、`sourceUrl`、`license`、`licenseUrl` 與雙語 `changes`。專業標記資訊用可選雙語 `credit.details`。
+- 血液（Korinna）與螢光細胞（Howard Vindin）為 CC BY 4.0 International；花粉（Andel）為 CC0 1.0 Universal；TEM（Dartmouth Electron Microscope Facility, Dartmouth College）為 Public Domain worldwide。
+- 任務使用 `compactAttribution`：原生 details 可鍵盤／觸控展開完整標題、作者、授權、來源與轉換紀錄。課程及全站 Credits 保留原有常駐短版來源。
+- 共軛焦照片中微管為紅色、肌動蛋白為綠色、細胞核 DNA 為藍色；這些名稱只在來源詳情出現。不能套用課程照片的顏色對照。
+- 真實影像保持完整視野，任務以 `object-fit: contain` 配合有高度上限的中性背景，避免裁切原有比例尺。
+- `CONTENT_VERSION = 4`：A/B 從示意圖熱點改為方法判斷，舊版進度依既有驗證失效。未更改 reducer、storage schema 或導航。
 
 ## 編輯題目
 

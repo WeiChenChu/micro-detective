@@ -11,7 +11,7 @@ import {
 } from "./gameData";
 import { investigationSteps } from "./investigationData";
 
-export const CONTENT_VERSION = 3;
+export const CONTENT_VERSION = 4;
 export const toolIcons: Record<MicroscopeType, string> = {
   "naked-eye": "eye",
   magnifier: "search",
@@ -73,8 +73,8 @@ export const stages: Stage[] = [
     shortTitle: bi("讀懂證據", "Read evidence"),
     subtitle: bi("先說你看到了什麼", "Start with what you can see"),
     introduction: bi(
-      "實驗室留下四份影像示意與觀察記錄。找出支持判斷的證據；只靠顏色還不夠！",
-      "The lab left four image diagrams and observation notes. Find evidence for your judgment; color alone is not enough!",
+      "實驗室留下四張新的真實顯微影像與觀察記錄。找出支持判斷的證據；只靠顏色還不夠！",
+      "The lab left four new real micrographs and observation notes. Find evidence for your judgment; color alone is not enough!",
     ),
     reward: bi("影像證據已收進筆記本", "Image evidence collected"),
   },
@@ -157,57 +157,6 @@ const research = (
         ? bi("有些細胞很透明，染色可以讓它們的構造更容易看清楚。", "Some cells are very transparent. Staining can make their structures easier to see.")
         : bi("想看游動方向，可以看整條魚；想看魚身上的細胞，就要換一個觀察方法。", "Watch the whole fish for swimming direction. To see its cells, choose another observation method."),
 });
-const mysteryLabels: Record<string, Text[]> = {
-  "mystery-light": [bi("細胞邊界", "Cell boundary"), bi("圓形區域", "Round region"), bi("空白區域", "Empty region")],
-  "mystery-glow": [bi("圓形亮區", "Bright oval"), bi("短絲訊號", "Filament signals"), bi("深色背景", "Dark background")],
-  "mystery-sem": [bi("表面凸起 · SEM（掃描式電子顯微鏡）", "Raised surface · SEM (scanning electron microscope)"), bi("內部排列 · TEM（穿透式電子顯微鏡）", "Inside · TEM (transmission electron microscope)"), bi("標記亮點 · 螢光顯微鏡", "Labeled signals · fluorescence microscope")],
-  "mystery-tem": [bi("看裡面 · TEM（穿透式電子顯微鏡）", "Inside · TEM (transmission electron microscope)"), bi("看表面 · SEM（掃描式電子顯微鏡）", "Surface · SEM (scanning electron microscope)"), bi("找標記 · 螢光顯微鏡", "Labels · fluorescence microscope")],
-};
-const mystery = (
-  id: string,
-  image: string,
-  title: Text,
-  observation: Text,
-  choices: Question["choices"],
-  answer: string,
-  tool: MicroscopeType,
-  explanation: Text,
-): Question => ({
-  id,
-  stage: "mystery",
-  type: "single",
-  title,
-  image,
-  observation,
-  question: id === "mystery-light" ? bi("點出一格格細胞的邊界。", "Tap the boundaries between cells.")
-    : id === "mystery-glow" ? bi("點出被標記的細胞核。", "Tap the labeled nucleus.")
-    : id === "mystery-sem" ? bi("這些凸起的小面，是表面還是裡面的線索？", "Are these raised facets clues from the surface or inside?")
-    : bi("這次看到橢圓構造裡的皺摺，用哪種方法觀察？", "This time we see folds inside an oval. Which method shows them?"),
-  choices: choices.map((choice, index) => ({ ...choice, title: mysteryLabels[id][index] })),
-  evidenceTargets: id === "mystery-light" ? [{ choiceId: "walls", x: 27, y: 82 }, { choiceId: "color", x: 42, y: 56 }, { choiceId: "zoom", x: 69, y: 56 }]
-    : id === "mystery-glow" ? [{ choiceId: "signals", x: 51, y: 49 }, { choiceId: "natural", x: 29, y: 48 }, { choiceId: "electrons", x: 84, y: 18 }] : undefined,
-  answerExplanations: id === "mystery-light" ? { color: bi("這是細胞裡的圓形區域。找找把細胞隔開的線。", "This is a round region inside a cell. Find the lines between cells."), zoom: bi("這是細胞裡的空白區域，邊界在外圍的線上。", "This is an empty-looking region within a cell; its boundary is the outline.") }
-    : id === "mystery-glow" ? { natural: bi("這些短絲是另一種標記。細胞核是較大的圓形區域。", "These filaments use another label. The nucleus is the larger round region."), electrons: bi("這是背景。找找細胞裡較大的圓形亮區。", "This is the background. Find the larger bright round region inside the cell.") } : undefined,
-  correctAnswer: [answer],
-  microscopeType: tool,
-  hint: bi("先找出邊界、表面或特定亮點：哪個選項描述了你實際看到的形狀與位置？", "Look for boundaries, surfaces or selected bright spots. Which option describes the shapes and positions you can actually see?"),
-  strongHint: id === "mystery-sem"
-    ? bi("再看一條記錄：儀器利用電子掃描樣品表面。哪個選項描述的是表面的形狀？", "Another lab note: electrons scanned the specimen surface. Which option describes shapes on the surface?")
-    : id === "mystery-tem"
-      ? bi("再看一條記錄：電子穿過很薄的樣品，讓我們看見內部。哪個選項描述的是裡面的皺摺？", "Another lab note: electrons passed through a very thin specimen to reveal the inside. Which option describes internal folds?")
-      : id === "mystery-light"
-        ? bi("找找 1 號圈：把一格格細胞隔開的線，就是細胞邊界。", "Look at circle 1: the lines separating the cells are their boundaries.")
-        : bi("找找 1 號圈：較大的藍紫色圓形亮區，是標記的細胞核。", "Look at circle 1: the larger blue-violet bright region is the labeled nucleus."),
-  explanation,
-  funFact: id === "mystery-light"
-    ? bi("圖裡一格格的框線是細胞壁；動物細胞沒有細胞壁，不是所有細胞都像小方格。", "The box-like outlines are cell walls. Animal cells have no cell wall; not all cells look like little boxes.")
-    : id === "mystery-glow"
-      ? bi("用不同的螢光標記，可以一起比較兩種構造的位置。", "Different fluorescent labels let us compare the positions of two kinds of structures.")
-      : id === "mystery-sem"
-        ? bi("成體果蠅的複眼由許多小眼組成；圖裡重複的小面，就是觀察複眼的線索。", "An adult fruit fly’s compound eye has many small units. The repeating facets are clues to its structure.")
-        : bi("粒線體能幫細胞利用養分中的能量。內膜的皺摺讓它有更多表面可用。", "Mitochondria help cells use energy from nutrients. The inner membrane folds provide more surface area."),
-});
-
 export const caseQuestions: Question[] = [
   {
     ...originalCases[0],
@@ -279,158 +228,74 @@ export const caseQuestions: Question[] = [
       "Fluorescence is a type of light microscopy. These matched teaching diagrams do not show natural cell colors.",
     ),
   },
-  mystery(
-    "mystery-light",
-    "optical-onion",
-    bi("檔案 A · 小房間", "File A · Little rooms"),
-    bi(
-      "看見一格格邊界。記錄：光穿過薄薄的洋蔥表皮。",
-      "Notice the repeating boundaries. Lab note: light passed through thin onion skin.",
-    ),
-    [
-      {
-        id: "walls",
-        title: bi(
-          "光與鏡片呈現一格格細胞邊界 → 複式光學顯微鏡",
-          "Light and lenses reveal cell boundaries → compound light microscope",
-        ),
-      },
-      {
-        id: "color",
-        title: bi(
-          "只要有顏色，就一定是螢光",
-          "Any colored image must be fluorescence",
-        ),
-      },
-      {
-        id: "zoom",
-        title: bi(
-          "圖片很大，所以一定是電子顯微鏡",
-          "A big picture must be electron microscopy",
-        ),
-      },
+  {
+    id: "mystery-light", stage: "mystery", type: "single",
+    image: "mission-blood-real",
+    title: bi("檔案 A・好多圓圓的小東西", "File A · Lots of tiny round shapes"),
+    question: bi("想看這些細胞的形狀與分布，哪種工具最適合先用？", "Which tool would you use first to see these cells’ shapes and distribution?"),
+    observation: bi("許多圓形細胞散布在視野中。記錄：用光和鏡片觀察，沒有加上螢光標記。", "Many round cells fill the field of view. Lab note: observed using light and lenses, without fluorescent labels."),
+    choices: [
+      { id: "optical", title: bi("複式光學顯微鏡・看細胞形狀", "Compound light microscope · cell shapes") },
+      { id: "fluorescence", title: bi("螢光顯微鏡・找標記訊號", "Fluorescence microscope · labeled signals") },
+      { id: "tem", title: bi("穿透式電子顯微鏡（TEM）・看內部細節", "Transmission electron microscope (TEM) · fine internal detail") },
     ],
-    "walls",
-    "optical",
-    bi(
-      "你看見一格格細胞壁，也讀到光穿過表皮的記錄！這支持複式光學顯微鏡觀察。染色也能讓光學影像有顏色，不能只靠顏色判斷螢光。",
-      "You saw cell walls and read that light passed through the skin! This supports compound light microscopy. Staining can add color too, so color alone does not prove fluorescence.",
-    ),
-  ),
-  mystery(
-    "mystery-glow",
-    "fluorescence-cell",
-    bi("檔案 B · 發光線索", "File B · Glowing clues"),
-    bi(
-      "深色背景上，特定區域很亮。記錄：樣品加了標記，並用適合的光照射。",
-      "Selected regions shine against a dark background. Lab note: labels were added and illuminated with suitable light.",
-    ),
-    [
-      {
-        id: "signals",
-        title: bi(
-          "特定構造的標記發出訊號 → 螢光",
-          "Labels on selected structures emit signals → fluorescence",
-        ),
-      },
-      {
-        id: "natural",
-        title: bi(
-          "綠色和紫色就是細胞的天然顏色",
-          "Green and purple are the cells’ natural colors",
-        ),
-      },
-      {
-        id: "electrons",
-        title: bi(
-          "背景暗，所以一定使用電子",
-          "A dark background means electrons were used",
-        ),
-      },
+    correctAnswer: ["optical"], microscopeType: "optical",
+    hint: bi("先看細胞的外形和分布，不需要先找標記，也不需要看極細小的內部構造。", "Start with cell shapes and distribution; we do not need labels or very fine internal structures."),
+    strongHint: bi("記錄提到光和鏡片。一般光學顯微鏡就能幫我們看這些細胞。", "The note mentions light and lenses. A compound light microscope can show these cells."),
+    explanation: bi("這是真正的顯微鏡血液影像。一般光學顯微鏡可以讓我們看到許多細胞的形狀與分布；細胞不一定像洋蔥表皮的小方格。", "This is a real micrograph of blood. A compound light microscope shows the shapes and distribution of many cells; cells do not all look like the little boxes in onion skin."),
+    funFact: bi("不同細胞有不同外形。選工具時，要先想知道什麼，不是只看細胞圓不圓。", "Cells come in different shapes. Choose a tool for your question, not just because a cell looks round."),
+  },
+  {
+    id: "mystery-glow", stage: "mystery", type: "single",
+    image: "mission-fluorescence-real",
+    title: bi("檔案 B・不同顏色的線索", "File B · Clues in different colors"),
+    question: bi("研究人員想分開看不同細胞構造，哪種方法能讓標記發出不同訊號？", "Which method lets labels give different signals so researchers can distinguish cell structures?"),
+    observation: bi("紅綠色的細絲與藍色區域出現在不同位置。記錄：樣品加了標記，並用適合的光照射。", "Red and green filaments and blue regions appear in different places. Lab note: labels were added and illuminated with suitable light."),
+    choices: [
+      { id: "fluorescence", title: bi("螢光顯微鏡・觀察標記訊號", "Fluorescence microscope · labeled signals") },
+      { id: "ordinary", title: bi("一般光學觀察・只比較外形", "Ordinary light observation · shapes alone") },
+      { id: "sem", title: bi("掃描式電子顯微鏡（SEM）・看表面紋路", "Scanning electron microscope (SEM) · surface patterns") },
     ],
-    "signals",
-    "fluorescence",
-    bi(
-      "你注意到特定構造正在發光！加上標記與照光的記錄，這是螢光觀察的重要證據；它也是光學顯微鏡的一種。",
-      "You noticed selected structures glowing! With the labeling and illumination notes, this supports fluorescence microscopy, a type of light microscopy.",
-    ),
-  ),
-  mystery(
-    "mystery-sem",
-    "electron-surface",
-    bi("檔案 C · 昆蟲眼睛表面", "File C · Insect eye surface"),
-    bi(
-      "影像呈現大量凸起的小面與細毛，主要看見樣品表面的細節。",
-      "Raised facets and tiny hairs cover a curved surface; the visible clues are on the outside.",
-    ),
-    [
-      {
-        id: "surface",
-        title: bi(
-          "表面有凸起的小面與細毛 → 推測是 SEM（掃描式電子顯微鏡）",
-          "Raised surface facets and hairs → likely SEM（掃描式電子顯微鏡）",
-        ),
-      },
-      {
-        id: "gray",
-        title: bi(
-          "像薄切片，看見內部排列 → 推測是 TEM（穿透式電子顯微鏡）",
-          "Looks like internal arrangements in a thin section → likely TEM（穿透式電子顯微鏡）",
-        ),
-      },
-      {
-        id: "inside",
-        title: bi(
-          "亮點標出特定構造的位置 → 推測是螢光",
-          "Bright signals locate selected structures → likely fluorescence",
-        ),
-      },
+    correctAnswer: ["fluorescence"], microscopeType: "fluorescence",
+    hint: bi("重點是記錄中的標記與照光，不只是圖片有很多顏色。", "The key clues are labeling and illumination, not just a colorful picture."),
+    strongHint: bi("螢光標記配合適合的光，會發出可以偵測的訊號。找找能觀察這些訊號的工具。", "Fluorescent labels emit detectable signals under suitable light. Find the tool that observes those signals."),
+    explanation: bi("這是真正的螢光影像！不同標記讓不同細胞構造顯出不同訊號。要一起看標記與照光記錄，不能只靠顏色判斷。", "This is a real fluorescence image! Different labels reveal different cell structures. Use the labeling and illumination notes too; color alone does not identify the method."),
+    funFact: bi("這張影像使用共軛焦螢光顯微鏡拍攝，是螢光觀察的一種。顏色代表哪些構造，要查這張圖的標記記錄。", "This image was captured with a confocal fluorescence microscope. Check each image’s labeling notes to learn which structures its colors represent."),
+  },
+  {
+    id: "mystery-sem", stage: "mystery", type: "single",
+    image: "mission-pollen-real",
+    title: bi("檔案 C・神秘小顆粒", "File C · Mysterious tiny particles"),
+    question: bi("想看清楚這些小顆粒表面的凹凸和紋路，哪種工具最適合？", "Which tool best reveals the bumps and patterns on these tiny particles’ surfaces?"),
+    observation: bi("長圓形小顆粒的表面有細密紋路與溝槽。這次想找的是外面的細節。", "The elongated particles have fine surface patterns and grooves. This question is about details on the outside."),
+    choices: [
+      { id: "surface", title: bi("掃描式電子顯微鏡（SEM）・看表面", "Scanning electron microscope (SEM) · surfaces") },
+      { id: "section", title: bi("穿透式電子顯微鏡（TEM）・看薄切片內部", "Transmission electron microscope (TEM) · inside thin sections") },
+      { id: "signals", title: bi("螢光顯微鏡・找標記訊號", "Fluorescence microscope · labeled signals") },
     ],
-    "surface",
-    "electron",
-    bi(
-      "你找到了表面細節！凸起的小面、細毛與電子掃描記錄，支持 SEM（掃描式電子顯微鏡）。只看灰色還不能判斷。",
-      "You found surface detail! Raised facets, tiny hairs and the electron scanning note support SEM（掃描式電子顯微鏡）. Gray alone is not enough evidence.",
-    ),
-  ),
-  mystery(
-    "mystery-tem",
-    "electron-mitochondrion",
-    bi("檔案 D · 內部皺摺", "File D · Internal folds"),
-    bi(
-      "橢圓形構造裡有一道道細小皺摺，沿著裡面的線條找找看。",
-      "Fine folds appear inside an oval structure; trace them along its internal boundaries.",
-    ),
-    [
-      {
-        id: "inside",
-        title: bi(
-          "橢圓構造內部的細小皺摺 → 推測是 TEM（穿透式電子顯微鏡）",
-          "Fine folds inside an oval structure → likely TEM（穿透式電子顯微鏡）",
-        ),
-      },
-      {
-        id: "surface",
-        title: bi(
-          "凸起的表面形狀 → 推測是 SEM（掃描式電子顯微鏡）",
-          "Raised surface shapes → likely SEM（掃描式電子顯微鏡）",
-        ),
-      },
-      {
-        id: "natural",
-        title: bi(
-          "特定位置的標記訊號 → 推測是螢光",
-          "Labeled signals in selected locations → likely fluorescence",
-        ),
-      },
+    correctAnswer: ["surface"], microscopeType: "electron",
+    hint: bi("跟著表面的紋路看：這次要看外面，不是切片裡的構造。", "Follow the surface patterns: we want the outside, not structures inside a section."),
+    strongHint: bi("再看一條記錄：儀器利用電子掃描樣品表面。找找擅長呈現表面細節的工具。", "Another lab note: electrons scanned the specimen surface. Look for the tool suited to surface detail."),
+    explanation: bi("這些神秘小顆粒是花粉！掃描式電子顯微鏡（SEM）呈現了表面的凹凸與紋路。判斷的線索是表面細節，不是只因為影像是灰色。", "These mysterious particles are pollen! A scanning electron microscope (SEM) reveals their surface bumps and patterns. Surface detail is the clue, not simply the gray color."),
+    funFact: bi("果蠅複眼和花粉外形很不同，卻都能用 SEM 觀察表面。先想知道什麼，再選適合的工具。", "Fly eyes and pollen look different, but SEM can reveal both surfaces. Start with your question, then choose a suitable tool."),
+  },
+  {
+    id: "mystery-tem", stage: "mystery", type: "single",
+    image: "mission-tem-real",
+    title: bi("檔案 D・細胞裡的秘密", "File D · Secrets inside a cell"),
+    question: bi("這張影像呈現細胞裡非常細小的內部構造。哪種工具最適合取得這類影像？", "This image reveals very fine structures inside a cell. Which tool best produces this kind of image?"),
+    observation: bi("細胞裡可見細密的線條與不同區域。記錄：樣品另外製備成非常薄的切片。", "Fine lines and different regions are visible inside the cell. Lab note: the specimen was separately prepared as a very thin section."),
+    choices: [
+      { id: "inside", title: bi("穿透式電子顯微鏡（TEM）・看薄切片內部", "Transmission electron microscope (TEM) · inside thin sections") },
+      { id: "surface", title: bi("掃描式電子顯微鏡（SEM）・看表面", "Scanning electron microscope (SEM) · surfaces") },
+      { id: "signals", title: bi("螢光顯微鏡・找標記訊號", "Fluorescence microscope · labeled signals") },
     ],
-    "inside",
-    "electron",
-    bi(
-      "你找到了粒線體內部的皺摺！加上電子穿過薄樣品的記錄，支持 TEM（穿透式電子顯微鏡）的判斷。不能只靠灰色判斷觀察工具。",
-      "You found folds inside a mitochondrion! The note about electrons passing through a thin sample supports TEM（穿透式電子顯微鏡）. Gray alone does not identify the tool.",
-    ),
-  ),
+    correctAnswer: ["inside"], microscopeType: "electron",
+    hint: bi("這次看的是非常薄的切片裡的細微構造，不是外表，也不是找標記。", "We are looking at fine structures inside a very thin section, not its outer surface or labeled targets."),
+    strongHint: bi("再看一條記錄：電子穿過很薄的樣品，讓我們看見內部。這是穿透式電子顯微鏡（TEM）。", "Another lab note: electrons passed through a very thin specimen to reveal the inside. This is transmission electron microscopy (TEM)."),
+    explanation: bi("這是真正的單細胞生物內部影像。穿透式電子顯微鏡（TEM）通常需要非常薄的切片，才能觀察內部細節；不是把前一張光學或螢光圖片繼續放大。", "This real image shows inside a single-celled organism. Transmission electron microscopy (TEM) usually needs a very thin section to reveal internal detail; it is not a further enlargement of the previous light or fluorescence image."),
+    funFact: bi("這份樣品是一種叫作衣藻的單細胞生物。不用記住它的名字，也能從薄切片與內部細節選出觀察方法。", "The specimen is a single-celled alga called Chlamydomonas. You can choose the method from the thin section and internal detail without remembering its name."),
+  },
   research(
     "tools-protein",
     "tools",

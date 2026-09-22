@@ -116,8 +116,8 @@ test("academy preserves six concepts and optional sample reflections", () => {
   for (const q of [...caseQuestions, ...finalQuestions])
     assert.ok(q.strongHint?.["zh-TW"], q.id);
   assert.equal(caseQuestions.filter((q) => q.stage === "mystery").length, 4);
-  assert.ok(caseQuestions.some((q) => q.image === "electron-surface"));
-  assert.ok(caseQuestions.some((q) => q.image === "electron-mitochondrion"));
+  assert.ok(caseQuestions.some((q) => q.image === "mission-pollen-real"));
+  assert.ok(caseQuestions.some((q) => q.image === "mission-tem-real"));
 });
 
 test("compound-tool labels agree across lessons, summaries, choices and shared UI", () => {
