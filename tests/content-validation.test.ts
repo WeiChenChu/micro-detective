@@ -49,6 +49,7 @@ test("all localized educational and interface strings have both languages", () =
     if (!value || typeof value !== "object") return;
     const o = value as Record<string, unknown>;
     if ("zh-TW" in o || "en" in o) {
+      assert.doesNotMatch(String(o.en), /[\u3400-\u9fff]/, `${path}.en contains untranslated Chinese`);
       for (const lang of ["zh-TW", "en"])
         assert.ok(
           typeof o[lang] === "string" && (o[lang] as string).trim(),

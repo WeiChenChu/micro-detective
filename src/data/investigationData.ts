@@ -29,8 +29,8 @@ export const investigationSteps: Pick<Question, "image" | "observation" | "inves
     investigation: {
       evidenceImage: "electron-mitochondrion",
       evidenceTitle: bi("看清楚內部的細小皺摺！", "Fine internal folds resolved!"),
-      evidence: bi("這張 TEM（穿透式電子顯微鏡）示意圖讓我們看清楚粒線體內膜的皺摺。不過，只看這張圖，不能知道哪裡是蛋白質 X。", "The TEM（穿透式電子顯微鏡） diagram resolves folds in a mitochondrial inner membrane. It answers the structure question, but does not identify protein X by itself."),
-      preparation: bi("研究員另外把樣品準備成很薄的切片，再用 TEM（穿透式電子顯微鏡）觀察。樣品通常需要特別處理，通常不能直接看活著的細胞活動。這張圖也不是把前一張螢光圖放大。", "The researcher prepares a suitable thin section for TEM（穿透式電子顯微鏡）. Special treatment is usually needed; this is not direct viewing of moving live cells, nor an enlargement of the fluorescence image."),
+      evidence: bi("這張 TEM（穿透式電子顯微鏡）示意圖讓我們看清楚粒線體內膜的皺摺。不過，只看這張圖，不能知道哪裡是蛋白質 X。", "The TEM (transmission electron microscope) diagram resolves folds in a mitochondrial inner membrane. It answers the structure question, but does not identify protein X by itself."),
+      preparation: bi("研究員另外把樣品準備成很薄的切片，再用 TEM（穿透式電子顯微鏡）觀察。樣品通常需要特別處理，通常不能直接看活著的細胞活動。這張圖也不是把前一張螢光圖放大。", "The researcher prepares a suitable thin section for TEM (transmission electron microscopy). Special treatment is usually needed; this is not direct viewing of moving live cells, nor an enlargement of the fluorescence image."),
     },
   },
 ];

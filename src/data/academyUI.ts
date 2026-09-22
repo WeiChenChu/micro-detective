@@ -78,8 +78,8 @@ export const academyUI = {
   ),
   dismiss: bi("知道了", "Got it"),
   nextPlayer: bi(
-    "下一位小偵探（清除全部進度）",
-    "Next detective (clear all progress)",
+    "下一位小偵探",
+    "Next Detective",
   ),
   nextPlayerNote: bi(
     "換人共用裝置時，可清除任務與課程收藏，回到繁中首頁。",

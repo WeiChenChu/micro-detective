@@ -16,9 +16,9 @@
 2. 在 Pages 的 **Custom domain** 設定 `micro.weichenchu.com`。對自訂 Actions workflow，不能只依賴 CNAME 檔案。
 3. 在網域 DNS 將 `micro` 子網域的 CNAME 指向該 GitHub Pages 帳號的 `<owner>.github.io`（owner 以實際 repository 擁有者為準），不要修改主網域的網站設定。
 4. DNS 驗證和憑證就緒後，在 Pages 啟用 **Enforce HTTPS**。
-5. 推送 `main` 或在 Actions 手動執行 Deploy GitHub Pages。發布成功後，在正式網址測試圖片、語言、課程、練習、筆記本及重新整理。
+5. 推送 `main` 或在 Actions 手動執行 Deploy GitHub Pages。發布成功後，在正式網址測試圖片、語言、課程、任務、筆記本、完成頁「下一位小偵探」及重新整理。
 
-本次只準備程式與設定，未推送、修改 DNS 或發布正式網站。既有 Sites 設定保留，但此 workflow 不使用 Sites、後端服務或資料庫。
+v0.30 僅在 dev/v0.30 完成修整與驗證，未推送、修改 DNS 或發布正式網站。發布前也依 [validation.md](validation.md) 執行 lint、typecheck 與雙語／行動版檢查。既有 Sites 設定保留，但此 workflow 不使用 Sites、後端服務或資料庫。
 
 ## 官方參考
 

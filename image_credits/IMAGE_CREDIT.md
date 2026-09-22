@@ -1,6 +1,8 @@
 # Microscopic Detective — Image Credits
 
-This document records the source and licensing information for microscopy-related images used in the **Microscopic Detective / 微觀小偵探** website.
+This is a historical candidate-source inventory for **Microscopic Detective / 微觀小偵探**, not a list of the assets currently rendered by the website. “Website use” below describes proposed uses, and modification alternatives are examples, not verified records.
+
+For the eight active v0.30 micrographs, exact filenames, creators, source URLs, license wording and actual conversion notes are maintained in [`src/data/images.ts`](../src/data/images.ts); see [`docs/content-editing.md`](../docs/content-editing.md) for the source-to-production mapping. BioArt instrument files remain archived and are not the six active project-drawn tool SVGs. Do not infer worldwide public-domain status from a US-government source; review each candidate before activation.
 
 Even when attribution is not legally required for Public Domain or CC0 materials, source information is retained for scientific transparency and future maintenance.
 

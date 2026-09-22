@@ -7,6 +7,9 @@ export function ToolSummary({ locale }: { locale: Locale }) {
     <div className="ability-grid tool-recap">{academyModules.map(tool => <article key={tool.id}>
       <img src={tool.image} alt={tool.imageAlt[locale]} width="120" height="105" />
       <h3>{tool.toolName[locale]}</h3><p>{toolRecap[tool.id][locale]}</p>
+      {tool.detailViews && <dl className="tool-detail-views">{tool.detailViews.map(view => <div key={view.name.en}>
+        <dt>{view.name[locale]}</dt><dd>{view.description[locale]}</dd>
+      </div>)}</dl>}
     </article>)}</div>
     <p className="central-message">{locale === "zh-TW" ? "不同問題，需要不同工具。這些發現都在你的偵探筆記本裡。" : "Different questions need different tools. Your notebook keeps these discoveries."}</p>
   </section>;

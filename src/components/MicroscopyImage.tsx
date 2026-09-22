@@ -9,7 +9,9 @@ export function MicroscopyImage({
   id,
   locale,
   className = "",
-  showCaption = false,
+  showCaption,
+  showObservation = false,
+  differentSpecimen = false,
   showAttribution = true,
   compactAttribution = false,
 }: {
@@ -17,6 +19,8 @@ export function MicroscopyImage({
   locale: Locale;
   className?: string;
   showCaption?: boolean;
+  showObservation?: boolean;
+  differentSpecimen?: boolean;
   showAttribution?: boolean;
   compactAttribution?: boolean;
 }) {
@@ -44,11 +48,17 @@ export function MicroscopyImage({
           />
         )}
       </div>
-      {image.type === "real" && <span className="image-disclaimer">{locale === "zh-TW" ? "真實顯微影像" : "Real microscopy image"}</span>}
+      {image.type === "real" && <span className="image-disclaimer">{differentSpecimen
+        ? (locale === "zh-TW" ? "🔬 真實顯微影像・不同樣品" : "🔬 Real microscopy image · different specimen")
+        : (locale === "zh-TW" ? "真實顯微影像" : "Real microscopy image")}</span>}
       {image.type === "illustration" && (
         <span className="image-disclaimer">{ui.imageNote[locale]}</span>
       )}
-      {(showCaption || image.type === "real") && <p className="image-caption">{image.caption[locale]}</p>}
+      {showObservation && image.observationClue && <div className="observation-clue detective-observation">
+        <strong>{locale === "zh-TW" ? "🔎 偵探觀察" : "🔎 Detective Observation"}</strong>
+        <p>{image.observationClue[locale]}</p>
+      </div>}
+      {(showCaption ?? image.type === "real") && <p className="image-caption">{image.caption[locale]}</p>}
       {image.type === "real" && showAttribution && <ImageAttribution image={image} locale={locale} compact={compactAttribution} />}
     </div>
   );

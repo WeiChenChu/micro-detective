@@ -1,118 +1,93 @@
-# 編輯題庫與替換顯微影像
+# 內容編輯指南 — v0.30
 
-## 圖片 ID 對照
+目前內容以 `src/data/` 的雙語資料為主；沿用 React 元件，不另建圖片或題庫系統。實際發布檢查見 [validation.md](validation.md)。歷史 `v0.*-validation.md`／migration／audit 是當時紀錄，不是目前規格。
 
-| ID                       | 檔案（位於 public/images/）           | 使用位置                         |
-| ------------------------ | ------------------------------------- | -------------------------------- |
-| `leaf`                   | `naked-eye/leaf.svg`                  | 放大鏡互動、葉脈選工具練習 |
-| `fruit-fly`              | `naked-eye/fruit-fly.svg`             | 肉眼、放大鏡、解剖顯微鏡、選工具練習 |
-| `zebrafish`              | `naked-eye/zebrafish.svg`             | 尺度任務、成魚游動                   |
-| `animal-cell`            | `optical/animal-cell.svg`             | 尺度任務、細胞概念圖             |
-| `bacterium`              | `optical/bacterium.svg`               | 尺度任務             |
-| `optical-onion`          | `optical/optical-onion.svg`           | 複式光學顯微鏡課程、最終案件       |
-| `fluorescence-cell`      | `fluorescence/fluorescence-cell.svg`  | 螢光示意、找目標、最終案件 |
-| `cell-unmarked`          | `fluorescence/cell-unmarked.svg`      | 一般細胞輪廓示意、Final Case 第一份證據                     |
-| `electron-mitochondrion` | `electron/electron-mitochondrion.svg` | 電子課程、最終案件       |
-| `electron-surface`       | `electron/electron-surface.svg`       | 電子課程的表面探索    |
+## 教學資料與示意圖
 
-`microscopeType` 表示這份教學素材的預定觀察分類，並非該生物只能被該工具觀察。細胞／細菌概念圖的細節不代表一般光學照片一定能看見全部構造。
+- `academyData.ts`／`academyExtensions.ts`：六站課程。`AcademyLesson` 包含工具視覺資料、`id`、`icon`、`title`、`opening`、`concept`、`clue`、`sendoff`、可選 `check`；電子課程的 `detailViews` 含雙語 `name`／`description`，由 ToolSummary 與 KnowledgeCard 共用，明列 SEM／TEM。
+- `academyFlow.ts`：發現句、可略過的挑戰與工具回顧。`observationData.ts` 的部分既有工具題用於課程小挑戰，沒有獨立練習入口；不要刪除仍被引用的資料。
+- `ConceptReveal` 分派各工具操作，`AcademyModule` 在前進時收藏。保留六站 ID：scale、magnifier、stereo、optical、fluorescence、electron。
+- 生物示意 SVG 位於 `public/images/{naked-eye,optical,fluorescence,electron}/`，以 `images.ts` 的 `illustration(...)` 登錄穩定 ID、相對 `src`、雙語 title／alt／caption、分類。`type: "illustration"`、`placeholder: true` 沿用既有格式；placeholder 不表示沒有素材。
+- 工具插圖位於 `src/assets/tools/`，由 `toolIllustrations.ts` 管理工具名稱、摘要、alt。不要與生物影像的登錄表混用。
+- 新增或編輯 SVG 保留 `viewBox="0 0 800 600"` 與 4:3；不要加入 script、foreignObject 或遠端圖片。果蠅／葉片熱點是 `observationData.ts` 的 0–1 座標，換圖後需重新核對。
+- 螢光示意圖層 `public/images/fluorescence/channel-*.svg` 使用相同細胞座標，沒有不透明底色；訊號定義與依序顯示由 `fluorescenceData.ts` 管理。改圖後確認粒線體在細胞邊界內、細胞核外。
 
-## 保留示意圖並新增真實影像
+## 真實影像位置與連接方式
 
-四張真實影像已在 `src/data/images.ts` 的既有 `ImageData` 登錄，由 `realImageExamples` 配對；不替換示意互動。光學與電子課程沿用 `RealImageExample`，螢光課程也使用同一元件。
+保留來源 JPG／PNG，不覆寫原始素材。課程原檔在 `source_images/<modality>/`，任務原檔在 `source_images/missions/`。網站只載入 `public/images/microscopy/` 下的最佳化 WebP。不從 `source_images/` 發出 production 請求。
 
-| 示意 ID | 真實影像 ID | public/images/microscopy/ 下的檔案 | source_images/ 下的原始檔案 |
-| --- | --- | --- | --- |
-| optical-onion | onion-real | optical/onion_epidermis.webp | optical/onion_epidermis.jpg |
-| fluorescence-cell | fluorescence-real | fluorescence/Cells_FL_mitochondria_cytoskeleton_nuclei.webp | fluorescence/Cells_FL_mitochondria_cytoskeleton_nuclei.jpg |
-| electron-surface | sem-eye-real | sem/Drosophilida-compound-eye-sem.webp | sem/Drosophilida-compound-eye-sem.jpg |
-| electron-mitochondrion | tem-mitochondrion-real | tem/mitochondrion-tem.webp | tem/mitochondrion-tem.jpg |
+| 圖片 ID | `public/images/microscopy/` 下的 WebP | `source_images/` 下的原檔 |
+| --- | --- | --- |
+| onion-real | optical/onion_epidermis.webp | optical/onion_epidermis.jpg |
+| fluorescence-real | fluorescence/Cells_FL_mitochondria_cytoskeleton_nuclei.webp | fluorescence/Cells_FL_mitochondria_cytoskeleton_nuclei.jpg |
+| sem-eye-real | sem/Drosophilida-compound-eye-sem.webp | sem/Drosophilida-compound-eye-sem.jpg |
+| tem-mitochondrion-real | tem/mitochondrion-tem.webp | tem/mitochondrion-tem.jpg |
+| mission-blood-real | missions/optical-blood-cells.webp | missions/optical-blood-cells.jpg |
+| mission-fluorescence-real | missions/fluorescence-osteosarcoma-cells.webp | missions/fluorescence-osteosarcoma-cells.png |
+| mission-pollen-real | missions/sem-tradescantia-pollen.webp | missions/sem-tradescantia-pollen.jpg |
+| mission-tem-real | missions/tem-chlamydomonas.webp | missions/tem-chlamydomonas.jpg |
 
-新增影像時：
+沿用現有檔名的大小寫；新增檔名建議用 ASCII、以連字號連接觀察方法與樣品。課程 ID 用 `<subject>-real`，任務用 `mission-<subject>-real`，務必唯一。
 
-1. 原始檔保留於 `source_images/<modality>/` 供來源追溯；網站只使用 `public/images/microscopy/<modality>/` 的最佳化檔。`src` 不加開頭斜線，由既有 `imageUrl` 支援子目錄部署。
-2. 在 `images.ts` 新增 `type: "real"`、`placeholder: false` 的記錄，保留示意 ID。填入 `microscopeType`、`modality`（optical / fluorescence / sem / tem）及實際 `width` / `height`，避免載入位移。
-3. 使用 `bi(...)` 填寫 `title`、`imageAlt`、`caption` 及 `observationClue`。描述孩子能看到的構造，不把不同樣品說成連續放大；不得杜撰比例尺。
-4. `credit` 填入 `creator`、`source`、`sourceUrl`、`license`、適用的 `licenseUrl`、可選 `creatorUrl` 與雙語 `changes`。CC0 1.0 的全名為 CC0 1.0 Universal Public Domain Dedication。來源、作者與授權以 `images.ts` 為 UI 的唯一資料來源。
-5. `realImageExamples[illustrationId].imageId` 指向新 ID。圖片下方的 `ImageAttribution` 常駐顯示作者、授權、來源；只有變更說明收合。CC BY 必須保留作者、可點選來源及授權連結；本次 NICHD 影像為 CC BY 2.0，並記錄 WebP 轉換／最佳化，不表示 NICHD 背書。
-6. 全站「影像與製作說明」自動列出相同資料。Public Domain 與 CC0 也保留來源。
-7. 真實照片顏色及標記不一定等同示意。三色照片的紅色是肌動蛋白細胞骨架，不能當作互動中的細胞邊界通道。
-8. 檢查桌機、平板與手機直向的完整視野、雙語文字及連結換行，再執行既有測試、lint 與 build。
+1. 先核對來源頁、作者、授權、科學描述，再準備 WebP；不要因「網路上找得到」就視為可用。保留原圖比例尺，不自行加上未校準尺度。
+2. 在 `images.ts` 的 `images` 加入 `ImageData`，填 `id`、相對 `src`（不加開頭 `/`）、`type: "real"`、`placeholder: false`、實際 `width`／`height`、`microscopeType` 與 `modality`（optical／fluorescence／sem／tem）。URL 統一用 `imageUrl()` 及 Vite BASE_URL。
+3. `title`、`imageAlt`、`caption`、課程用的 `observationClue` 都用 `bi(繁中, English)`。不要把工具答案藏在任務 alt 中。
+4. 課程在 `realImageExamples` 將示意 ID 配到真實 ID：optical-onion → onion-real；fluorescence-cell → fluorescence-real；electron-surface → sem-eye-real；electron-mitochondrion → tem-mitochondrion-real。保留示意操作。
+5. 任務在 `missionData.ts` 的 `Question.image` 指向獨立真實 ID，四個 mystery 題分別用上述四張任務照片。不要套用示意圖的 `evidenceTargets` 熱點到照片。
+6. `RealImageExample` 是直接可見的 section。正常路線首次在洋蔥站完整介紹不同樣品，後續 `differentSpecimen` badge 簡短提醒。`MicroscopyImage` 的 `showObservation` 顯示觀察問題；`showCaption` 未指定時真實照片顯示圖說，任務明確關閉重複圖說。
+7. 真實照片完整 contain，不裁切；有手機／桌機高度上限。`RealImageExample` 的往下連結對應 `AcademyModule` 的 `academy-continue`，不略過原有完成條件。
 
-## v0.29 任務專用真實影像
+## Attribution 實際資料欄位
 
-`missionData.ts` 的 `mystery-light / glow / sem / tem` 分別使用 `mission-blood-real`、`mission-fluorescence-real`、`mission-pollen-real`、`mission-tem-real`。它們只使用 `public/images/microscopy/missions/*.webp`，原始 JPG/PNG 留在 `source_images/missions/`。不得改動課程的 `realImageExamples` 配對，也保留 `mission-target` 的配對示意圖。
+`src/data/types.ts` 的 `ImageData.credit` 是唯一來源，`ImageAttribution` 和全站 `Credits` 共用。沒有額外 `attributionText` 欄位。
 
-- 四題以新影像的形狀、標記、表面或薄切片內部為線索；不沿用舊示意圖的點選熱點。
-- 作答前的 alt/caption 描述可見內容，不直接說出血液、花粉或正確工具。解答揭露樣品；來源詳情仍可隨時存取原始標題。
-- 在 `images.ts` 的既有 `credit` 記錄 `originalTitle`、`creator`、`sourceUrl`、`license`、`licenseUrl` 與雙語 `changes`。專業標記資訊用可選雙語 `credit.details`。
-- 血液（Korinna）與螢光細胞（Howard Vindin）為 CC BY 4.0 International；花粉（Andel）為 CC0 1.0 Universal；TEM（Dartmouth Electron Microscope Facility, Dartmouth College）為 Public Domain worldwide。
-- 任務使用 `compactAttribution`：原生 details 可鍵盤／觸控展開完整標題、作者、授權、來源與轉換紀錄。課程及全站 Credits 保留原有常駐短版來源。
-- 共軛焦照片中微管為紅色、肌動蛋白為綠色、細胞核 DNA 為藍色；這些名稱只在來源詳情出現。不能套用課程照片的顏色對照。
-- 真實影像保持完整視野，任務以 `object-fit: contain` 配合有高度上限的中性背景，避免裁切原有比例尺。
-- `CONTENT_VERSION = 4`：A/B 從示意圖熱點改為方法判斷，舊版進度依既有驗證失效。未更改 reducer、storage schema 或導航。
+| 欄位 | 內容／編輯要求 |
+| --- | --- |
+| `creator` | 型別必填；完整作者／機構，保留已知修圖者 |
+| `license` | 型別必填；原有授權名稱、版本及地域措辭 |
+| `source`、`sourceUrl` | 型別可選；外部真實照片應記錄來源名稱與原始說明頁 URL，不能只填圖片 CDN |
+| `licenseUrl` | CC BY／CC0 應附對應版本連結；Public Domain 依來源說明，不虛構授權 URL |
+| `creatorUrl` | 有正確作者頁時選填 |
+| `originalTitle` | 選填，已有的原始標題必須保留；目前任務四張都有 |
+| `details` | 選填雙語 Text；例如各顏色對應的標記資訊 |
+| `changes` | `string` 或雙語 Text；真實照片記錄實際縮小、轉換／最佳化與已知裁切，不能聲稱沒有做的修改 |
 
-## 編輯題目
+`compact` 模式仍常駐作者、授權及授權連結；來源頁、原始標題、details、changes 在原生 details 中。課程來源在觀察／圖說／繼續連結後，任務來源在作答／回饋後。非 compact（筆記本、Credits）另外常駐來源頁連結。全部連結沿用新分頁與 `noopener noreferrer`；不用 hover 才能取得資訊。
 
-`missionData.ts` 的 `caseQuestions` 為四組任務共 9 題，`finalQuestions` 是固定順序的三步案件。`gameData.ts` 的舊題庫保留作為 v0.1 內容參照，新任務不要加在舊檔。每個問題至少有：
+目前授權原文：洋蔥 `CC0 1.0`、課程螢光 `CC BY 2.0`、複眼與粒線體 `Public Domain`、血球與任務螢光 `CC BY 4.0 International`、花粉 `CC0 1.0 Universal`、衣藻 `Public Domain worldwide`。CC0 是權利放棄聲明，CC BY 有署名條件，不可混稱。政府來源若僅主張美國公有領域，不得自行推廣成全球公有領域。來源有疑義先記錄待確認，不臆測法律結論。
 
-- `id`：穩定且唯一；進度依賴它。
-- `stage`、`type`：關卡及單選／複選。
-- `title`、`question`、`choices`：標題、題幹與選項。
-- `correctAnswer`：正解 ID 陣列；單選必須只有一個。
-- `hint`、`strongHint`、`explanation`、`funFact`：第一次提示、第二次強提示、主要解說、選讀知識。
-- `observation`：在神秘影像旁顯示的實驗記錄；`toolSelection` 表示直接點工具就判答。
-- `image`、選項的 `image`：參照 `images.ts` 的 ID。
-- `microscopeType`：該題證據筆記使用的工具圖示。
+`image_credits/IMAGE_CREDIT.md` 是歷史候選清單，包含未啟用素材與範例 modification；它不能取代現行 `images.ts` 的逐圖資料。
 
-修改文字時保持中英成對，使用台灣用語「螢光」「粒線體」「明視野」。首次出現的生物詞彙需有線索。避免「答錯」「所有細胞肉眼都看不到」「螢光一定放得更大」「黑白一定是電子影像」等說法。
+## 偵探觀察與科學圖說
 
-神秘影像的 `observation` 優先描述可見形狀與位置；SEM／TEM 的電子掃描／穿透記錄放在第二層 `strongHint`，第一層 `hint` 只引導比較。影像外觀只能支持推測，方法記錄用來確認；不能只憑顏色定論。
+先指向可見特徵，之後才解釋。`observationClue` 顯示於照片下方、caption 前，標題為「🔎 偵探觀察 / Detective Observation」。一句或兩句即可，不新增必答互動。例如：
 
-課程內容在 `academyData.ts`／`academyExtensions.ts`：模組包含 id、icon、title、opening、concept、clue、sendoff；只有 optical／electron 有可選的 `check`，包含 question、choices、answer 與逐選項 feedback。`AcademyModule` 負責操作後收藏，`ConceptReveal` 分派現有互動。保持六個 ID 不變可沿用 v0.22 收藏。短操作文案位於各互動元件，均提供繁中／英文。
+- 洋蔥：「找找一格一格排列的細胞。哪些線條看起來把每個細胞分開？」／“Look for cells arranged side by side. Which lines seem to separate one cell from the next?”
+- 複眼：「表面有哪些重複排列的小面？沿著小面之間找找看，還有哪些紋理？」
 
-## v0.24 探索互動維護
+圖說才說明細胞壁、膜等解讀，區分「看見線條」與「這是某構造」。不同樣品不宣稱連續放大，也不必與示意位置相同。不要說倍率高一定更好。
 
-- `MagnifierLab` 預設果蠅，掃到 `observationData.ts` 的熱點才觸發發現，支援 pointer、方向鍵及按鈕。
-- `StereoLab` 用同一果蠅圖比較倍率、裁切位置，不模擬雙眼立體成像。
-- `ConceptReveal` 的光學對焦以 65 為示意焦點，容許 ±8；40×是數位放大示意，不是宣稱真實物鏡不增加解析度。
-- `FluorescenceLab` 使用從原 `fluorescence-cell.svg` 拆出的 `channel-nuclei.svg` 與 `channel-mitochondria.svg`。兩檔共用 800×600 座標，背景透明，可正確疊合；原創圖形授權與原圖一致。替換時需使用對齊的同一標本通道並更新按鈕文字與替代描述，不以換色代替真實 channel。
-- 電子兩種視圖分別為果蠅複眼與粒線體，明示不同樣品。使用「擅長／常用」，不可寫成 SEM／TEM 絕對只能看一種資訊。
-- 四堂操作課程不加 quiz；光學與電子的短概念確認由 `ConceptCheck` 共用呈現。不因新確認而清除舊收藏。
-- `ConceptReveal.onStep(n, complete)` 區分畫面切換與完成；`AcademyModule` 只在 complete 時開放收藏或概念確認。
-- 解剖需看過高倍率後回低倍率；螢光需看過訊號後關閉適當照明。未完成操作不寫入 storage，重載從觀察起點開始。
-- `investigationData.ts` 與固定 finalQuestions 配對，保存前次觀察、evidenceImage、evidenceTitle、evidence、preparation、nextQuestion。UI 依既有 completed 判斷能否揭露證據，無需新存檔 schema。
-- `InvestigationEvidence` 共用於回饋與筆記本；`InvestigationSummary` 用於最後一次發現和徽章頁。修改映射時仍需確保前一步 evidenceImage 接到後一步 image。
+SEM 主要看表面形狀／紋路，常有立體感，但單張圖不等於 3D 資料。TEM 觀察很薄樣品／薄切片的內部超微結構，不能說能穿透任何東西。重要段落用 SEM（掃描式電子顯微鏡）、TEM（穿透式電子顯微鏡），英文用完整英文名稱，不混入中文。
 
-## 驗證變更
+課程螢光圖：細胞核藍、粒線體綠、肌動蛋白細胞骨架紅；紅色不是示意圖的細胞邊界。任務螢光圖：微管紅、肌動蛋白綠、細胞核 DNA 藍。保留兩者差異，顏色不能單獨證明螢光，確認方法需要標記／照明記錄。
 
-```powershell
-npm test
-npm run lint
-npm run build
-npm run dev
-```
+## 任務與兒童文案
 
-素材測試已分流：illustration 保留原 SVG 的檔案與安全檢查；real 需本機檔案、雙語 alt／caption、作者、來源與授權。`realImageExamples` 的 ID 必須指向 type=real。不要刪除素材驗證。
+`missionData.ts` 的 `caseQuestions` 有 9 題，`finalQuestions` 有 3 題；`gameData.ts` 是歷史題庫與共用生物選項來源，不在舊題庫新增目前任務。
 
-變更題目集合或正解後，提高 `missionData.ts` 的 `CONTENT_VERSION`，避免舊進度與新題目不相容。最終題數若更改，請更新遊戲入口、階段介紹、README 的數量文案，並讓測試採新題數。
+問題欄位包括：穩定 `id`、`stage`、`type`、雙語 `title`／`question`、`choices`、`correctAnswer`、`hint`、`strongHint`、`explanation`、`funFact`、可選 `observation`／`image`／`answerExplanations`。`toolSelection` 供工具選擇 UI 使用；單選 `acceptedAnswers` 表示任一可接受答案，非多選。
 
+- 初始 `observation` 只描述可見形狀、分布、表面或內部；題幹問「想知道什麼，哪種方法適合」。不能先說光和鏡片、沒有螢光標記或已加標記，再考工具。
+- 一個可選的「給我一點線索」顯示 `hint`，只引導比較，不立即給正解。重用 `HINT`／`showHint`，不加入新狀態框架。
+- 第一次不合適的選擇顯示 hint（或已有的個別回饋），第二次顯示 `strongHint` 並開放協助完成。更強提示可揭露製備／方法記錄；不是按兩次提示鈕的兩層選單。
+- `explanation` 解釋選工具的理由，也可揭露樣品名稱。`funFact` 回答後選讀。來源詳情一直可查，毋須為防洩題而隱藏授權。
+- 使用適合兒童的繁體中文、短句、台灣用語「螢光」「粒線體」；英文自然表達，不逐字翻譯。避免未解釋縮寫、年級選擇、分數競賽，以及以灰階／彩色定論工具。
+- `investigationData.ts` 配對最終三步的 `evidenceImage`、`evidenceTitle`、`evidence`、`preparation`、`nextQuestion`；證據回答後揭露。維持「問題 → 工具 → 證據 → 下一個問題」，內部構造需要另行準備樣品。
 
-## v0.21 觀察工具擴充
+## 版本、保存與檢查
 
-- `academyData.ts` 維持原課程 ID，插入 `academyExtensions.ts` 的 `magnifier`、`stereo`。
-- `observationData.ts` 保存練習題、工具、雙語互動說明與放大鏡熱點。
-- 單選題的 `acceptedAnswers` 表示「其中一個即可」，不代表多選；`correctAnswer` 保留給協助完成使用。用 `answerExplanations` 為不同合理工具提供原因。
-- 葉片與果蠅目前重用 4:3 原創 SVG。放大鏡使用同一張圖，沒有虛構新細節或真實倍率。更換素材時維持 4:3，並更新 0–1 座標的熱點、描述；解剖視野的裁切中心也須核對。
-- 解剖顯微鏡屬於光學顯微鏡。並列工具名稱是教學探索順序，不是互斥技術分類或能力排名。
+套件 `package.json.version` 為 `0.30.0`，GameShell 取 major/minor 顯示 `v0.30`，沒有手填 `displayVersion`。更新 lockfile、README、CHANGELOG。
 
-科學內容核對：[Nikon MicroscopyU — Introduction to Stereomicroscopy](https://www.microscopyu.com/techniques/stereomicroscopy/introduction-to-stereomicroscopy)，支持雙眼視角、立體感、較低倍率與較大視野的解說。
+目前 `CONTENT_VERSION = 4`，schema 2、academyRevision 2。純文字／外觀修整不用升存檔版本；變更題目集合、正解或不相容互動才升號。v0.30 保留有效 v0.29 進度。完成頁「下一位小偵探」與原重置對話框共用 App 的回呼，`RESET` + `createGame()` 回繁中首頁並覆寫進度，不清其他網站資料。
 
-## v0.22 科學內容與正解維護
-
-- 工具名稱 `optical` 對應「複式光學顯微鏡」；「解剖／螢光屬於光學顯微鏡」的大類敘述保留。不要全域取代大類名稱。
-- `practice-whole` 只接受 `stereo`。現有 `acceptedAnswers` 沒有次佳等級；放大鏡可使用但非本題最佳工具，以提示說明。重試顯示 `hint`／`strongHint`，不是 `answerExplanations`。
-- `practice-wing` 保留穩定 ID，但內容已改為戶外稍微放大葉脈，使用 `leaf` 圖，正解 `magnifier`。放大鏡互動仍保留果蠅作可選例子，並非禁止用放大鏡看果蠅。
-- 尺度任務只問發現位置與大致輪廓，正解仍為一般動物細胞與單隻常見細菌。成體果蠅明確為肉眼可見。
-- 肉眼課程知識卡承載核心句；電子課程知識卡與任務回饋說明特殊準備、通常不能直接觀察活動活體，不深入製備細節。
-- `CONTENT_VERSION = 3`：舊內容進度依既有驗證機制失效，避免舊正解或完成紀錄跳過新教學；不更改 schema、儲存鍵或 reducer。
+執行 `npm test`、`npm run lint`、`npm run typecheck`、`npm run build`，再用 `npm run preview` 試玩雙語課程、任務及手機照片。細部清單見 [validation.md](validation.md)。

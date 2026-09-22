@@ -9,12 +9,14 @@ export function BadgeScreen({
   locale,
   count,
   onAgain,
+  onNextDetective,
   onHome,
   onNotebook,
 }: {
   locale: Locale;
   count: number;
   onAgain: () => void;
+  onNextDetective: () => void;
   onHome: () => void;
   onNotebook: () => void;
 }) {
@@ -62,7 +64,11 @@ export function BadgeScreen({
         <h2 className="badge-invitation">{gameUI.badgeNext[locale]}</h2>
         <p className="badge-note">{gameUI.badgeNote[locale]}</p>
         <div className="completion-actions">
-          <button className="button primary" onClick={onAgain}>
+          <button className="button primary" onClick={onNextDetective}>
+            <Icon name="people" size={20} />
+            {a.nextPlayer[locale]}
+          </button>
+          <button className="button" onClick={onAgain}>
             <Icon name="reset" size={20} />
             {gameUI.again[locale]}
           </button>
@@ -71,6 +77,7 @@ export function BadgeScreen({
             {gameUI.home[locale]}
           </button>
         </div>
+        <p className="next-detective-note">{a.nextPlayerNote[locale]}</p>
       </div>
       <section className="discovery-summary">
         <InvestigationSummary locale={locale} />

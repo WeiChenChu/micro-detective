@@ -88,6 +88,11 @@ export default function App() {
     setModal(null);
     dispatch({ type: "HOME" });
   };
+  const nextDetective = () => {
+    setModal(null);
+    setNotebookReview(false);
+    dispatch({ type: "RESET", fresh: createGame() });
+  };
   const openNotebook = () => {
     setNotebookReview(false);
     setModal("notebook");
@@ -218,6 +223,7 @@ export default function App() {
           locale={locale}
           count={count}
           onAgain={start}
+          onNextDetective={nextDetective}
           onHome={home}
           onNotebook={openNotebook}
         />
@@ -263,10 +269,7 @@ export default function App() {
                 <p>{a.nextPlayerNote[locale]}</p>
                 <button
                   className="button"
-                  onClick={() => {
-                    setModal(null);
-                    dispatch({ type: "RESET", fresh: createGame() });
-                  }}
+                  onClick={nextDetective}
                 >
                   {a.nextPlayer[locale]}
                 </button>
