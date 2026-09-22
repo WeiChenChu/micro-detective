@@ -45,8 +45,8 @@ export const ui = {
   ),
   sources: bi("影像與製作說明", "Images & credits"),
   creditsIntro: bi(
-    "目前影像為本專案原創教學示意圖，不代表真實尺寸或自然色彩。之後將由顯微影像核心設施替換為自有或適當授權的影像。",
-    "These original teaching illustrations do not represent real sizes or natural colors. The imaging facility can replace them with its own or appropriately licensed images.",
+    "示意圖幫助我們理解；真實影像讓我們看看顯微鏡真正拍到了什麼。示意圖不代表真實尺寸或自然色彩。",
+    "Illustrations help us understand; real images show us what microscopes actually capture. Teaching illustrations do not represent real sizes or natural colors.",
   ),
   skip: bi("跳至主要內容", "Skip to main content"),
 };

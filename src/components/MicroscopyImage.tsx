@@ -11,12 +11,14 @@ export function MicroscopyImage({
   className = "",
   showCaption = false,
   showAttribution = true,
+  compactAttribution = false,
 }: {
   id: string;
   locale: Locale;
   className?: string;
   showCaption?: boolean;
   showAttribution?: boolean;
+  compactAttribution?: boolean;
 }) {
   const image = images[id];
   const [failedSrc, setFailedSrc] = useState("");
@@ -24,7 +26,7 @@ export function MicroscopyImage({
     return <div className="image-fallback">{gameUI.missingImage[locale]}</div>;
   const src = imageUrl(image);
   return (
-    <div className={`microscopy-image ${className}`}>
+    <div className={`microscopy-image ${image.type === "real" ? "real-micrograph" : ""} ${className}`}>
       <div className="image-frame">
         {failedSrc === src ? (
           <div className="image-fallback">
@@ -35,18 +37,19 @@ export function MicroscopyImage({
         ) : (
           <img
             src={src}
-            width="800"
-            height="600"
+            width={image.width ?? 800}
+            height={image.height ?? 600}
             alt={image.imageAlt[locale]}
             onError={() => setFailedSrc(src)}
           />
         )}
       </div>
+      {image.type === "real" && <span className="image-disclaimer">{locale === "zh-TW" ? "真實顯微影像" : "Real microscopy image"}</span>}
       {image.type === "illustration" && (
         <span className="image-disclaimer">{ui.imageNote[locale]}</span>
       )}
       {(showCaption || image.type === "real") && <p className="image-caption">{image.caption[locale]}</p>}
-      {image.type === "real" && showAttribution && <ImageAttribution image={image} locale={locale} />}
+      {image.type === "real" && showAttribution && <ImageAttribution image={image} locale={locale} compact={compactAttribution} />}
     </div>
   );
 }

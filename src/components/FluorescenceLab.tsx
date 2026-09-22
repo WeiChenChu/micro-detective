@@ -1,3 +1,4 @@
+import { RealImageExample } from "./RealImageExample";
 import { useState } from "react";
 import { fluorescenceSignals, fluorescenceViews, fluorescenceComplete } from "../data/fluorescenceData";
 import type { Locale } from "../data/types";
@@ -28,5 +29,6 @@ export function FluorescenceLab({ locale, step, onStep }: { locale: Locale; step
     </>}
     <p className="exhibit-note">{t("螢光的顏色是我們用標記顯示出來的，不一定是它原本的顏色喔！", "The colors come from fluorescent labels; they are not necessarily the structures’ natural colors!")}</p>
     <details className="observation-notes"><summary>{t("關於這張示意圖", "About this diagram")}</summary><p>{t("這是同一組細胞的教學示意。外框表示細胞的大致邊界；粒線體在細胞裡、細胞核外。真實實驗需要準備標記與合適照明，這裡的按鈕只是切換顯示的訊號。", "Aligned teaching diagrams of the same cells. Outlines show approximate cell boundaries; mitochondria are inside cells, outside nuclei. Real experiments require labeling and suitable illumination; these buttons only change displayed signals.")}</p></details>
+    <RealImageExample illustrationId="fluorescence-cell" locale={locale} />
   </section>;
 }

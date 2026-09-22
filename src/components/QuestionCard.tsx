@@ -62,7 +62,7 @@ export function QuestionCard({
         {final && !question.image && <div className="mystery-sample"><span aria-hidden="true">?</span><p>{question.observation?.[locale]}</p></div>}
         {question.image && (
           <div className="final-evidence">
-            {question.evidenceTargets ? <EvidenceTargets question={question} locale={locale} selected={state.selected} disabled={resolved} onSelect={id => dispatch({ type: "ANSWER", ids: [id] })} /> : <MicroscopyImage id={question.image} locale={locale} />}
+            {question.evidenceTargets ? <EvidenceTargets question={question} locale={locale} selected={state.selected} disabled={resolved} onSelect={id => dispatch({ type: "ANSWER", ids: [id] })} /> : <MicroscopyImage id={question.image} locale={locale} compactAttribution={question.stage === "mystery"} />}
             <div className="observation-clue">
               <span>
                 <Icon name="search" size={19} />
