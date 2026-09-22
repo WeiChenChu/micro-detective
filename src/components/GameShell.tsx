@@ -2,7 +2,9 @@ import type { ReactNode } from "react";
 import type { Locale } from "../data/types";
 import { ui } from "../data/ui";
 import { Icon } from "./Icon";
-import { displayVersion } from "../../package.json";
+import { version } from "../../package.json";
+
+const displayVersion = version.split(".").slice(0, 2).join(".");
 
 export function GameShell({
   locale,

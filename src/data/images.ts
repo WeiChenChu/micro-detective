@@ -45,7 +45,7 @@ export const images: Record<string, ImageData> = {
     width: 1280, height: 1257,
     title: bi("不同顏色的細胞線索", "Cell clues in different colors"),
     imageAlt: bi("真實顯微影像中，深色背景上有紅綠色細絲與藍色橢圓區域，呈現不同細胞構造。", "A real micrograph showing different cell structures as red and green filaments and blue oval regions against a dark background."),
-    caption: bi("不同顏色代表研究人員標記的不同細胞構造。", "Different colors show different cell structures labeled by researchers."),
+    caption: bi("看看細絲與橢圓區域，各自出現在哪裡？", "Where do the filaments and oval regions appear?"),
     credit: {
       originalTitle: "Osteosarcoma cells stained for actin, microtubules, and nuclei", creator: "Howard Vindin", source: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Osteosarcoma_cells_stained_for_actin,_microtubules,_and_nuclei.png",
@@ -91,8 +91,8 @@ export const images: Record<string, ImageData> = {
     width: 1280, height: 722,
     title: bi("真正的洋蔥表皮", "Real onion epidermis"),
     imageAlt: bi("光學顯微鏡下的洋蔥表皮，可以看到許多相鄰的細胞與清楚的細胞壁。", "Onion epidermal cells under a light microscope, showing many adjacent cells with clearly visible cell walls."),
-    caption: bi("真正的洋蔥表皮光學顯微影像。找找看，哪些構造和剛才的示意圖很像？", "A real light-microscope image of onion epidermal cells. Can you find structures that look similar to the illustration?"),
-    observationClue: bi("沿著細胞壁找找看：相鄰的細胞像不像一格格拼在一起？", "Follow the cell walls: can you find adjacent cells fitting together?"),
+    caption: bi("洋蔥表皮的光學顯微影像，細胞壁形成相鄰細胞的邊界。", "A light micrograph of onion epidermis. Cell walls outline neighboring cells."),
+    observationClue: bi("找找一格一格排列的細胞。哪些線條看起來把每個細胞分開？", "Look for cells arranged side by side. Which lines seem to separate one cell from the next?"),
     credit: {
       creator: "Berkshire Community College Bioscience Image Library", source: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Living_cells_of_onion_epidermis_(33605021164).jpg",
@@ -107,8 +107,8 @@ export const images: Record<string, ImageData> = {
     width: 1920, height: 2117,
     title: bi("真正的三色螢光細胞", "Real three-color fluorescent cells"),
     imageAlt: bi("螢光顯微影像中的細胞，細胞核呈藍色、粒線體呈綠色、肌動蛋白細胞骨架呈紅色。", "Fluorescence microscopy image showing nuclei in blue, mitochondria in green, and the actin cytoskeleton in red."),
-    caption: bi("螢光標記可以讓不同的細胞構造發出不同顏色的光。這張影像中，細胞核是藍色、粒線體是綠色、肌動蛋白細胞骨架是紅色。", "Fluorescent labels highlight different structures in different colors. Here, nuclei are blue, mitochondria are green, and the actin cytoskeleton is red."),
-    observationClue: bi("找找藍色細胞核旁的綠色粒線體。這張圖的紅色是細胞骨架，不是剛才示意圖的細胞邊界；顏色也不必和示意圖相同。", "Find green mitochondria near blue nuclei. Red here marks the cytoskeleton, not the cell boundaries in the diagram; colors can differ between images."),
+    caption: bi("此圖：細胞核藍色、粒線體綠色、肌動蛋白細胞骨架紅色。紅色不是示意圖的細胞邊界；標記與配色要看各圖記錄。", "Here, nuclei are blue, mitochondria green and the actin cytoskeleton red. Red does not mark cell boundaries as in the diagram; check each image’s labeling record."),
+    observationClue: bi("找找不同顏色的區域：哪些像細絲，哪些比較圓？它們集中在細胞的哪些地方？", "Look at the different colored regions. Which look like threads and which look rounder? Where do they cluster in the cells?"),
     credit: {
       creator: "NICHD", source: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Cells_with_nuclei_in_blue,_mitochondria_in_green,_and_the_actin_cytoskeleton_in_red_(19124186316).jpg",
@@ -124,8 +124,8 @@ export const images: Record<string, ImageData> = {
     width: 1600, height: 1278,
     title: bi("真正的果蠅複眼", "Real fruit fly compound eye"),
     imageAlt: bi("掃描式電子顯微鏡下的果蠅複眼，可以看到許多排列整齊的小眼結構。", "A fruit fly compound eye viewed with a scanning electron microscope, showing many regularly arranged ommatidia."),
-    caption: bi("掃描式電子顯微鏡（SEM）可以清楚呈現樣品表面的立體細節。果蠅的複眼其實由許多小眼組成。", "A scanning electron microscope (SEM) reveals detailed surface structures. A fruit fly compound eye is made of many small visual units."),
-    observationClue: bi("找找重複排列的小面，以及小面之間的細毛。", "Look for repeating facets and the fine hairs between them."),
+    caption: bi("SEM（掃描式電子顯微鏡）呈現果蠅複眼的表面細節。影像有立體感，不代表它是立體模型。", "SEM (scanning electron microscopy) reveals the eye’s surface details. Its three-dimensional appearance does not make this image a 3D model."),
+    observationClue: bi("表面有哪些重複排列的小面？沿著小面之間找找看，還有哪些紋理？", "Which small shapes repeat across the surface? Look between them for more textures."),
     credit: {
       creator: "Louisa Howard / Dartmouth College; retouched by Papa Lima Whiskey", source: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Drosophilidae_compound_eye_edit1.jpg",
@@ -139,8 +139,8 @@ export const images: Record<string, ImageData> = {
     width: 640, height: 433,
     title: bi("真正的粒線體", "A real mitochondrion"),
     imageAlt: bi("穿透式電子顯微鏡下的哺乳類細胞粒線體，可以看到粒線體內部的膜狀結構。", "A mitochondrion in mammalian tissue viewed by transmission electron microscopy, showing internal membrane structures."),
-    caption: bi("穿透式電子顯微鏡（TEM）讓我們觀察非常薄的樣品切片，看見細胞內部的微細構造。", "A transmission electron microscope (TEM) uses very thin specimens to reveal fine structures inside cells."),
-    observationClue: bi("找找粒線體裡一道道的膜，和示意圖中的皺摺比較看看。", "Find the membranes inside the mitochondrion and compare them with the folds in the diagram."),
+    caption: bi("TEM（穿透式電子顯微鏡）利用很薄的樣品，顯示粒線體裡細微的膜構造。", "TEM (transmission electron microscopy) reveals fine membranes inside a mitochondrion in a very thin specimen."),
+    observationClue: bi("沿著粒線體的外緣找一圈，再看看裡面。哪些深淺線條看起來像一層層摺起來的膜？", "Trace the mitochondrion’s outline, then look inside. Which light and dark lines look like folded membranes?"),
     credit: {
       creator: "Louisa Howard", source: "Wikimedia Commons",
       sourceUrl: "https://commons.wikimedia.org/wiki/File:Mitochondria,_mammalian_lung_-_TEM_(2).jpg",
@@ -275,7 +275,7 @@ export const images: Record<string, ImageData> = {
     ),
     bi(
       "SEM（掃描式電子顯微鏡）概念圖：電子顯微鏡可觀察昆蟲眼睛的表面細節。",
-      "SEM（掃描式電子顯微鏡） concept diagram: electron microscopy can reveal details on an insect eye surface.",
+      "SEM (scanning electron microscope) diagram: electron microscopy can reveal details on an insect eye surface.",
     ),
     "electron",
   ),
@@ -289,7 +289,7 @@ export const images: Record<string, ImageData> = {
     ),
     bi(
       "TEM（穿透式電子顯微鏡）概念圖：薄樣品中可見粒線體內膜的皺摺。",
-      "TEM（穿透式電子顯微鏡） concept diagram: folds of the inner mitochondrial membrane in a thin sample.",
+      "TEM (transmission electron microscope) diagram: folds of the inner mitochondrial membrane in a thin sample.",
     ),
     "electron",
   ),
@@ -300,8 +300,8 @@ export const images: Record<string, ImageData> = {
 export const realImageExamples: Record<string, { title: Text; imageId?: string }> = {
   "optical-onion": { imageId: "onion-real", title: bi("真正的細胞影像", "Real cell images") },
   "fluorescence-cell": { imageId: "fluorescence-real", title: bi("真正的螢光影像", "Real fluorescence images") },
-  "electron-surface": { imageId: "sem-eye-real", title: bi("真正的 SEM（掃描式電子顯微鏡）影像", "Real SEM（掃描式電子顯微鏡） images") },
-  "electron-mitochondrion": { imageId: "tem-mitochondrion-real", title: bi("真正的 TEM（穿透式電子顯微鏡）影像", "Real TEM（穿透式電子顯微鏡） images") },
+  "electron-surface": { imageId: "sem-eye-real", title: bi("真正的 SEM（掃描式電子顯微鏡）影像", "Real SEM (scanning electron microscope) images") },
+  "electron-mitochondrion": { imageId: "tem-mitochondrion-real", title: bi("真正的 TEM（穿透式電子顯微鏡）影像", "Real TEM (transmission electron microscope) images") },
 };
 
 // Keeps public images working when the static site is hosted in a subdirectory.

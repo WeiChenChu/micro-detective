@@ -26,7 +26,7 @@ export function AcademyModule({ index, locale, collected, onComplete, onBack, on
         <p className="lesson-discovery" role="status">{discoveries[lesson.id][locale]}</p>
         {challenge && inlineChallenge && <ConceptCheck check={challenge} locale={locale} />}
       </>}
-      <div className="academy-actions">
+      <div id="academy-continue" className="academy-actions" tabIndex={-1}>
         <button className="button primary" disabled={!ready} onClick={() => { onComplete(); onNext(); }}>
           {index === 5 ? t("完成訓練，看看工具總整理", "Finish training and review the tools") : `${t("繼續探索", "Keep exploring")}：${academyModules[index + 1].toolName[locale]}`} →
         </button>

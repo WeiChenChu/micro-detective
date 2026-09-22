@@ -1,3 +1,78 @@
+# 發布驗證 — v0.30
+
+本節是目前檢查清單；文末保留 v0.23／v0.2／v0.1 的歷史結果，舊工具地圖、版本號、題目與「沒有 lint」敘述只適用當時。`docs/v0.24-validation.md` 至 `v0.29-validation.md`、migration 與 audit 同樣是歷史紀錄，不應拿來覆蓋本節。
+
+## 正常工作流程
+
+```sh
+npm ci
+npm test
+npm run lint
+npm run typecheck
+npm run build
+npm run preview
+```
+
+腳本以 `package.json` 為準，沒有 `test:e2e`。CI 執行 npm ci、npm test、npm run build；本機發布前也要跑 lint、typecheck。`npm run dev` 用於開發，正式驗證以 dist 的 preview 為準。禁止把 preview 成功等同已部署。
+
+## 內容
+
+- 所有預期的繁中／英文都有內容；英文不得殘留中文名稱或 placeholder。頁尾版本來自 package.json，0.30.0 顯示 v0.30。
+- 六工具名稱一致；電子顯微鏡的知識卡、筆記本及回顧分列 SEM（掃描式電子顯微鏡）表面、TEM（穿透式電子顯微鏡）薄樣品內部。
+- SEM 的立體感不等於 3D 模型；TEM 不會透視任意厚樣品。倍率不等於解析度。
+- 四題真實影像初始題幹／observation／caption／alt 不洩漏拍攝機制；依觀察問題能選工具，不需先開提示。不能只憑彩色認定螢光。
+- 課程真實影像直接顯示；偵探觀察先於圖說，洋蔥站完整介紹不同樣品，其他用短 badge。螢光照片與示意的紅色意義不同。
+
+## 每張外部真實影像
+
+逐一核對 `src/data/images.ts` 八筆 real（課程四張、任務四張），不要只看一張：
+
+- public 檔案存在且瀏覽器成功解碼；自然尺寸與 metadata 一致，完整 contain、原比例尺未裁切。
+- sourceUrl 是有效且已記錄的來源說明頁；creator／source、license、適用的 licenseUrl、originalTitle（已有時）均保留。
+- 短版作者／授權常駐，details 可用 Enter／觸控展開來源、變更與標記紀錄。CC BY 保留作者、授權連結、來源與修改狀態。
+- changes 記錄實際縮小／WebP 轉換；沒有裁切就不聲稱裁切。源檔位於 source_images，production 不讀取該目錄。
+- Public Domain、CC0、CC BY 分別依原記錄顯示；不把只適用美國的公有領域聲明擴張成全球。疑義需記錄並請人確認。
+- 全站 Credits 與 notebook 的來源資料和照片一致，所有外部連結使用安全的新分頁屬性。
+
+## Responsive 與 accessibility
+
+至少測 360×800、390×844、430×932、768×1024、1024×768、1440×1000，兩種語言均測：
+
+- 無水平捲動；照片有高度上限、完整視野、字級可讀，繁中與長英文名稱自然換行。
+- 課程照片後「往下繼續」可到主要操作，任務選項不被來源細節推得太遠；檢查實際捲動與 fold 提示。
+- 按鈕和來源 summary 至少 44px 高；不用 hover 解鎖資訊。短版來源連結與長作者可換行。
+- 鍵盤可完成操作、提示、來源展開、知識卡、dialog；焦點可見，Escape 關閉筆記本回到開啟按鈕。下一題／完成頁焦點轉移正常。
+- 每張照片 meaningful alt；來源細節隱藏時仍可透過原生 disclosure 存取。檢查文字／背景對比，不靠顏色作唯一線索。
+- prefers-reduced-motion: reduce 時互動仍可完成；無必要動畫或平滑捲動。
+
+## 互動與共用電腦
+
+- 從乾淨首頁各走完中英文六站課程、12 題任務；課程不新增必答門檻。筆記本保留六工具卡及任務證據。
+- 神秘影像先不開提示作答，再測提示、重載、第一次重試、第二次較強提示、協助及正解。下一題清掉前題提示。
+- 切換語言保留當前題目與提示；重載保留有效進度。content 4 的 v0.29 存檔仍可用，較舊內容依原機制失效。
+- 「再玩一次」保留課程／語言，「回首頁」保留任務。「下一位小偵探」從完成頁直接清空全部遊戲狀態，回繁中首頁；重載後仍乾淨。
+- Next Detective 不清除其他 localStorage 鍵。另測過期、損毀、不相容與 blocked storage，記憶體內仍可遊玩。
+
+## v0.30 實際驗證紀錄（2026-09-22）
+
+- `git fetch origin` 成功；local／origin dev/v0.29 均為 `eeb2bf7fc9bb9b8e1e407a4261690b819403a8c1`。原 dev/v0.30 已存在於包含此提交的 `a893fe1`，初始 tree 與 v0.29 相同；沿用原分支，未重寫歷史。
+- `npm ci --cache .npm-cache --no-audit --no-fund` 成功，161 個套件。首次 sandbox 安裝出現 npm “Exit handler never called”，取得允許的執行權限後相同命令成功。
+- `npm test`：42 passed，0 failed；包含新增加的初始任務不洩露機制、可選提示不改答案、compact attribution 常駐作者／授權，以及英文字串無中文檢查。
+- `npm run lint`、`npm run typecheck`、`npm run build`、`git diff --check` 通過；`npm run preview` 預設 4173 也成功啟動。建置未修改圖片或來源 metadata。
+- `node artifacts/check-v030-metadata.cjs` 對照 v0.29，八筆 credit 物件逐欄相同，圖片路徑／尺寸及 source_images／WebP／SVG 完全保留，dist 圖片位元與 public 相同。
+- 以 `node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 5178 --strictPort` 啟動 production preview。PowerShell 的 npm wrapper 未正確轉送首次指定 port 參數，改用等效 Vite CLI；不是 dist 建置失敗。
+- 沿用既有本機 Playwright／headless Microsoft Edge（不增加依賴或測試框架）。`npx tsx artifacts/v030-fixtures.ts` 產生目前資料，`node artifacts/check-v030.cjs` 通過上述六種 viewport × 兩語 × 八張照片，共 96 組；無水平溢出或 pageerror。
+- `node artifacts/check-v030-completion.cjs` 通過 1440px／360px 完成頁換行與 notebook Escape 焦點返回；人工檢視桌機完成頁。
+- Browser 實走完整六站及十二題，各中英文一次；通過 hints／strong hints、來源鍵盤展開、筆記本 SEM/TEM、Next Detective／重載清空／不影響其他鍵、語言與提示保存、reduced-motion。
+- 人工檢視 360px 英文螢光、360px 中文 SEM 任務、平板中文 TEM、桌面英文血球截圖：完整視野、可讀換行及來源層級正常。保留的 artifacts/v030-browser-results.json 與 v030-*.png 為本機驗證產物，依既有規則不納 Git；檢查清單可手動重現，不宣稱有配置 CI browser suite。
+- 八張 Commons 原始來源頁均能開啟，逐張核對現有授權；保留 NICHD 的 CC BY 2.0，未因機構名稱改稱 Public Domain。未下載或替換圖片。
+
+以上是桌面瀏覽器的 viewport 測試，不等於實機 iOS／Safari、螢幕閱讀器或 WCAG 認證。仍需兒童與家長試玩、手機觸控／捲動、科學措辭的人員審閱。未發現現行八筆授權與來源頁矛盾；歷史候選清單的 modification 只是範例，未啟用素材須另行核對。沒有合併 main、推送或部署。
+
+---
+
+# 歷史驗證紀錄（非目前發布清單）
+
 # v0.23 驗證紀錄 — 2026-09-16
 
 ## 自動檢查

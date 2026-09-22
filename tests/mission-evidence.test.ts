@@ -40,6 +40,9 @@ test("mission sources include original titles, creators, licenses and conversion
     const image = images[q.image!];
     assert.deepEqual([image.credit.creator, image.credit.license, image.credit.originalTitle], expected[index]);
     const html = renderToStaticMarkup(createElement(ImageAttribution, { image, locale, compact: true }));
+    const visibleCredit = html.split("<details>")[0];
+    assert.ok(visibleCredit.includes(image.credit.creator));
+    assert.ok(visibleCredit.includes(image.credit.license));
     assert.match(html, /<details><summary>/);
     assert.doesNotMatch(html, /<details[^>]+open/);
     assert.ok(html.includes(image.credit.originalTitle!));
@@ -50,6 +53,30 @@ test("mission sources include original titles, creators, licenses and conversion
     assert.match(html, /WebP/);
     assert.doesNotMatch(html, /cropped/i);
     if (index < 2) assert.match(html, /href="https:\/\/creativecommons.org\/licenses\/by\/4.0\/"/);
+  }
+});
+
+test("real missions begin with observations; optional hints preserve decisions and reset on the next question", () => {
+  let state = gameReducer(createGame(), { type: "RESUME" });
+  for (const q of caseQuestions) {
+    if (q.stage === "mystery") {
+      const image = images[q.image!];
+      for (const locale of ["zh-TW", "en"] as const) {
+        const initial = [q.question[locale], q.observation![locale], image.caption[locale], image.imageAlt[locale]].join(" ");
+        assert.doesNotMatch(initial, /光和鏡片|加了標記|螢光標記|電子掃描|電子穿過|light and lenses|fluorescent labels|labels were added|electrons scanned|electrons passed/i);
+      }
+      assert.equal(state.showHint, false);
+      const before = state;
+      state = gameReducer(state, { type: "HINT" });
+      assert.equal(state.showHint, true);
+      assert.deepEqual(state.completed, before.completed);
+      assert.deepEqual(state.selected, before.selected);
+      assert.equal(state.attempts, 0);
+      assert.ok(validateProgress(JSON.parse(JSON.stringify(state))));
+    }
+    state = gameReducer(state, { type: "ANSWER", ids: q.correctAnswer });
+    state = gameReducer(state, { type: "NEXT" });
+    assert.equal(state.showHint, false);
   }
 });
 
@@ -77,4 +104,3 @@ test("new mission decisions support retry, solve, assist, reload validation and 
   assert.equal(currentQuestion(state).stage, "final");
   assert.equal(validateProgress({ ...state, contentVersion: 3 }), false);
 });
-

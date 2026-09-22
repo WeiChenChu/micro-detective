@@ -32,6 +32,9 @@ export function KnowledgeCard({
       </div>
       <p className="knowledge-summary"><strong>{lesson.shortDescription[locale]}</strong></p>
       <p>{lesson.concept[locale]}</p>
+      {lesson.detailViews && <dl className="tool-detail-views">{lesson.detailViews.map(view => <div key={view.name.en}>
+        <dt>{view.name[locale]}</dt><dd>{view.description[locale]}</dd>
+      </div>)}</dl>}
       <details className="knowledge-clue">
         <summary>🔎 {a.clue[locale]}</summary>
         <p>{lesson.clue[locale]}</p>

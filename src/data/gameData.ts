@@ -295,7 +295,7 @@ export const caseQuestions: Question[] = [
     ),
     funFact: bi(
       "SEM（掃描式電子顯微鏡）常用來看表面或表面附近的細節。TEM（穿透式電子顯微鏡）適合看很薄樣品的內部構造。這張粒線體圖是後者的概念示意。",
-      "Some electron microscopes show surfaces (SEM（掃描式電子顯微鏡）); others show inside thin samples (TEM（穿透式電子顯微鏡）). This mitochondrion is a TEM（穿透式電子顯微鏡） concept illustration.",
+      "Scanning electron microscopy (SEM) shows surface detail; transmission electron microscopy (TEM) shows inside thin samples. This mitochondrion is a TEM teaching illustration.",
     ),
     microscopeType: "electron",
   },

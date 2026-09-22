@@ -10,6 +10,7 @@ export interface AcademyLesson extends ToolCardVisual {
   concept: Text;
   clue: Text;
   sendoff: Text;
+  detailViews?: { name: Text; description: Text }[];
   check?: {
     question: Text;
     choices: { id: string; label: Text; feedback: Text; image?: string; imageAlt?: Text }[];
@@ -95,11 +96,21 @@ export const academyModules: AcademyLesson[] = [
       answer: "prepare",
       choices: [
         { id: "live", label: bi("把活樣品直接放進電子顯微鏡，看它活動", "Put the living sample straight into an electron microscope to watch it move"), feedback: bi("電子顯微鏡通常需要特別準備樣品，通常不能直接看活著的生物活動。", "Electron microscopy usually needs special preparation, rather than directly following living activity as in light microscopy.") },
-        { id: "prepare", label: bi("準備適合的薄樣品，用 TEM（穿透式電子顯微鏡）看內部細節", "Prepare a suitable thin specimen and use TEM（穿透式電子顯微鏡） for internal detail"), feedback: bi("TEM（穿透式電子顯微鏡）適合看很薄樣品內部的極細小構造，也叫「超微結構」。SEM（掃描式電子顯微鏡）常用來看表面或表面附近的細節。兩種方法都要先準備合適的樣品。", "TEM（穿透式電子顯微鏡） suits ultrastructure inside thin samples; SEM（掃描式電子顯微鏡） emphasizes surfaces. Finer detail also requires specimen preparation.") },
+        { id: "prepare", label: bi("準備適合的薄樣品，用 TEM（穿透式電子顯微鏡）看內部細節", "Prepare a suitable thin specimen and use TEM (transmission electron microscopy) for internal detail"), feedback: bi("TEM（穿透式電子顯微鏡）適合看很薄樣品內部的極細小構造，也叫「超微結構」。SEM（掃描式電子顯微鏡）常用來看表面或表面附近的細節。兩種方法都要先準備合適的樣品。", "TEM (transmission electron microscopy) shows ultrastructure inside thin samples; SEM (scanning electron microscopy) emphasizes surfaces. Both need suitable specimen preparation.") },
       ],
     },
     icon: "bolt",
     title: bi("電子顯微鏡", "Electron microscope"),
+    detailViews: [
+      {
+        name: bi("SEM（掃描式電子顯微鏡）", "SEM (scanning electron microscope)"),
+        description: bi("看細緻的表面凹凸與紋路，影像常有立體感。", "Shows fine surface shapes and textures, often with a three-dimensional appearance."),
+      },
+      {
+        name: bi("TEM（穿透式電子顯微鏡）", "TEM (transmission electron microscope)"),
+        description: bi("看很薄樣品或薄切片裡的細微構造，例如內部的膜。", "Shows fine internal structures, such as membranes, in very thin specimens or sections."),
+      },
+    ],
     opening: bi(
       "如果還想看得更細呢？看看表面，再看看裡面。",
       "What if we want finer detail? Explore a surface, then look inside.",

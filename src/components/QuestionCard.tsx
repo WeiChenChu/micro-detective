@@ -7,6 +7,8 @@ import { ImageChoice } from "./ImageChoice";
 import { MicroscopyImage } from "./MicroscopyImage";
 import { EvidenceTargets } from "./EvidenceTargets";
 import { FeedbackPanel } from "./FeedbackPanel";
+import { images } from "../data/images";
+import { ImageAttribution } from "./ImageAttribution";
 
 export function QuestionCard({
   state,
@@ -33,6 +35,8 @@ export function QuestionCard({
   const toolSelection = !!question.toolSelection;
   const resolved = !!state.completed[question.id];
   const hasImages = question.choices.some((c) => c.image);
+  const evidenceImage = question.image ? images[question.image] : undefined;
+  const realMission = question.stage === "mystery" && evidenceImage?.type === "real";
   return (
     <article
       className={`question-card ${final ? "final-question" : ""} ${question.stage === "mystery" ? "mystery-question" : ""}`}
@@ -62,7 +66,7 @@ export function QuestionCard({
         {final && !question.image && <div className="mystery-sample"><span aria-hidden="true">?</span><p>{question.observation?.[locale]}</p></div>}
         {question.image && (
           <div className="final-evidence">
-            {question.evidenceTargets ? <EvidenceTargets question={question} locale={locale} selected={state.selected} disabled={resolved} onSelect={id => dispatch({ type: "ANSWER", ids: [id] })} /> : <MicroscopyImage id={question.image} locale={locale} compactAttribution={question.stage === "mystery"} />}
+            {question.evidenceTargets ? <EvidenceTargets question={question} locale={locale} selected={state.selected} disabled={resolved} onSelect={id => dispatch({ type: "ANSWER", ids: [id] })} /> : <MicroscopyImage id={question.image} locale={locale} showCaption={realMission ? false : undefined} showAttribution={!realMission} />}
             <div className="observation-clue">
               <span>
                 <Icon name="search" size={19} />
@@ -101,6 +105,8 @@ export function QuestionCard({
             <div className="answer-toolbar">
               <button
                 className="button hint-button"
+                disabled={state.showHint}
+                aria-expanded={state.showHint}
                 onClick={() => dispatch({ type: "HINT" })}
               >
                 <Icon name="lightbulb" size={21} />
@@ -141,6 +147,7 @@ export function QuestionCard({
         onNext={() => dispatch({ type: "NEXT" })}
         onAssist={() => dispatch({ type: "ASSIST" })}
       />
+      {realMission && <ImageAttribution image={evidenceImage} locale={locale} compact />}
     </article>
   );
 }

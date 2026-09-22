@@ -1668,6 +1668,7 @@ button {
 }
 .completion-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 13px;
   margin: 25px 0 35px;
@@ -2938,7 +2939,6 @@ button {
 /* v0.24: observation, evidence and a clear next step, using existing tokens. */
 .course-map > summary,
 .observation-notes > summary,
-.real-image-example > summary,
 .image-attribution summary { cursor: pointer; min-height: 48px; padding: 12px 0; font-size: 16px; }
 .real-image-example { border-top: 1px solid var(--line); margin-top: 20px; }
 .image-attribution { font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
@@ -3039,6 +3039,20 @@ button {
 
 /* Real micrographs retain their complete field of view and intrinsic proportions. */
 .real-image-example .real-micrograph { max-width: 600px; margin-inline: auto; }
+.real-image-example > h3 { margin-block: 16px 8px; }
+.real-image-intro { max-width: 65ch; line-height: 1.7; }
+.real-image-example .image-frame img { max-height: min(420px, 55svh); }
+.detective-observation { margin-block: 12px; }
+.detective-observation p { margin: 6px 0 0; font-size: 16px; line-height: 1.6; }
+.real-image-example .image-caption { margin-block: 10px; font-size: 16px; line-height: 1.6; }
+.real-image-example .image-attribution { margin-top: 12px; }
+.real-image-continue { display: block; width: fit-content; min-height: 48px; padding-block: 12px; color: var(--green); text-underline-offset: 3px; }
+#academy-continue { scroll-margin-top: 24px; }
+.tool-detail-views { text-align: left; font-size: 16px; line-height: 1.6; }
+.tool-detail-views > div + div { margin-top: 12px; }
+.tool-detail-views dt { font-weight: 700; }
+.tool-detail-views dd { margin: 4px 0 0; }
+.next-detective-note { font-size: 16px; line-height: 1.6; }
 .real-micrograph .image-frame { aspect-ratio: auto; border-radius: var(--radius, 12px); }
 .real-micrograph .image-frame img { width: 100%; height: auto; object-fit: contain; }
 .real-micrograph .image-disclaimer { font-size: 13px; color: var(--ink); }
@@ -3054,6 +3068,8 @@ button {
 .mystery-question .image-attribution summary { font-size: 14px; }
 @media (max-width: 700px) {
   .mystery-question .real-micrograph .image-frame { max-height: min(260px, 38svh); }
+  .real-image-example .image-frame img { max-height: min(320px, 45svh); }
+  .real-image-example { margin-top: 16px; }
 }
 
 /* Collected real evidence also retains its full view in notebook thumbnails. */

@@ -19,7 +19,7 @@ export const gameUI = {
   ),
   chosen: bi("已選取", "Selected"),
   check: bi("確認線索", "Check my clues"),
-  hint: bi("給我一個提示", "Give me a hint"),
+  hint: bi("給我一點線索", "Give me a hint"),
   assist: bi("一起找答案", "Let’s find it together"),
   clue: bi("觀察線索", "Observation clue"),
   hintTitle: bi("偵探提示", "Detective hint"),
