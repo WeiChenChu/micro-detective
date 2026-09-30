@@ -1,6 +1,6 @@
 import type { Locale, Question } from "../data/types";
 import { gameUI } from "../data/gameUI";
-import { questionsById, stages, toolIcons } from "../data/missionData";
+import { bonusQuestion, questionsById, stages, toolIcons } from "../data/missionData";
 import { questionOrder, type GameState } from "../game/gameState";
 import { Icon } from "./Icon";
 import { MicroscopyImage } from "./MicroscopyImage";
@@ -82,7 +82,7 @@ export function DetectiveNotebook({
       </div>
       {onMissions && <div className="academy-actions"><button className="button" onClick={onMissions}>{a.startMissions[locale]}</button></div>}
       <h3 className="notebook-section-title">
-        {gameUI.evidenceLabel[locale]} · {ids.length}
+        {gameUI.evidenceLabel[locale]} · {ids.length + (state.bonus?.completed[bonusQuestion.id] ? 1 : 0)}
       </h3>
       {ids.length ? (
         <div className="notebook-grid">
@@ -94,6 +94,7 @@ export function DetectiveNotebook({
               index={index}
             />
           ))}
+          {state.bonus?.completed[bonusQuestion.id] && <EvidenceCard question={bonusQuestion} locale={locale} index={ids.length} />}
         </div>
       ) : (
         <div className="empty-notebook">

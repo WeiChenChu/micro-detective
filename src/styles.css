@@ -1458,7 +1458,7 @@ button {
 .phase-3 .image-frame {
   animation: glow-in 0.45s ease-out;
 }
-/* The five randomized final evidence files */
+/* Shared question image and answer workspace. */
 .final-workspace {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3145,4 +3145,71 @@ button {
 @media (max-width: 480px) {
   /* Longer English tool names need two columns to retain natural word breaks. */
   :lang(en) .compact-tool-recap ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* v0.33: stable evidence slots, related specimen views, optional investigation. */
+.case-evidence-tracker { margin: 16px 0; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: #f6f8f3; }
+.case-evidence-tracker h2 { font-size: 16px; margin: 0 0 10px; }
+.case-evidence-tracker ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; list-style: none; padding: 0; margin: 0; }
+.case-evidence-tracker li { min-width: 0; font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+.evidence-slot { display: block; margin-bottom: 4px; }
+.case-evidence-tracker summary { cursor: pointer; min-height: 66px; padding-block: 6px; }
+.case-evidence-tracker li > span:last-child { display: block; min-height: 66px; padding-block: 6px; }
+.case-evidence-tracker summary:focus-visible, .bonus-investigation > summary:focus-visible { outline: 3px solid #286c75; outline-offset: 3px; }
+.case-evidence-tracker .image-caption { font-size: 13px; }
+.case-evidence-tracker .image-disclaimer { display: none; }
+.case-evidence-tracker .image-frame img { object-fit: contain; }
+.evidence-review ol { gap: 16px; }
+.evidence-review summary { min-height: 44px; font-weight: 700; }
+.evidence-review p { font-size: 14px; }
+.case-model-note { font-size: 13px; color: var(--muted); }
+.bonus-investigation { margin-block: 24px; text-align: left; }
+.bonus-investigation > summary { cursor: pointer; min-height: 48px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; font-weight: 700; }
+.bonus-investigation > p { margin-block: 16px; }
+.final-question .final-workspace .visual-tool-grid { grid-template-columns: minmax(0, 1fr); }
+.final-question .visual-tool-choice .choice-body { flex-direction: row; text-align: left; min-height: 78px; padding: 10px 28px 10px 12px; }
+.final-question .visual-tool-choice .choice-copy { flex: 1; }
+.final-question .final-evidence .image-frame img { object-fit: contain; }
+.final-question .observation-clue p { font-size: 16px; line-height: 1.6; }
+.final-question .tool-choice-prompt { margin-top: 0; }
+[data-question-id="fin-explanation"] .choices-grid { grid-template-columns: minmax(0, 1fr); }
+.investigation-summary { text-align: left; }
+.investigation-summary li { padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+@media (max-width: 680px) {
+  .case-evidence-tracker { padding: 10px; }
+  .case-evidence-tracker ol { gap: 8px; }
+  .case-evidence-tracker li { font-size: 13px; }
+  .case-evidence-tracker summary, .case-evidence-tracker li > span:last-child { min-height: 106px; }
+  .evidence-review ol { grid-template-columns: minmax(0, 1fr); }
+  .evidence-review summary { min-height: 44px; }
+  .evidence-review .microscopy-image { max-width: 300px; margin-inline: auto; }
+  .final-question .final-workspace { gap: 16px; }
+  .final-question .final-evidence .image-frame { max-height: 220px; }
+  .final-question .final-evidence .image-frame img { height: 100%; }
+  .bonus-investigation .question-card { padding: 14px 10px; }
+}
+/* Keep the case story near its evidence; the full mission route remains available. */
+.final-case .mission-navigation { margin: 8px 0; font-size: 14px; gap: 8px; }
+.final-case .mission-navigation .button { padding: 8px; min-height: 44px; font-size: 14px; }
+.mission-route > summary { min-height: 44px; padding: 10px 0; cursor: pointer; font-size: 14px; }
+.final-case .stage-intro { padding: 14px 0; gap: 12px; }
+.final-case .stage-intro h1 { font-size: clamp(21px, 3vw, 28px); line-height: 1.4; }
+.final-case .stage-symbol { width: 44px; height: 44px; border-radius: 12px; }
+.case-evidence-tracker summary, .case-evidence-tracker li > span:last-child { min-height: 52px; }
+.evidence-review-clue { display: grid; gap: 8px; }
+@media (max-width: 680px) {
+  .final-case .mission-navigation > span { display: none; }
+  .final-case .stage-intro .stage-symbol { display: none; }
+  .final-case .stage-intro p { font-size: 15px; line-height: 1.6; }
+  .case-evidence-tracker summary, .case-evidence-tracker li > span:last-child { min-height: 74px; }
+  .evidence-review-clue { grid-template-columns: minmax(80px, .8fr) minmax(0, 1.2fr); align-items: center; }
+  .evidence-review-clue p { line-height: 1.5; margin-top: 4px; }
+  .evidence-review li { border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+}
+
+.case-summary-step { display: flex; align-items: center; gap: 12px; }
+.case-summary-step > div { min-width: 0; }
+
+@media (max-width: 480px) {
+  .celebration { transform: scale(.75); }
 }

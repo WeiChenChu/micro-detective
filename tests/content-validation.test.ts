@@ -19,14 +19,14 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { caseQuestions, finalQuestions, stages, toolChoices } from "../src/data/missionData";
+import { bonusQuestion, caseQuestions, finalQuestions, stages, toolChoices } from "../src/data/missionData";
 import { images, realImageExamples } from "../src/data/images";
 import { investigationUI } from "../src/data/investigationData";
 import { ui } from "../src/data/ui";
 import { gameUI } from "../src/data/gameUI";
 
 test("question IDs, answers, stage and image references are all valid", () => {
-  const questions = [...caseQuestions, ...finalQuestions, ...practiceQuestions];
+  const questions = [...caseQuestions, ...finalQuestions, bonusQuestion, ...practiceQuestions];
   assert.equal(new Set(questions.map((q) => q.id)).size, questions.length);
   for (const q of questions) {
     assert.ok(stages.some((s) => s.id === q.stage));
@@ -71,6 +71,7 @@ test("all localized educational and interface strings have both languages", () =
     academyUI,
     caseQuestions,
     finalQuestions,
+    bonusQuestion,
     stages,
     images,
     realImageExamples,

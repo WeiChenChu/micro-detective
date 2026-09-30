@@ -24,6 +24,11 @@ const illustration = (
 });
 
 export const images: Record<string, ImageData> = {
+  "fin-injury": illustration("fin-injury", "investigation", bi("受傷的尾鰭", "An injured fin"), bi("斑馬魚尾鰭缺少一部分，虛線標示原來的輪廓，圓圈指出受傷位置。", "A zebrafish with part of its tail fin missing; dashed lines show the former outline and a circle locates the injury."), bi("先觀察整片尾鰭。", "Start with the whole fin."), "stereo"),
+  "fin-regrowth": illustration("fin-regrowth", "investigation", bi("尾鰭再生的時間序列", "Fin regrowth over time"), bi("第 0、3、7、14 天的示意尾鰭逐漸長回；各圖保持相同方向與大小，虛線是原受傷位置。", "Illustrative days 0, 3, 7 and 14 show progressive fin regrowth in the same orientation and scale. Dashed lines mark the original injury."), bi("D0 → D3 → D7 → D14：第 0、3、7、14 天（示意，非固定時程）", "D0 → D3 → D7 → D14: days after injury (illustrative, not a fixed timeline)"), "stereo"),
+  "fin-tissue": illustration("fin-tissue", "investigation", bi("傷口附近的細胞與組織", "Cells and tissue near the wound"), bi("小尾鰭框出傷口附近，連線指向組織薄切片示意；虛線左方的再生區域有許多細胞，細胞內有細胞核。", "A fin inset locates the wound region and connects to a model tissue section. Many cells with nuclei appear in the regenerating region left of the dashed injury line."), bi("尾鰭 → 傷口附近 → 組織薄切片；虛線標示原受傷位置。", "Fin → wound region → thin tissue section; the dashed line marks the original injury."), "optical"),
+  "fin-fluorescence": illustration("fin-fluorescence", "investigation", bi("增殖標記的細胞", "Cells with proliferation labels"), bi("與組織圖對應的細胞位置；原受傷線左方附近有許多細胞核帶亮色外圈，代表偵測到增殖標記，其餘細胞核為藍色。", "Matching the tissue model’s cell positions, many nuclei near the left side of the injury line have bright rings indicating detected proliferation labels. Other nuclei are blue."), bi("亮色外圈：增殖標記；藍色：其他細胞核（配色為示意）。", "Bright ring: proliferation label; blue: other nuclei (illustrative colors)."), "fluorescence"),
+
   "mission-blood-real": {
     id: "mission-blood-real", src: "images/microscopy/missions/optical-blood-cells.webp",
     type: "real", placeholder: false, microscopeType: "optical", modality: "optical",

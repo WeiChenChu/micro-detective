@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import { ui } from "./data/ui";
 import { gameUI } from "./data/gameUI";
-import { caseQuestions, finalQuestions, stages, questionsById } from "./data/missionData";
+import { caseQuestions, investigationQuestions, stages, questionsById } from "./data/missionData";
 import {
   createGame,
   currentQuestion,
@@ -14,6 +14,7 @@ import {
 import { Landing } from "./components/Landing";
 import { GameShell } from "./components/GameShell";
 import { ProgressTracker } from "./components/ProgressTracker";
+import { EvidenceProgress } from "./components/EvidenceProgress";
 import { StageIntro } from "./components/StageIntro";
 import { QuestionCard } from "./components/QuestionCard";
 import { Modal } from "./components/Modal";
@@ -117,7 +118,7 @@ export default function App() {
       onCredits={() => setModal("credits")}
       onHome={home}
       playing={state.screen !== "landing"}
-      count={count + state.learnedTools.length}
+      count={count + state.learnedTools.length + (state.bonus?.completed["fin-bonus-tem"] ? 1 : 0)}
     >
       {!storageAvailable && (
         <p className="storage-note" role="status">
@@ -181,7 +182,7 @@ export default function App() {
           />
         ))}
       {state.screen === "game" && (
-        <main id="main" className="game-main" tabIndex={-1}>
+        <main id="main" className={`game-main ${question.stage === "final" ? "final-case" : ""}`} tabIndex={-1}>
           <div className="mission-navigation">
             <button
               className="button text-button"
@@ -191,12 +192,22 @@ export default function App() {
             </button>
             <span>{a.missions[locale]}</span>
           </div>
+          {question.stage === "final" ? <details className="mission-route">
+            <summary>{locale === "zh-TW" ? "偵查路線・最終案件" : "Mission route · Final Case"}</summary>
           <ProgressTracker
             stageId={stage.id}
             count={count}
             total={total}
             locale={locale}
           />
+          </details> : (
+          <ProgressTracker
+            stageId={stage.id}
+            count={count}
+            total={total}
+            locale={locale}
+          />
+          )}
           <StageIntro stage={stage} locale={locale} index={stageQuestions.indexOf(question.id) + 1} total={stageQuestions.length} />
           {question.toolSelection && !state.completed[question.id] && (
             <NotebookHint
@@ -207,6 +218,7 @@ export default function App() {
               onNotebook={openNotebook}
             />
           )}
+          {question.stage === "final" && question.id !== "fin-explanation" && <EvidenceProgress state={state} locale={locale} />}
           <QuestionCard
             key={question.id}
             state={state}
@@ -216,12 +228,14 @@ export default function App() {
             dispatch={dispatch}
             total={total}
             finalIndex={state.cursor - caseQuestions.length + 1}
-            finalTotal={finalQuestions.length}
+            finalTotal={investigationQuestions.length}
           />
         </main>
       )}
       {state.screen === "complete" && (
         <BadgeScreen
+          state={state}
+          dispatch={dispatch}
           locale={locale}
           count={count}
           onAgain={start}

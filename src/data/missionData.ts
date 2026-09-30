@@ -10,10 +10,10 @@ import {
   caseQuestions as originalCases,
   toolChoices as originalTools,
 } from "./gameData";
-import { investigationSteps } from "./investigationData";
-import type { ObservationToolId } from "./toolIllustrations";
+import { makeInvestigations, makeBonus, synthesisQuestion } from "./investigationData";
+import { toolIllustrations, type ObservationToolId } from "./toolIllustrations";
 
-export const CONTENT_VERSION = 4;
+export const CONTENT_VERSION = 5;
 export const toolIcons: Record<MicroscopeType, string> = {
   "naked-eye": "eye",
   magnifier: "search",
@@ -102,15 +102,15 @@ export const stages: Stage[] = [
     id: "final",
     number: "05",
     icon: "detective",
-    title: bi("微觀案件調查", "The microscopic investigation"),
+    title: bi("最終案件：重新長回來的尾鰭", "Final Case: How Does a Zebrafish Fin Grow Back?"),
     shortTitle: bi("最終案件", "Final case"),
     subtitle: bi(
-      "一個神秘樣品，三個問題",
-      "One mystery sample, three questions",
+      "三份證據，一個解釋",
+      "Three clues, one explanation",
     ),
     introduction: bi(
-      "實驗室收到神秘樣品！先想知道什麼，再選工具觀察。每一份新證據，都可能帶來下一個問題。",
-      "A mystery sample arrived! Start with a question, choose a tool and observe. Each new piece of evidence may lead to another question.",
+      "斑馬魚的尾鰭受傷後，竟然可以慢慢長回來。它是怎麼辦到的？幫研究員找到三份證據，破解再生的秘密！",
+      "A zebrafish’s injured tail fin can grow back over time. How does it happen? Help the researcher find three clues and solve the case!",
     ),
     reward: bi("案件破解！", "Case closed!"),
   },
@@ -360,66 +360,12 @@ export const caseQuestions: Question[] = [
   ),
 ];
 
-// Fixed narrative order: see cells → locate a target → investigate finer detail.
-export const finalQuestions: Question[] = [
-  research(
-    "investigation-cells",
-    "final",
-    bi("調查 1 · 有沒有細胞？", "Investigation 1 · Are there cells?"),
-    bi(
-      "神秘樣品裡藏著肉眼看不清楚的細胞嗎？想先看清楚細胞的整體輪廓，該選哪種觀察工具？",
-      "Does the mystery sample contain typical cells? Which method should first reveal their outlines?",
-    ),
-    "optical",
-    bi(
-      "先看見細胞的輪廓，還不需要追蹤某種蛋白質。",
-      "First see cell outlines; we do not yet need to track a particular protein.",
-    ),
-    bi(
-      "用複式光學顯微鏡，光與鏡片幫你看見細胞輪廓。調查結果：發現細胞！接下來找一種蛋白質的位置。",
-      "Compound light microscopy uses light and lenses to reveal cell outlines. Result: cells found! Next, locate a protein.",
-    ),
-  ),
-  research(
-    "investigation-protein",
-    "final",
-    bi("調查 2 · 蛋白質在哪裡？", "Investigation 2 · Where is the protein?"),
-    bi(
-      "樣品裡找到細胞了！現在想追查蛋白質 X 的位置，選哪種方法？",
-      "We found cells! Now we want to locate protein X. Which method fits?",
-    ),
-    "fluorescence",
-    bi(
-      "這次的任務是「尋找」：讓一種特定目標成為明顯線索。",
-      "This task is to FIND: make one specific target stand out.",
-    ),
-    bi(
-      "用螢光顯微鏡搭配針對這種蛋白質的標記，讓發光的標記指出它的位置。調查結果：找到目標位置！",
-      "Use fluorescence microscopy with a label targeting that protein. Its signal reveals the location. Result: target located!",
-    ),
-  ),
-  research(
-    "investigation-detail",
-    "final",
-    bi(
-      "調查 3 · 還藏著哪些細節？",
-      "Investigation 3 · What finer details remain?",
-    ),
-    bi(
-      "最後，想看清楚細胞內很細小、複式光學顯微鏡看不清的構造，選哪種工具？",
-      "Finally, which tool can distinguish internal structures too fine for compound light microscopy?",
-    ),
-    "electron",
-    bi(
-      "這次要「深入」：看清楚更細小的構造。",
-      "Now EXPLORE: distinguish finer structures.",
-    ),
-    bi(
-      "電子顯微鏡使用電子形成影像，讓你深入觀察細小結構。三個問題，選擇不同工具，案件破解！",
-      "Electron microscopes form images with electrons to reveal fine structures. Three questions, different tools: case closed!",
-    ),
-  ),
-].map((question, index) => ({ ...question, ...investigationSteps[index] }));
+// Fixed evidence chain, followed by interpretation. TEM never gates completion.
+export const investigationQuestions = makeInvestigations([...toolChoices, {
+  id: "stereo", toolVisualId: "stereo", title: toolIllustrations.stereo.toolName,
+}]);
+export const finalQuestions: Question[] = [...investigationQuestions, synthesisQuestion];
+export const bonusQuestion = makeBonus(toolChoices);
 export const questionsById = Object.fromEntries(
   [...caseQuestions, ...finalQuestions].map((q) => [q.id, q]),
 );

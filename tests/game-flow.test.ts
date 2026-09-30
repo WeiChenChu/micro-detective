@@ -195,18 +195,19 @@ test("language, microscope sequence and reload preserve the same question and fi
   assert.equal(s.screen, "landing");
   assert.equal(gameReducer(s, { type: "RESUME" }).cursor, 1);
 });
-test("the final case keeps its three research questions in narrative order", () => {
+test("the final case keeps three investigations followed by synthesis", () => {
   const a = createGame("zh-TW", () => 0),
     b = createGame("zh-TW", () => 0.99);
   assert.deepEqual(a.finalOrder, b.finalOrder);
   assert.deepEqual(a.finalOrder, [
-    "investigation-cells",
-    "investigation-protein",
-    "investigation-detail",
+    "fin-shape",
+    "fin-tissue",
+    "fin-proliferation",
+    "fin-explanation",
   ]);
   assert.deepEqual(
     finalQuestions.map((q) => q.correctAnswer[0]),
-    ["optical", "fluorescence", "electron"],
+    ["stereo", "optical", "fluorescence", "rebuild"],
   );
   assert.equal(
     questionOrder(a).length,
