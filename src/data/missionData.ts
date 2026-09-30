@@ -4,12 +4,14 @@ import {
   type Stage,
   type MicroscopeType,
   type Text,
+  type Choice,
 } from "./types";
 import {
   caseQuestions as originalCases,
   toolChoices as originalTools,
 } from "./gameData";
 import { investigationSteps } from "./investigationData";
+import type { ObservationToolId } from "./toolIllustrations";
 
 export const CONTENT_VERSION = 4;
 export const toolIcons: Record<MicroscopeType, string> = {
@@ -20,8 +22,13 @@ export const toolIcons: Record<MicroscopeType, string> = {
   fluorescence: "sparkle",
   electron: "bolt",
 };
-export const toolChoices = originalTools.map((tool) => ({
+const missionToolVisuals: Record<string, ObservationToolId> = {
+  "naked-eye": "scale", magnifier: "magnifier", stereo: "stereo",
+  optical: "optical", fluorescence: "fluorescence", electron: "electron",
+};
+export const toolChoices: Choice[] = originalTools.map((tool) => ({
   ...tool,
+  toolVisualId: missionToolVisuals[tool.id],
   title:
     tool.id === "optical"
       ? bi("複式光學顯微鏡", "Compound light microscope")
@@ -235,9 +242,9 @@ export const caseQuestions: Question[] = [
     question: bi("想看這些細胞的形狀與分布，哪種工具最適合先用？", "Which tool would you use first to see these cells’ shapes and distribution?"),
     observation: bi("許多圓形細胞散布在明亮的背景上。看看它們的輪廓和排列。", "Many round cells lie against a bright background. Look at their outlines and arrangement."),
     choices: [
-      { id: "optical", title: bi("複式光學顯微鏡・看細胞形狀", "Compound light microscope · cell shapes") },
-      { id: "fluorescence", title: bi("螢光顯微鏡・找標記訊號", "Fluorescence microscope · labeled signals") },
-      { id: "tem", title: bi("TEM（穿透式電子顯微鏡）・看內部細節", "Transmission electron microscope (TEM) · fine internal detail") },
+      { id: "optical", toolVisualId: "optical", title: bi("複式光學顯微鏡", "Compound light microscope"), description: bi("看細胞形狀", "Cell shapes") },
+      { id: "fluorescence", toolVisualId: "fluorescence", title: bi("螢光顯微鏡", "Fluorescence microscope"), description: bi("找標記訊號", "Labeled signals") },
+      { id: "tem", toolVisualId: "electron", toolMode: "TEM", title: bi("穿透式電子顯微鏡", "Transmission electron microscope"), description: bi("看內部細節", "Fine internal detail") },
     ],
     correctAnswer: ["optical"], microscopeType: "optical",
     hint: bi("這次看整體細胞形狀，不是極細微的表面或內部構造。", "Think about whole cell shapes, rather than extremely fine surface or internal structures."),
@@ -252,9 +259,9 @@ export const caseQuestions: Question[] = [
     question: bi("想分開找出細胞裡不同構造的位置，哪種方法最適合？", "Which method best helps locate different structures within cells?"),
     observation: bi("紅綠色細絲與藍色橢圓區域出現在不同位置。哪些區域聚在一起，哪些向外延伸？", "Red and green threads and blue oval regions appear in different places. Which cluster together, and which extend outward?"),
     choices: [
-      { id: "fluorescence", title: bi("螢光顯微鏡・觀察標記訊號", "Fluorescence microscope · labeled signals") },
-      { id: "ordinary", title: bi("一般光學觀察・只比較外形", "Ordinary light observation · shapes alone") },
-      { id: "sem", title: bi("SEM（掃描式電子顯微鏡）・看表面紋路", "Scanning electron microscope (SEM) · surface patterns") },
+      { id: "fluorescence", toolVisualId: "fluorescence", title: bi("螢光顯微鏡", "Fluorescence microscope"), description: bi("觀察標記訊號", "Labeled signals") },
+      { id: "ordinary", toolVisualId: "optical", title: bi("一般光學觀察", "Ordinary light observation"), description: bi("只比較外形", "Shapes alone") },
+      { id: "sem", toolVisualId: "electron", toolMode: "SEM", title: bi("掃描式電子顯微鏡", "Scanning electron microscope"), description: bi("看表面紋路", "Surface patterns") },
     ],
     correctAnswer: ["fluorescence"], microscopeType: "fluorescence",
     hint: bi("這次想分開找特定構造的位置，不只是看細胞外形。顏色本身不能證明拍攝方法。", "We want to locate specific structures separately, beyond cell outlines. Color alone cannot prove how an image was made."),
@@ -269,9 +276,9 @@ export const caseQuestions: Question[] = [
     question: bi("想看清楚這些小顆粒表面的凹凸和紋路，哪種工具最適合？", "Which tool best reveals the bumps and patterns on these tiny particles’ surfaces?"),
     observation: bi("長圓形小顆粒的表面有細密紋路與溝槽。這次想找的是外面的細節。", "The elongated particles have fine surface patterns and grooves. This question is about details on the outside."),
     choices: [
-      { id: "surface", title: bi("SEM（掃描式電子顯微鏡）・看表面", "Scanning electron microscope (SEM) · surfaces") },
-      { id: "section", title: bi("TEM（穿透式電子顯微鏡）・看薄切片內部", "Transmission electron microscope (TEM) · inside thin sections") },
-      { id: "signals", title: bi("螢光顯微鏡・找標記訊號", "Fluorescence microscope · labeled signals") },
+      { id: "surface", toolVisualId: "electron", toolMode: "SEM", title: bi("掃描式電子顯微鏡", "Scanning electron microscope"), description: bi("看表面", "Surfaces") },
+      { id: "section", toolVisualId: "electron", toolMode: "TEM", title: bi("穿透式電子顯微鏡", "Transmission electron microscope"), description: bi("看薄切片內部", "Inside thin sections") },
+      { id: "signals", toolVisualId: "fluorescence", title: bi("螢光顯微鏡", "Fluorescence microscope"), description: bi("找標記訊號", "Labeled signals") },
     ],
     correctAnswer: ["surface"], microscopeType: "electron",
     hint: bi("跟著表面的紋路看：這次要看外面，不是切片裡的構造。", "Follow the surface patterns: we want the outside, not structures inside a section."),
@@ -286,9 +293,9 @@ export const caseQuestions: Question[] = [
     question: bi("這張影像呈現細胞裡非常細小的內部構造。哪種工具最適合取得這類影像？", "This image reveals very fine structures inside a cell. Which tool best produces this kind of image?"),
     observation: bi("細胞的輪廓裡有細密線條、深色區域與較亮的空間。仔細看看裡面的細節。", "Fine lines, dark regions and lighter spaces lie within the cell outline. Look closely at the details inside."),
     choices: [
-      { id: "inside", title: bi("TEM（穿透式電子顯微鏡）・看薄切片內部", "Transmission electron microscope (TEM) · inside thin sections") },
-      { id: "surface", title: bi("SEM（掃描式電子顯微鏡）・看表面", "Scanning electron microscope (SEM) · surfaces") },
-      { id: "signals", title: bi("螢光顯微鏡・找標記訊號", "Fluorescence microscope · labeled signals") },
+      { id: "inside", toolVisualId: "electron", toolMode: "TEM", title: bi("穿透式電子顯微鏡", "Transmission electron microscope"), description: bi("看薄切片內部", "Inside thin sections") },
+      { id: "surface", toolVisualId: "electron", toolMode: "SEM", title: bi("掃描式電子顯微鏡", "Scanning electron microscope"), description: bi("看表面", "Surfaces") },
+      { id: "signals", toolVisualId: "fluorescence", title: bi("螢光顯微鏡", "Fluorescence microscope"), description: bi("找標記訊號", "Labeled signals") },
     ],
     correctAnswer: ["inside"], microscopeType: "electron",
     hint: bi("這次看的是非常薄的切片裡的細微構造，不是外表，也不是找標記。", "We are looking at fine structures inside a very thin section, not its outer surface or labeled targets."),

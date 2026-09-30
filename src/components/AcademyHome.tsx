@@ -1,6 +1,5 @@
 import { academyStages } from "../data/academyData";
 import type { Locale } from "../data/types";
-import { ToolSummary } from "./ToolSummary";
 import { AcademyCompletion } from "./AcademyCompletion";
 export function AcademyHome({ locale, completed, onModule, onMissions, onNotebook }: {
   locale: Locale; completed: string[]; onModule: (id: number) => void;
@@ -16,7 +15,6 @@ export function AcademyHome({ locale, completed, onModule, onMissions, onNoteboo
     </header>
     {next === -1 ? <>
       <AcademyCompletion locale={locale} onNotebook={onNotebook} onMissions={onMissions} />
-      <ToolSummary locale={locale} />
     </> : <section className="observation-route">
       <h2>{t("準備好成為微觀小偵探了嗎？", "Ready to become a microscopic detective?")}</h2>
       <p>{t("一起找出最適合觀察線索的工具！", "Discover the tools that help us find clues!")}</p>

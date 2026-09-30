@@ -1,4 +1,16 @@
-# 發布驗證 — v0.31
+# 發布驗證 — v0.32
+
+## v0.32 本機驗證紀錄（2026-09-30）
+
+- 起點：工作目錄乾淨，既有 `dev/v0.32` 位於 v0.31 合併提交 `bc42288`，沿用該分支。套件／lockfile 為 0.32.0；沒有提交、推送、合併或部署。
+- `npm test`：49 passed、0 failed。新增工具選項 metadata／SEM-TEM 家族檢查，以及雙語全部工具題的每個錯誤選項：首次／第二次重試只呈現所選工具，正確與協助完成才呈現解答工具。回饋單元測試隔離 Vite 圖片 URL；完整證據畫面另由正式預覽驗證。
+- `npm run lint`、`npm run typecheck`、`npm run build`、`git diff --check` 通過。正式產物以 `node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 5182 --strictPort` 驗證。
+- 本機 Playwright／headless Edge：360×800、390×844、768×1024、1024×768、1440×1000 × 繁中／英文 × 10 題工具選擇，共 100 組。檢查全部選項插圖／文字、SEM／TEM、作答前主圖沒有工具答案、第一／第二次錯誤提示、正解與協助完成、reload、Enter 作答、焦點可見與回饋焦點、各階段完整／精簡標題、圖片 contain 與無水平溢出。
+- 課程原回歸流程：6 種 viewport × 2 語言，完成 12 次五階段路線及 84 次觀察區排列检查；課程仍有六種獨立工具。Notebook 六張圖可解碼、SEM／TEM 說明仍在、Escape 恢復焦點，完成頁回顧先於主 CTA，能進入第一個任務。
+- 人工檢視桌面／平板／手機的選項、真實照片與回饋截圖。窄手機英文長工具名改用兩欄回顧；中文保持三欄。最終手機調整另跑 360／390px × 雙語 × 10 題（40 組），包含完成轉場與 Notebook。
+- 所有瀏覽器檢查未記錄 pageerror。比對 Git：`src/game/`、六張工具 SVG、`public/`、`images.ts`、`investigationData.ts` 均未變更；沒有新增依賴或改變 content/schema/academyRevision。
+
+本機腳本、結果與截圖放在既有忽略目錄 `artifacts/`：`check-v032.cjs`、`check-v032-academy.cjs`、`check-v032-mobile-final.cjs`、`v032-*.json`／`v032-*.png`、`v032-tests.txt`。沒有新增 CI browser suite。以上是桌面瀏覽器 viewport 檢查，尚未進行實機 iOS／Safari、螢幕閱讀器或兒童試玩。
 
 本節是目前檢查清單；文末保留 v0.23／v0.2／v0.1 的歷史結果，舊工具地圖、版本號、題目與「沒有 lint」敘述只適用當時。`docs/v0.24-validation.md` 至 `v0.29-validation.md`、migration 與 audit 同樣是歷史紀錄，不應拿來覆蓋本節。
 
@@ -17,10 +29,12 @@ npm run preview
 
 ## 內容
 
-- 所有預期的繁中／英文都有內容；英文不得殘留中文名稱或 placeholder。頁尾版本來自 package.json，0.31.0 顯示 v0.31。
+- 所有預期的繁中／英文都有內容；英文不得殘留中文名稱或 placeholder。頁尾版本來自 package.json，0.32.0 顯示 v0.32。
 - 六工具名稱一致；電子顯微鏡的知識卡、筆記本及回顧分列 SEM（掃描式電子顯微鏡）表面、TEM（穿透式電子顯微鏡）薄樣品內部。
 - SEM 的立體感不等於 3D 模型；TEM 不會透視任意厚樣品。倍率不等於解析度。
 - 四題真實影像初始題幹／observation／caption／alt 不洩漏拍攝機制；依觀察問題能選工具，不需先開提示。不能只憑彩色認定螢光。
+- 工具題的每個選項都顯示正確插圖與可讀名称；SEM／TEM 共用電子顯微鏡，以模式區分。錯誤回饋顯示所選工具，第一次不新增正解揭露；第二次仍可重試或協助完成。
+- 各階段第一題呈現完整介紹，後續題保留階段名稱與題數；Academy 完成頁的六工具回顧在開始任務 CTA 前。
 - 課程真實影像直接顯示；偵探觀察先於圖說，洋蔥站完整介紹不同樣品，其他用短 badge。螢光照片與示意的紅色意義不同。
 
 ## 每張外部真實影像

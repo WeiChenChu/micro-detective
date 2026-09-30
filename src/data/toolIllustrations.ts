@@ -48,3 +48,9 @@ export const toolIllustrations = {
 } satisfies Record<string, ToolCardVisual>;
 
 export type ObservationToolId = keyof typeof toolIllustrations;
+
+export type ToolMode = "SEM" | "TEM";
+export const toolModeLabels: Record<ToolMode, Text> = {
+  SEM: bi("SEM · 表面", "SEM · Surface"),
+  TEM: bi("TEM · 內部", "TEM · Inside"),
+};

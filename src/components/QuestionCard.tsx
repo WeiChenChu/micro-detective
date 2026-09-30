@@ -35,6 +35,7 @@ export function QuestionCard({
   const toolSelection = !!question.toolSelection;
   const resolved = !!state.completed[question.id];
   const hasImages = question.choices.some((c) => c.image);
+  const hasToolVisuals = question.choices.some((c) => c.toolVisualId);
   const evidenceImage = question.image ? images[question.image] : undefined;
   const realMission = question.stage === "mystery" && evidenceImage?.type === "real";
   return (
@@ -56,6 +57,8 @@ export function QuestionCard({
       {!(final && resolved) && !question.evidenceTargets && <p className="question-instruction">
         {toolSelection
           ? gameUI.finalInstruction[locale]
+          : hasToolVisuals
+            ? (locale === "zh-TW" ? "先觀察影像，再依問題選工具。" : "Observe the image, then choose a tool for the question.")
           : question.type === "multiple"
             ? gameUI.selectMany[locale]
             : hasImages
@@ -77,10 +80,11 @@ export function QuestionCard({
           </div>
         )}
         <div className="answer-area">
+          {hasToolVisuals && !resolved && <p className="tool-choice-prompt">{locale === "zh-TW" ? "選一個調查工具" : "Choose an investigation tool"}</p>}
           {!question.evidenceTargets && <div
             role="group"
             aria-labelledby="question-heading"
-            className={`choices-grid ${hasImages ? "has-images" : ""} ${question.type === "multiple" ? "multi-grid" : ""} ${toolSelection ? "tool-grid" : ""}`}
+            className={`choices-grid ${hasImages ? "has-images" : ""} ${question.type === "multiple" ? "multi-grid" : ""} ${toolSelection ? "tool-grid" : ""} ${hasToolVisuals ? "visual-tool-grid" : ""}`}
           >
             {question.choices.map((choice, index) => (
               <ImageChoice

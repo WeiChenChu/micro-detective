@@ -1,6 +1,6 @@
 # 微觀小偵探 / Microscopic Detective
 
-**v0.31 — Academy Flow & Tool Context** · 套件 `0.31.0` · 分支 `dev/v0.31`
+**v0.32 — Mission Visual Context & Flow Polish** · 套件 `0.32.0` · 分支 `dev/v0.32`
 
 給國小到國中學生與家長一起探索的雙語顯微科學網站，主要用於中研院 Open House／兒童科普日的共用電腦，以及掃 QR code 進入的手機。React + TypeScript + Vite + 原生 CSS；免登入，沒有後端、個資表單、分數排行榜或分析追蹤。
 
@@ -31,6 +31,8 @@ SEM／TEM 同屬「電子顯微鏡」，保留在同一課程與工具卡中，�
 第一階段從肉眼看果蠅、稍微靠近，到拿起放大鏡，使用同一個場景與座標系。拿起鏡片時底圖位置與大小不變，只有鏡片內約 2.5 倍放大；找到頭、身體、翅膀或腳後可前進，並一次收藏肉眼與放大鏡兩張卡。葉片保留為發現後的自由探索。解剖顯微鏡繼續觀察果蠅外部；複式光學階段明確轉問「細胞長什麼樣？」並換洋蔥表皮。
 
 六種觀察工具仍各自獨立，筆記本、回顧與任務選項不合併肉眼和放大鏡。每個主要觀察區使用 `ObservationView` 顯示「現在使用 / Using now」與工具名稱，重用 `toolIllustrations.ts` 及 Notebook 的六張 SVG，沒有新增儀器圖檔。桌面插圖約 112px、位於視野右側；680px 以下改為上方橫排、插圖 64px，不擠壓觀察區。電子顯微鏡共用一張插圖，另標 SEM 表面／TEM 內部模式。
+
+`ToolVisual` 共用上述插圖，支援 context、choice、feedback、compact 四種尺寸。任務選項以可選 `toolVisualId`／`toolMode` 指定工具；桌面 72px 視覺卡、手機 52px 橫排卡，SEM／TEM 以模式標籤區分。作答前只提示選工具，答錯只呈現所選工具，成功或協助完成後才在回饋連結工具與證據。每階段第一題保留完整介紹，後續顯示階段名稱及證據進度。課程完成頁先呈現精簡六工具回顧，再進入任務。
 
 任務共有 **12 份證據**：尺度複選、標記比較、四張真實神秘影像、三題選工具、三步最終案件（細胞輪廓 → 蛋白質位置 → 內部細微構造）。單選立即回饋；先觀察再選工具。「給我一點線索 / Give me a hint」提供一個可選提示；第一次不合適的選擇也顯示提示，第二次提供較強提示及協助完成。延伸知識在回答後自由展開，不新增年齡或難度模式。
 
@@ -92,8 +94,8 @@ npm run preview   # 正式建置的本機預覽
 
 ## 版本與部署
 
-`package.json.version` 是程式版本唯一來源，頁尾自動取 major/minor 顯示 `v0.31`；已移除手動 `displayVersion` 欄位。發布時同步 lockfile、README 與 CHANGELOG。`CONTENT_VERSION` 是存檔相容版本，不隨純文案版本升號。
+`package.json.version` 是程式版本唯一來源，頁尾自動取 major/minor 顯示 `v0.32`；已移除手動 `displayVersion` 欄位。發布時同步 lockfile、README 與 CHANGELOG。`CONTENT_VERSION` 是存檔相容版本，不隨呈現調整升號。
 
 正式站：[micro.weichenchu.com](https://micro.weichenchu.com/)。GitHub Pages workflow `.github/workflows/deploy-pages.yml` 在 push `main` 或手動執行時，`npm ci` → `npm test` → `npm run build`，只部署 `dist/`。`public/CNAME` 保留自訂網域；Vite `base: "./"`。詳見 [部署文件](docs/github-pages.md)。
 
-v0.31 從現有 v0.30 合併後的相同程式樹開始，保留於 dev/v0.31，尚未推送、合併或部署。近期歷史與 v0.28／v0.29 合併提交的限制見 [CHANGELOG](CHANGELOG.md)。活動前仍需兒童試玩、科學人員審閱，以及實機手機／Safari 和活動網路測試。
+v0.32 從 v0.31 合併提交 `bc42288` 開始，沿用已存在的 dev/v0.32，尚未推送、合併或部署。近期歷史與 v0.28／v0.29 合併提交的限制見 [CHANGELOG](CHANGELOG.md)。活動前仍需兒童試玩、科學人員審閱，以及實機手機／Safari 和活動網路測試。
