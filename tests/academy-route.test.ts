@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { AcademyHome } from "../src/components/AcademyHome";
-import { academyModules } from "../src/data/academyData";
+import { academyStages } from "../src/data/academyData";
 import { academyChallenges } from "../src/data/academyFlow";
 import { fluorescenceViews, fluorescenceComplete } from "../src/data/fluorescenceData";
 import { caseQuestions, finalQuestions } from "../src/data/missionData";
@@ -15,7 +15,7 @@ test("first-time Academy has one start route; completed Academy offers six-tool 
   assert.equal((first.match(/<button/g) ?? []).length, 1);
   assert.match(first, /開始訓練/);
   assert.doesNotMatch(first, /30 秒工具地圖|你會選哪一種工具|<img/);
-  const done = renderToStaticMarkup(createElement(AcademyHome, { ...props, completed: academyModules.map(m => m.id) }));
+  const done = renderToStaticMarkup(createElement(AcademyHome, { ...props, completed: academyStages.map(m => m.id) }));
   assert.equal((done.match(/<img/g) ?? []).length, 6);
   assert.match(done, /不是放得越大越好/);
   assert.match(done, /先想找什麼線索，再選適合的工具/);

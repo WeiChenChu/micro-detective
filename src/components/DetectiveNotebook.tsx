@@ -4,7 +4,7 @@ import { questionsById, stages, toolIcons } from "../data/missionData";
 import { questionOrder, type GameState } from "../game/gameState";
 import { Icon } from "./Icon";
 import { MicroscopyImage } from "./MicroscopyImage";
-import { academyModules } from "../data/academyData";
+import { observationTools } from "../data/academyData";
 import { academyUI as a } from "../data/academyUI";
 import { KnowledgeCard } from "./KnowledgeCard";
 import { InvestigationEvidence } from "./InvestigationEvidence";
@@ -67,16 +67,16 @@ export function DetectiveNotebook({
       </section>}
       <p className="modal-intro">{gameUI.notebookIntro[locale]}</p>
       <h3>
-        {a.knowledge[locale]} · {state.academyCompleted.length} /{" "}
-        {academyModules.length}
+        {a.knowledge[locale]} · {state.learnedTools.length} /{" "}
+        {observationTools.length}
       </h3>
       <div className="notebook-grid">
-        {academyModules.map((lesson) => (
+        {observationTools.map((lesson) => (
           <KnowledgeCard
             key={lesson.id}
             lesson={lesson}
             locale={locale}
-            collected={state.academyCompleted.includes(lesson.id)}
+            collected={state.learnedTools.includes(lesson.id)}
           />
         ))}
       </div>

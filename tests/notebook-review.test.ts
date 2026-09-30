@@ -1,13 +1,14 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { academyModules } from "../src/data/academyData";
+import { observationTools, academyStages } from "../src/data/academyData";
 import { createGame, currentQuestion, gameReducer, readProgress, STORAGE_KEY, validateProgress, writeProgress } from "../src/game/gameState";
 
 test("v0.25 progress survives missing notebook flags; one-time flags survive reload and replay", () => {
   let state = gameReducer(createGame(), { type: "RESUME" });
   state = gameReducer(state, { type: "ANSWER", ids: currentQuestion(state).correctAnswer });
-  state.academyCompleted = academyModules.map(lesson => lesson.id);
+  state.academyCompleted = academyStages.map(stage => stage.id);
+  state.learnedTools = observationTools.map(tool => tool.id);
   delete state.notebookHintSeen;
   delete state.notebookReviewSeen;
   const data = new Map([[STORAGE_KEY, JSON.stringify(state)]]);
@@ -35,8 +36,8 @@ test("v0.25 progress survives missing notebook flags; one-time flags survive rel
 });
 
 test("all six tool cards reference distinct self-contained original SVGs and bilingual summaries", () => {
-  assert.equal(new Set(academyModules.map(lesson => lesson.image)).size, 6);
-  for (const lesson of academyModules) {
+  assert.equal(new Set(observationTools.map(lesson => lesson.image)).size, 6);
+  for (const lesson of observationTools) {
     const svg = readFileSync(new URL(lesson.image), "utf8");
     assert.match(svg, /viewBox="0 0 240 210"/);
     assert.doesNotMatch(svg, /<(?:script|image|text|foreignObject)\b|(?:href|url\()|@import/i);

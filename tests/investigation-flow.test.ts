@@ -37,12 +37,12 @@ test("final investigation unlocks evidence only after a decision, survives reloa
 });
 
 test("current-content saves retain lesson cards, practice and active answers", () => {
-  const s = { ...createGame("en"), academyCompleted: ["scale", "magnifier", "optical"], academyModule: 4, screen: "academy" as const };
+  const s = { ...createGame("en"), academyCompleted: ["close-observation", "optical"], learnedTools: ["scale", "magnifier", "optical"], academyModule: 4, screen: "academy" as const };
   const data = JSON.stringify(s);
   assert.deepEqual(readProgress({ getItem: k => k === STORAGE_KEY ? data : null, setItem() {}, removeItem() { assert.fail("must not clear compatible progress"); } }), s);
   assert.equal(s.contentVersion, 4);
   assert.equal(s.schemaVersion, 2);
-  assert.equal(s.academyRevision, 2);
+  assert.equal(s.academyRevision, 3);
 });
 
 test("mystery observations defer instrument mechanisms to the second hint", () => {

@@ -24,7 +24,7 @@ import { Credits } from "./components/Credits";
 import { useWebMCP } from "./game/useWebMCP";
 import { AcademyHome } from "./components/AcademyHome";
 import { AcademyModule } from "./components/AcademyModule";
-import { academyModules } from "./data/academyData";
+import { academyStages } from "./data/academyData";
 import { academyUI as a } from "./data/academyUI";
 
 function initialize() {
@@ -48,7 +48,7 @@ export default function App() {
   const stage = stages.find((s) => s.id === question.stage)!;
   const count = evidenceCount(state);
   const total = questionOrder(state).length;
-  const academyComplete = academyModules.every(lesson => state.academyCompleted.includes(lesson.id));
+  const academyComplete = academyStages.every(lesson => state.academyCompleted.includes(lesson.id));
   useEffect(() => {
     document.documentElement.lang = locale;
     document.title = `${ui.name[locale]} · ${locale === "zh-TW" ? "Microscopic Detective" : "微觀小偵探"}`;
@@ -116,7 +116,7 @@ export default function App() {
       onCredits={() => setModal("credits")}
       onHome={home}
       playing={state.screen !== "landing"}
-      count={count + state.academyCompleted.length}
+      count={count + state.learnedTools.length}
     >
       {!storageAvailable && (
         <p className="storage-note" role="status">
@@ -159,19 +159,20 @@ export default function App() {
             key={state.academyModule}
             index={state.academyModule}
             locale={locale}
-            collected={state.academyCompleted.includes(
-              academyModules[state.academyModule].id,
+            learnedTools={state.learnedTools}
+            completed={state.academyCompleted.includes(
+              academyStages[state.academyModule].id,
             )}
             onComplete={() =>
               dispatch({
-                type: "COLLECT_LESSON",
-                id: academyModules[state.academyModule!].id,
+                type: "COMPLETE_ACADEMY_STAGE",
+                id: academyStages[state.academyModule!].id,
               })
             }
             onBack={() => dispatch({ type: "ACADEMY" })}
             onNext={() =>
               dispatch(
-                state.academyModule! < academyModules.length - 1
+                state.academyModule! < academyStages.length - 1
                   ? { type: "ACADEMY", module: state.academyModule! + 1 }
                   : { type: "ACADEMY" },
               )

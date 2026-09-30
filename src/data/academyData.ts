@@ -1,9 +1,9 @@
-import { toolIllustrations, type ToolCardVisual } from "./toolIllustrations";
+import { toolIllustrations, type ToolCardVisual, type ObservationToolId } from "./toolIllustrations";
 import { bi, type Text } from "./types";
 import { closeObservationLessons } from "./academyExtensions";
 
-export interface AcademyLesson extends ToolCardVisual {
-  id: string;
+export interface ToolKnowledge extends ToolCardVisual {
+  id: ObservationToolId;
   icon: string;
   title: Text;
   opening: Text;
@@ -18,7 +18,8 @@ export interface AcademyLesson extends ToolCardVisual {
   };
 }
 
-export const academyModules: AcademyLesson[] = [
+// Knowledge belongs to tools, independently of the exploration route.
+export const observationTools: ToolKnowledge[] = [
   {
     ...toolIllustrations.scale,
     id: "scale",
@@ -125,6 +126,28 @@ export const academyModules: AcademyLesson[] = [
     ),
     sendoff: bi("你獲得了「深入」的能力！", "You have the power to EXPLORE!"),
   },
+];
+
+export interface AcademyStage {
+  id: "close-observation" | "stereo" | "optical" | "fluorescence" | "electron";
+  title: Text;
+  opening: Text;
+  toolIds: ObservationToolId[];
+}
+
+export const academyStages: AcademyStage[] = [
+  {
+    id: "close-observation",
+    title: bi("肉眼＋放大鏡", "Naked eye + magnifying glass"),
+    opening: observationTools[0].opening,
+    toolIds: ["scale", "magnifier"],
+  },
+  ...(["stereo", "optical", "fluorescence", "electron"] as const).map(id => ({
+    id,
+    title: toolIllustrations[id].toolName,
+    opening: observationTools.find(tool => tool.id === id)!.opening,
+    toolIds: [id],
+  })),
 ];
 
 export const toolAbilities = [

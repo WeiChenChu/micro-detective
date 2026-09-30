@@ -1,5 +1,5 @@
 import type { Locale } from "../data/types";
-import type { AcademyLesson } from "../data/academyData";
+import type { ToolKnowledge } from "../data/academyData";
 import { academyUI as a } from "../data/academyUI";
 import { Icon } from "./Icon";
 
@@ -8,7 +8,7 @@ export function KnowledgeCard({
   locale,
   collected,
 }: {
-  lesson: AcademyLesson;
+  lesson: ToolKnowledge;
   locale: Locale;
   collected: boolean;
 }) {

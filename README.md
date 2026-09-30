@@ -1,6 +1,6 @@
 # 微觀小偵探 / Microscopic Detective
 
-**v0.30 開發版** · 套件 `0.30.0` · 分支 `dev/v0.30`
+**v0.31 — Academy Flow & Tool Context** · 套件 `0.31.0` · 分支 `dev/v0.31`
 
 給國小到國中學生與家長一起探索的雙語顯微科學網站，主要用於中研院 Open House／兒童科普日的共用電腦，以及掃 QR code 進入的手機。React + TypeScript + Vite + 原生 CSS；免登入，沒有後端、個資表單、分數排行榜或分析追蹤。
 
@@ -26,7 +26,11 @@
 
 SEM／TEM 同屬「電子顯微鏡」，保留在同一課程與工具卡中，分別列出用途。解剖與螢光也屬光學顯微鏡；上述是教學觀察分類，不是互斥技術分類或能力排行榜。
 
-首頁可自由進入課程或任務，不強制先修課。六站課程依序是肉眼、放大鏡、解剖、複式光學、螢光、電子。完成主要操作即可前進並收藏知識卡；額外挑戰可略過。課後回顧六張工具卡，再進入任務。
+首頁可自由進入課程或任務，不強制先修課。五個探索階段依序是肉眼＋放大鏡、解剖、複式光學、螢光、電子。完成主要操作即可前進並收藏知識卡；額外挑戰可略過。課後回顧六張工具卡，再進入任務。
+
+第一階段從肉眼看果蠅、稍微靠近，到拿起放大鏡，使用同一個場景與座標系。拿起鏡片時底圖位置與大小不變，只有鏡片內約 2.5 倍放大；找到頭、身體、翅膀或腳後可前進，並一次收藏肉眼與放大鏡兩張卡。葉片保留為發現後的自由探索。解剖顯微鏡繼續觀察果蠅外部；複式光學階段明確轉問「細胞長什麼樣？」並換洋蔥表皮。
+
+六種觀察工具仍各自獨立，筆記本、回顧與任務選項不合併肉眼和放大鏡。每個主要觀察區使用 `ObservationView` 顯示「現在使用 / Using now」與工具名稱，重用 `toolIllustrations.ts` 及 Notebook 的六張 SVG，沒有新增儀器圖檔。桌面插圖約 112px、位於視野右側；680px 以下改為上方橫排、插圖 64px，不擠壓觀察區。電子顯微鏡共用一張插圖，另標 SEM 表面／TEM 內部模式。
 
 任務共有 **12 份證據**：尺度複選、標記比較、四張真實神秘影像、三題選工具、三步最終案件（細胞輪廓 → 蛋白質位置 → 內部細微構造）。單選立即回饋；先觀察再選工具。「給我一點線索 / Give me a hint」提供一個可選提示；第一次不合適的選擇也顯示提示，第二次提供較強提示及協助完成。延伸知識在回答後自由展開，不新增年齡或難度模式。
 
@@ -78,7 +82,9 @@ npm run preview   # 正式建置的本機預覽
 
 ## 共用裝置與本機進度
 
-使用 `microscopic-detective:progress:v2`，schema 2、content 4、academyRevision 2，沿用 24 小時閒置失效。v0.30 沒有改變題目 ID、正解或 schema，有效 v0.29 進度仍可續用；v0.28 以前 content 3 的進度不相容。舊 `practice` 畫面讀取後回到課程首頁。
+使用 `microscopic-detective:progress:v2`，schema 2、content 4、academyRevision 3，沿用 24 小時閒置失效。`academyStages` 的五個階段與 `observationTools` 的六張工具卡分開；`academyCompleted` 記錄階段，`learnedTools` 記錄工具，`COMPLETE_ACADEMY_STAGE` 依該階段的 `toolIds` 收藏。
+
+讀取有效 v0.30／revision 2 存檔時，舊工具收藏完整轉入 `learnedTools`，肉眼和放大鏡都完成才算完成 `close-observation` 階段；只完成其一會保留那張卡，合併階段仍可繼續。舊 index 0／1 都轉到新 index 0，2–5 轉到 1–4，課程首頁的 null 保留。較早四課版本也依舊 ID 轉換。遷移保留任務答案、語言、筆記本旗標與練習進度，寫回 revision 3 後不再遷移；損毀、不相容與過期存檔沿用既有處理。v0.28 以前 content 3 的進度仍不相容。舊 `practice` 畫面讀取後回到課程首頁。
 
 重新整理保存語言、任務答案、提示及課程收藏；未完成的課程操作會重開。回首頁保留進度，「再玩一次」只重玩任務並保留課程卡與語言。
 
@@ -86,8 +92,8 @@ npm run preview   # 正式建置的本機預覽
 
 ## 版本與部署
 
-`package.json.version` 是程式版本唯一來源，頁尾自動取 major/minor 顯示 `v0.30`；已移除手動 `displayVersion` 欄位。發布時同步 lockfile、README 與 CHANGELOG。`CONTENT_VERSION` 是存檔相容版本，不隨純文案版本升號。
+`package.json.version` 是程式版本唯一來源，頁尾自動取 major/minor 顯示 `v0.31`；已移除手動 `displayVersion` 欄位。發布時同步 lockfile、README 與 CHANGELOG。`CONTENT_VERSION` 是存檔相容版本，不隨純文案版本升號。
 
 正式站：[micro.weichenchu.com](https://micro.weichenchu.com/)。GitHub Pages workflow `.github/workflows/deploy-pages.yml` 在 push `main` 或手動執行時，`npm ci` → `npm test` → `npm run build`，只部署 `dist/`。`public/CNAME` 保留自訂網域；Vite `base: "./"`。詳見 [部署文件](docs/github-pages.md)。
 
-v0.30 停留開發分支，沒有合併 main、推送、建立 tag 或部署。近期歷史與 v0.28／v0.29 合併提交的限制見 [CHANGELOG](CHANGELOG.md)。活動前仍需兒童試玩、科學人員審閱，以及實機手機／Safari 和活動網路測試。
+v0.31 從現有 v0.30 合併後的相同程式樹開始，保留於 dev/v0.31，尚未推送、合併或部署。近期歷史與 v0.28／v0.29 合併提交的限制見 [CHANGELOG](CHANGELOG.md)。活動前仍需兒童試玩、科學人員審閱，以及實機手機／Safari 和活動網路測試。

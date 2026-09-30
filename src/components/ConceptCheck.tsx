@@ -1,9 +1,9 @@
 import { useState } from "react";
-import type { AcademyLesson } from "../data/academyData";
+import type { ToolKnowledge } from "../data/academyData";
 import type { Locale } from "../data/types";
 
 export function ConceptCheck({ check, locale, onComplete }: {
-  check: NonNullable<AcademyLesson["check"]>; locale: Locale; onComplete?: () => void;
+  check: NonNullable<ToolKnowledge["check"]>; locale: Locale; onComplete?: () => void;
 }) {
   const [selected, setSelected] = useState<string>();
   const choice = check.choices.find(c => c.id === selected);

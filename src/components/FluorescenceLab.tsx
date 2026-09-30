@@ -1,4 +1,5 @@
 import { RealImageExample } from "./RealImageExample";
+import { ObservationView } from "./ObservationView";
 import { useState } from "react";
 import { fluorescenceSignals, fluorescenceViews, fluorescenceComplete } from "../data/fluorescenceData";
 import type { Locale } from "../data/types";
@@ -14,10 +15,10 @@ export function FluorescenceLab({ locale, step, onStep }: { locale: Locale; step
     t("把不同的螢光訊號放在一起，就能同時看到細胞裡不同的構造！", "Combine different fluorescent signals to see different structures together!"),
   ];
   return <section>
-    <div className="channel-view" role="img" aria-label={step === 0 ? t("一般細胞示意影像", "Ordinary cell diagram") : t("螢光示意，目前顯示：", "Fluorescence diagram showing: ") + (fluorescenceSignals.filter(s => active.includes(s.id)).map(s => `${s.name[locale]}（${s.shape[locale]}）`).join("、") || t("沒有開啟訊號", "no signals enabled"))}>
+    <ObservationView tool="fluorescence" locale={locale}><div className="channel-view" role="img" aria-label={step === 0 ? t("一般細胞示意影像", "Ordinary cell diagram") : t("螢光示意，目前顯示：", "Fluorescence diagram showing: ") + (fluorescenceSignals.filter(s => active.includes(s.id)).map(s => `${s.name[locale]}（${s.shape[locale]}）`).join("、") || t("沒有開啟訊號", "no signals enabled"))}>
       {step === 0 && <img src={`${import.meta.env.BASE_URL}images/fluorescence/academy-cells.svg`} alt="" />}
       {fluorescenceSignals.map(s => active.includes(s.id) && <img key={s.id} src={`${import.meta.env.BASE_URL}images/fluorescence/channel-${s.id}.svg`} alt="" />)}
-    </div>
+    </div></ObservationView>
     <p className="fluorescence-message" role="status">{messages[step]}</p>
     {step < 4 ? <button className="button primary" onClick={() => { const next = step + 1; onStep(next, fluorescenceComplete(next)); }}>
       {step === 3 ? t("合併三種訊號", "Combine three signals") : `${t("開啟", "Show")}：${fluorescenceSignals[step].name[locale]}`}

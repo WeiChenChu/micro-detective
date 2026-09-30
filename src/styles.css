@@ -2902,6 +2902,8 @@ button {
   }
   .lens-controls {
     gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .lens-controls button {
     padding: 10px;
@@ -2924,9 +2926,6 @@ button {
 .channel-view { position: relative; aspect-ratio: 4 / 3; background: #081323; border-radius: 20px; overflow: hidden; display: grid; place-items: center; color: white; text-align: center; }
 .channel-view img { position: absolute; width: 100%; height: 100%; inset: 0; }
 .channel-view span { padding: 20px; }
-.naked-view { padding: 30px; background: #f5fafc; border-radius: 20px; }
-.naked-view .image-frame { width: 60px; margin: 40px auto; }
-.naked-view.naked-near .image-frame { width: 100px; }
 .academy-module .specimen-switch { margin: 16px 0; flex-wrap: wrap; }
 .academy-module .specimen-switch button { min-height: 44px; white-space: normal; }
 .academy-module input:focus-visible { outline: 3px solid #286c75; outline-offset: 3px; }
@@ -2951,9 +2950,6 @@ button {
 .concept-check { margin-block: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
 .concept-check .specimen-switch { flex-direction: column; align-items: stretch; }
 .concept-check button { text-align: left; justify-content: flex-start; }
-.naked-view.naked-distance-0 .image-frame { width: 180px; max-width: 100%; }
-.naked-view.naked-distance-1 .image-frame { width: 60px; }
-.naked-view.naked-distance-2 .image-frame { width: 100px; }
 .mystery-sample { display: flex; align-items: center; gap: 20px; padding: 20px; margin-bottom: 24px; background: #edf3e3; border-radius: 16px; line-height: 1.8; }
 .mystery-sample > span { font-size: 56px; font-weight: 800; }
 .investigation-evidence { margin-block: 20px; line-height: 1.8; }
@@ -3002,10 +2998,6 @@ button {
 .academy-module .challenge-tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .challenge-tools .button { flex-direction: column; text-align: center; padding: 12px; }
 .challenge-tools img, .tool-recap img { width: 100%; max-width: 120px; height: 105px; object-fit: contain; }
-.naked-view.fly-far .image-frame { width: 72px; }
-.naked-view.fly-near .image-frame { width: 115px; }
-.naked-view .image-disclaimer { display: none; }
-.naked-view { min-height: 250px; display: grid; align-items: center; }
 .signal-legend { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
 .signal-legend li { display: flex; align-items: center; gap: 8px; }
 .signal-legend span { width: 18px; height: 18px; border: 1px solid #334155; border-radius: 3px; }
@@ -3022,7 +3014,7 @@ button {
 .evidence-target span { position: absolute; top: -12px; right: -12px; background: #173f58; color: #fff; border: 2px solid #fff; border-radius: 50%; width: 28px; height: 28px; display: grid; place-items: center; font-weight: 700; }
 .evidence-target:focus-visible, .evidence-target[aria-pressed="true"] { outline: 4px solid #d4921c; outline-offset: 4px; }
 .evidence-key { margin: 16px 0; line-height: 1.8; }
-.tool-recap h3 { line-height: 1.6; }
+.tool-recap h3 { line-height: 1.6; overflow-wrap: anywhere; }
 @media (max-width: 680px) {
   .academy-module .challenge-tools { gap: 8px; }
   .challenge-tools .button { padding: 8px; font-size: 14px; }
@@ -3075,3 +3067,29 @@ button {
 /* Collected real evidence also retains its full view in notebook thumbnails. */
 .evidence-card .real-micrograph .image-frame { aspect-ratio: 4/3; }
 .evidence-card .real-micrograph .image-frame img { height: 100%; object-fit: contain; }
+
+/* v0.31: the tool anchors a shared observation viewport; no new artwork. */
+.observation-view {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 140px;
+  gap: 20px;
+  align-items: center;
+  max-width: 760px;
+  margin: 16px auto;
+}
+.observation-viewport { grid-column: 1; grid-row: 1; min-width: 0; }
+.active-tool { grid-column: 2; grid-row: 1; text-align: center; line-height: 1.5; overflow-wrap: anywhere; }
+.active-tool img { display: block; width: 112px; height: 98px; object-fit: contain; margin: 0 auto 8px; }
+.active-tool span { display: block; font-size: 0.85rem; color: var(--muted); }
+.active-tool strong { display: block; font-size: 1rem; }
+.observation-mode { margin-top: 8px; font-size: 0.9rem; }
+.observation-view .magnifier-board { margin: 0; background: #f5fafc; }
+.observation-view .virtual-lens { background: #f5fafc; }
+.observation-specimen { position: absolute; object-fit: fill; max-width: none; }
+.magnifier-board.without-lens { touch-action: auto; }
+@media (max-width: 680px) {
+  .observation-view { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .active-tool { grid-column: 1; grid-row: 1; display: flex; align-items: center; gap: 12px; text-align: left; }
+  .active-tool img { width: 64px; height: 56px; margin: 0; flex: 0 0 64px; }
+  .observation-viewport { grid-row: 2; }
+}

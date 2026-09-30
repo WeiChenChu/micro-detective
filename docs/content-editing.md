@@ -1,12 +1,12 @@
-# 內容編輯指南 — v0.30
+# 內容編輯指南 — v0.31
 
 目前內容以 `src/data/` 的雙語資料為主；沿用 React 元件，不另建圖片或題庫系統。實際發布檢查見 [validation.md](validation.md)。歷史 `v0.*-validation.md`／migration／audit 是當時紀錄，不是目前規格。
 
 ## 教學資料與示意圖
 
-- `academyData.ts`／`academyExtensions.ts`：六站課程。`AcademyLesson` 包含工具視覺資料、`id`、`icon`、`title`、`opening`、`concept`、`clue`、`sendoff`、可選 `check`；電子課程的 `detailViews` 含雙語 `name`／`description`，由 ToolSummary 與 KnowledgeCard 共用，明列 SEM／TEM。
+- `academyData.ts`／`academyExtensions.ts`：五個探索階段 `academyStages` 與六筆工具知識 `observationTools`，由階段的 `toolIds` 關聯。`ToolKnowledge` 包含工具視覺資料、`id`、`icon`、`title`、`opening`、`concept`、`clue`、`sendoff`、可選 `check`；電子課程的 `detailViews` 含雙語 `name`／`description`，由 ToolSummary 與 KnowledgeCard 共用，明列 SEM／TEM。
 - `academyFlow.ts`：發現句、可略過的挑戰與工具回顧。`observationData.ts` 的部分既有工具題用於課程小挑戰，沒有獨立練習入口；不要刪除仍被引用的資料。
-- `ConceptReveal` 分派各工具操作，`AcademyModule` 在前進時收藏。保留六站 ID：scale、magnifier、stereo、optical、fluorescence、electron。
+- `ConceptReveal` 分派各工具操作，`AcademyModule` 在前進時收藏。階段 ID：close-observation、stereo、optical、fluorescence、electron。工具 ID 仍為 scale、magnifier、stereo、optical、fluorescence、electron；不要把階段數當成工具數。`ObservationView` 重用工具 metadata 與插圖；第一階段由同一個 MagnifierLab 場景切換肉眼／放大鏡，背景和鏡片共用 specimenFrame 座標。
 - 生物示意 SVG 位於 `public/images/{naked-eye,optical,fluorescence,electron}/`，以 `images.ts` 的 `illustration(...)` 登錄穩定 ID、相對 `src`、雙語 title／alt／caption、分類。`type: "illustration"`、`placeholder: true` 沿用既有格式；placeholder 不表示沒有素材。
 - 工具插圖位於 `src/assets/tools/`，由 `toolIllustrations.ts` 管理工具名稱、摘要、alt。不要與生物影像的登錄表混用。
 - 新增或編輯 SVG 保留 `viewBox="0 0 800 600"` 與 4:3；不要加入 script、foreignObject 或遠端圖片。果蠅／葉片熱點是 `observationData.ts` 的 0–1 座標，換圖後需重新核對。
@@ -88,6 +88,6 @@ SEM 主要看表面形狀／紋路，常有立體感，但單張圖不等於 3D 
 
 套件 `package.json.version` 為 `0.30.0`，GameShell 取 major/minor 顯示 `v0.30`，沒有手填 `displayVersion`。更新 lockfile、README、CHANGELOG。
 
-目前 `CONTENT_VERSION = 4`，schema 2、academyRevision 2。純文字／外觀修整不用升存檔版本；變更題目集合、正解或不相容互動才升號。v0.30 保留有效 v0.29 進度。完成頁「下一位小偵探」與原重置對話框共用 App 的回呼，`RESET` + `createGame()` 回繁中首頁並覆寫進度，不清其他網站資料。
+目前 `CONTENT_VERSION = 4`，schema 2、academyRevision 3。純文字／外觀修整不用升存檔版本；變更題目集合、正解或不相容互動才升號。v0.31 將有效 revision 2 收藏轉入 learnedTools，完成的階段另記 academyCompleted；第一階段需舊肉眼及放大鏡都完成才標完成，部分卡片保留。詳見 README 的遷移規則。完成頁「下一位小偵探」與原重置對話框共用 App 的回呼，`RESET` + `createGame()` 回繁中首頁並覆寫進度，不清其他網站資料。
 
 執行 `npm test`、`npm run lint`、`npm run typecheck`、`npm run build`，再用 `npm run preview` 試玩雙語課程、任務及手機照片。細部清單見 [validation.md](validation.md)。

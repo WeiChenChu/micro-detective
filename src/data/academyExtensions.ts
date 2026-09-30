@@ -1,7 +1,7 @@
 import { toolIllustrations } from "./toolIllustrations";
-import type { AcademyLesson } from "./academyData";
+import type { ToolKnowledge } from "./academyData";
 import { bi } from "./types";
-export const closeObservationLessons: AcademyLesson[] = [
+export const closeObservationLessons: ToolKnowledge[] = [
   {
     ...toolIllustrations.magnifier,
     id: "magnifier",

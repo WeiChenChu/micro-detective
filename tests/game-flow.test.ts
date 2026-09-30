@@ -50,23 +50,23 @@ const memory = (): StorageLike & { data: Map<string, string> } => ({
 
 test("academy can be visited freely without losing an active mission", () => {
   const original = gameReducer(at(3), { type: "SELECT", id: "signals" });
-  let s = gameReducer(original, { type: "ACADEMY", module: 4 });
+  let s = gameReducer(original, { type: "ACADEMY", module: 3 });
   assert.ok(validateProgress(s));
-  s = gameReducer(s, { type: "COLLECT_LESSON", id: "fluorescence" });
+  s = gameReducer(s, { type: "COMPLETE_ACADEMY_STAGE", id: "fluorescence" });
   assert.deepEqual(s.academyCompleted, ["fluorescence"]);
   assert.deepEqual(
-    gameReducer(s, { type: "COLLECT_LESSON", id: "fluorescence" }),
+    gameReducer(s, { type: "COMPLETE_ACADEMY_STAGE", id: "fluorescence" }),
     s,
   );
   assert.deepEqual(
-    gameReducer(s, { type: "COLLECT_LESSON", id: "electron" }),
+    gameReducer(s, { type: "COMPLETE_ACADEMY_STAGE", id: "electron" }),
     s,
   );
   const storage = memory();
   writeProgress(storage, s);
   const loaded = readProgress(storage)!;
   assert.equal(loaded.screen, "academy");
-  assert.equal(loaded.academyModule, 4);
+  assert.equal(loaded.academyModule, 3);
   assert.deepEqual(loaded.academyCompleted, ["fluorescence"]);
   s = gameReducer(loaded, { type: "RESUME" });
   assert.equal(s.cursor, original.cursor);
@@ -82,7 +82,7 @@ test("academy can be visited freely without losing an active mission", () => {
 
 test("first-time academy progress is valid before missions start", () => {
   let s = gameReducer(createGame(), { type: "ACADEMY", module: 0 });
-  s = gameReducer(s, { type: "COLLECT_LESSON", id: "scale" });
+  s = gameReducer(s, { type: "COMPLETE_ACADEMY_STAGE", id: "close-observation" });
   assert.equal(s.started, false);
   assert.ok(validateProgress(s));
   assert.deepEqual(gameReducer(s, { type: "ACADEMY", module: 99 }), s);
