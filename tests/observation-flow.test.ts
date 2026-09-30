@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { academyModules } from "../src/data/academyData";
+import { academyStages } from "../src/data/academyData";
 import { practiceQuestions } from "../src/data/observationData";
 import {
   answersMatch,
@@ -46,7 +46,7 @@ test("compatible-content saves keep answers and cards, remapping old lesson indi
     };
     const loaded = readProgress(storage)!;
     assert.ok(loaded);
-    assert.equal(academyModules[loaded.academyModule!].id, id);
+    assert.equal(academyStages[loaded.academyModule!].id, id === "scale" ? "close-observation" : id);
     assert.deepEqual(loaded.completed, s.completed);
     assert.deepEqual(loaded.selected, s.selected);
     assert.deepEqual(loaded.academyCompleted, legacy.academyCompleted);

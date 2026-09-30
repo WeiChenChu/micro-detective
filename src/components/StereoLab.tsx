@@ -1,3 +1,4 @@
+import { ObservationView } from "./ObservationView";
 import { useState } from "react";
 import type { Locale } from "../data/types";
 import { observationUI as o } from "../data/observationData";
@@ -9,7 +10,7 @@ export function StereoLab({ locale, onStep }: { locale: Locale; step: number; on
   const t = (zh: string, en: string) => locale === "zh-TW" ? zh : en;
   return <section className="stereo-lab">
     <p>{t("先找到完整果蠅，再切到高倍率看看翅膀。", "Find the whole fly, then try high magnification on its wing.")}</p>
-    <div className="exploration-window"><div style={{ transform: `scale(${zoom})`, transformOrigin: `${x}% ${y}%` }}><MicroscopyImage id={zoom === 1 ? "fruit-fly-outline" : "fruit-fly"} locale={locale} /></div></div>
+    <ObservationView tool="stereo" locale={locale}><div className="exploration-window"><div style={{ transform: `scale(${zoom})`, transformOrigin: `${x}% ${y}%` }}><MicroscopyImage id={zoom === 1 ? "fruit-fly-outline" : "fruit-fly"} locale={locale} /></div></div></ObservationView>
     <div className="specimen-switch" role="group" aria-label={t("倍率", "Magnification")}>
       {[1, 1.8, 2.5].map((n, i) => <button className="button" key={n} aria-pressed={zoom === n} onClick={() => { setZoom(n); if (n === 2.5) onStep(i); }}>{[t("低倍率 · 完整果蠅", "Low · whole fly"), t("中倍率", "Medium"), t("高倍率 · 局部", "High · details")][i]}</button>)}
     </div>

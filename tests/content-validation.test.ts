@@ -6,7 +6,8 @@ import {
 } from "../src/data/observationData";
 import { fluorescenceSteps } from "../src/data/gameData";
 import {
-  academyModules,
+  observationTools,
+  academyStages,
   academyVisuals,
   scaleSequence,
   toolAbilities,
@@ -59,8 +60,8 @@ test("all localized educational and interface strings have both languages", () =
       Object.entries(o).forEach(([key, v]) => inspect(v, `${path}.${key}`));
   }
   inspect({
-    academyChallenges, discoveries, toolRecap, fluorescenceSignals,
-    academyModules,
+    academyStages, academyChallenges, discoveries, toolRecap, fluorescenceSignals,
+    observationTools,
     observationUI,
     practiceQuestions,
     magnifierSpecimens,
@@ -101,16 +102,16 @@ test("all image files exist locally; original SVG placeholders have no scripts o
 
 test("academy preserves six concepts and optional sample reflections", () => {
   assert.deepEqual(
-    academyModules.map((m) => m.id),
+    observationTools.map((m) => m.id),
     ["scale", "magnifier", "stereo", "optical", "fluorescence", "electron"],
   );
-  assert.equal(new Set(academyModules.map((m) => m.id)).size, 6);
-  assert.deepEqual(academyModules.filter(m => m.check).map(m => m.id), ["optical", "electron"]);
-  for (const m of academyModules) if (m.check) {
+  assert.equal(new Set(observationTools.map((m) => m.id)).size, 6);
+  assert.deepEqual(observationTools.filter(m => m.check).map(m => m.id), ["optical", "electron"]);
+  for (const m of observationTools) if (m.check) {
     assert.ok(m.check.choices.some(c => c.id === m.check!.answer));
     assert.ok(m.check.choices.every(c => c.feedback.en && c.feedback["zh-TW"]));
   }
-  for (const m of academyModules) {
+  for (const m of observationTools) {
     assert.ok(m.opening["zh-TW"] && m.concept["zh-TW"] && m.clue["zh-TW"]);
     assert.ok(!("answer" in m) && !("choices" in m));
   }
@@ -123,7 +124,7 @@ test("academy preserves six concepts and optional sample reflections", () => {
 
 test("compound-tool labels agree across lessons, summaries, choices and shared UI", () => {
   const labels = [
-    academyModules.find((m) => m.id === "optical")!.title,
+    observationTools.find((m) => m.id === "optical")!.title,
     toolAbilities.find((t) => t.id === "optical")!.name,
     practiceTools.find((t) => t.id === "optical")!.title,
     toolChoices.find((t) => t.id === "optical")!.title,
@@ -134,7 +135,7 @@ test("compound-tool labels agree across lessons, summaries, choices and shared U
     assert.match(label.en, /^Compound light microscop/);
   }
   assert.match(observationUI.family["zh-TW"], /屬於光學顯微鏡/);
-  assert.match(academyModules.find((m) => m.id === "fluorescence")!.concept["zh-TW"], /螢光標記/);
+  assert.match(observationTools.find((m) => m.id === "fluorescence")!.concept["zh-TW"], /螢光標記/);
 });
 
 test("observation content distinguishes visibility, detail and specimen tradeoffs", () => {
@@ -146,8 +147,8 @@ test("observation content distinguishes visibility, detail and specimen tradeoff
   assert.match(caseQuestions[0].question["zh-TW"], /大概的形狀/);
   assert.match(caseQuestions[0].explanation["zh-TW"], /肉眼可見，不代表肉眼適合觀察細節/);
   assert.equal(practiceQuestions[1].image, "leaf");
-  assert.match(academyModules[0].clue["zh-TW"], /看得到，不一定看得清楚；看得清楚，也不一定看得到你想找的線索。/);
-  const electron = academyModules.find((m) => m.id === "electron")!;
+  assert.match(observationTools[0].clue["zh-TW"], /看得到，不一定看得清楚；看得清楚，也不一定看得到你想找的線索。/);
+  const electron = observationTools.find((m) => m.id === "electron")!;
   assert.match(electron.concept["zh-TW"], /通常需要特殊準備/);
   assert.match(electron.concept["zh-TW"], /通常不能直接觀察活著/);
   assert.match(electron.clue["zh-TW"], /不是所有問題/);

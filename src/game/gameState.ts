@@ -5,7 +5,7 @@ import {
   questionsById,
 } from "../data/missionData";
 import type { Locale, Question } from "../data/types";
-import { academyModules } from "../data/academyData";
+import { academyStages, observationTools } from "../data/academyData";
 import { practiceQuestions } from "../data/observationData";
 
 export const LEGACY_STORAGE_KEY = "microscopic-detective:progress";
@@ -16,13 +16,14 @@ export interface GameState {
   schemaVersion: 2;
   notebookHintSeen?: boolean;
   notebookReviewSeen?: boolean;
-  academyRevision: 2;
+  academyRevision: 3;
   practice: PracticeProgress;
   contentVersion: number;
   updatedAt: number;
   locale: Locale;
   screen: "landing" | "academy" | "practice" | "game" | "complete";
   academyCompleted: string[];
+  learnedTools: string[];
   academyModule: number | null;
   migratedFromV1: boolean;
   started: boolean;
@@ -73,9 +74,10 @@ export function createGame(
     schemaVersion: 2,
     notebookHintSeen: false,
     notebookReviewSeen: false,
-    academyRevision: 2,
+    academyRevision: 3,
     practice: createPractice(),
     academyCompleted: [],
+    learnedTools: [],
     academyModule: null,
     migratedFromV1: false,
     contentVersion: CONTENT_VERSION,
@@ -122,7 +124,7 @@ export type Action =
   | { type: "RESUME" }
   | { type: "HOME" }
   | { type: "ACADEMY"; module?: number }
-  | { type: "COLLECT_LESSON"; id: string }
+  | { type: "COMPLETE_ACADEMY_STAGE"; id: string }
   | { type: "DISMISS_MIGRATION" }
   | { type: "NOTEBOOK_HINT_SEEN" }
   | { type: "NOTEBOOK_REVIEW_SEEN" }
@@ -137,6 +139,7 @@ export function gameReducer(state: GameState, action: Action): GameState {
     return {
       ...action.fresh,
       academyCompleted: state.academyCompleted,
+      learnedTools: state.learnedTools,
       notebookHintSeen: state.notebookHintSeen,
       notebookReviewSeen: state.notebookReviewSeen,
       practice: state.practice,
@@ -150,7 +153,7 @@ export function gameReducer(state: GameState, action: Action): GameState {
       action.module !== undefined &&
       (!Number.isInteger(action.module) ||
         action.module < 0 ||
-        action.module >= academyModules.length)
+        action.module >= academyStages.length)
     )
       return state;
     return {
@@ -159,17 +162,18 @@ export function gameReducer(state: GameState, action: Action): GameState {
       academyModule: action.module ?? null,
     };
   }
-  if (action.type === "COLLECT_LESSON") {
+  if (action.type === "COMPLETE_ACADEMY_STAGE") {
     if (
       state.screen !== "academy" ||
       state.academyModule === null ||
-      academyModules[state.academyModule].id !== action.id ||
+      academyStages[state.academyModule].id !== action.id ||
       state.academyCompleted.includes(action.id)
     )
       return state;
     return {
       ...state,
       academyCompleted: [...state.academyCompleted, action.id],
+      learnedTools: [...new Set([...state.learnedTools, ...academyStages[state.academyModule].toolIds])],
     };
   }
   if (action.type === "DISMISS_MIGRATION")
@@ -315,7 +319,7 @@ export function validateProgress(
   if ([s.notebookHintSeen, s.notebookReviewSeen].some(flag => flag !== undefined && typeof flag !== "boolean")) return false;
   if (
     s.schemaVersion !== 2 ||
-    s.academyRevision !== 2 ||
+    s.academyRevision !== 3 ||
     !validatePractice(s.practice) ||
     s.contentVersion !== CONTENT_VERSION ||
     !Number.isFinite(s.updatedAt) ||
@@ -332,14 +336,18 @@ export function validateProgress(
   )
     return false;
   if (
+    !Array.isArray(s.learnedTools) ||
+    new Set(s.learnedTools).size !== s.learnedTools.length ||
+    s.learnedTools.some(id => !observationTools.some(tool => tool.id === id)) ||
     !Array.isArray(s.academyCompleted) ||
     new Set(s.academyCompleted).size !== s.academyCompleted.length ||
-    s.academyCompleted.some((id) => !academyModules.some((m) => m.id === id)) ||
+    s.academyCompleted.some((id) => !academyStages.some((m) => m.id === id)) ||
+    academyStages.some(stage => s.academyCompleted.includes(stage.id) && stage.toolIds.some(id => !s.learnedTools.includes(id))) ||
     typeof s.migratedFromV1 !== "boolean" ||
     (s.academyModule !== null &&
       (!Number.isInteger(s.academyModule) ||
         s.academyModule < 0 ||
-        s.academyModule >= academyModules.length))
+        s.academyModule >= academyStages.length))
   )
     return false;
   const finals = finalQuestions.map((q) => q.id);
@@ -473,36 +481,30 @@ export function clearProgress(storage: StorageLike) {
   }
 }
 
-/** v0.2 lesson indices are remapped by stable ID; mission answers stay intact. */
+/** Upgrade old lesson IDs/indices once; retain independently earned tool cards. */
 export function upgradeAcademyProgress(value: unknown): unknown {
   if (!value || typeof value !== "object") return value;
   const old = value as Record<string, unknown>;
-  if (
-    old.schemaVersion !== 2 ||
-    old.contentVersion !== CONTENT_VERSION ||
-    old.academyRevision !== undefined
-  )
-    return value;
-  const oldIds = ["scale", "optical", "fluorescence", "electron"];
+  if (old.schemaVersion !== 2 || old.contentVersion !== CONTENT_VERSION ||
+      (old.academyRevision !== undefined && old.academyRevision !== 2)) return value;
+  const oldIds = old.academyRevision === 2
+    ? ["scale", "magnifier", "stereo", "optical", "fluorescence", "electron"]
+    : ["scale", "optical", "fluorescence", "electron"];
   const index = old.academyModule;
-  if (
-    index !== null &&
-    (typeof index !== "number" ||
-      !Number.isInteger(index) ||
-      index < 0 ||
-      index >= oldIds.length)
-  )
-    return value;
+  const completed = old.academyCompleted;
+  // Reject malformed saves instead of silently blessing unknown IDs/indices.
+  if (!Array.isArray(completed) || new Set(completed).size !== completed.length ||
+      completed.some(id => !oldIds.includes(id)) ||
+      (index !== null && (typeof index !== "number" || !Number.isInteger(index) || index < 0 || index >= oldIds.length))) return value;
+  const stageId = (id: string) => id === "scale" || id === "magnifier" ? "close-observation" : id;
   return {
     ...old,
-    academyRevision: 2,
-    practice: createPractice(),
-    academyModule:
-      index === null
-        ? null
-        : academyModules.findIndex(
-            (lesson) => lesson.id === oldIds[index as number],
-          ),
+    academyRevision: 3,
+    practice: old.academyRevision === undefined ? createPractice() : old.practice,
+    learnedTools: [...completed],
+    // Both old experiences are required, but partial collections are preserved.
+    academyCompleted: academyStages.filter(stage => stage.toolIds.every(id => completed.includes(id))).map(stage => stage.id),
+    academyModule: index === null ? null : academyStages.findIndex(stage => stage.id === stageId(oldIds[index as number])),
   };
 }
 

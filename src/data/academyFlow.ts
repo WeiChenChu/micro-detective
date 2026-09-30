@@ -1,8 +1,8 @@
 import { bi, type Text } from "./types";
-import type { AcademyLesson } from "./academyData";
+import type { ToolKnowledge } from "./academyData";
 import { practiceQuestions } from "./observationData";
 import { toolIllustrations } from "./toolIllustrations";
-type Check = NonNullable<AcademyLesson["check"]>;
+type Check = NonNullable<ToolKnowledge["check"]>;
 type Tool = keyof typeof toolIllustrations;
 const toolChoice = (id: Tool, feedback: Text) => ({ id, label: toolIllustrations[id].toolName, image: toolIllustrations[id].image, imageAlt: toolIllustrations[id].imageAlt, feedback });
 // Reuse the original leaf/onion challenges within the relevant experience.
@@ -11,7 +11,7 @@ const reuse = (index: number): Check => {
   return { question: q.question, answer: q.correctAnswer[0], choices: q.choices.filter(c => ["magnifier", "stereo", "optical"].includes(c.id)).map(c => ({ id: c.id, label: c.title, feedback: c.id === q.correctAnswer[0] ? q.explanation : q.hint })) };
 };
 export const academyChallenges: Record<string, Check> = {
-  magnifier: reuse(1),
+  "close-observation": reuse(1),
   stereo: {
     question: bi("想看果蠅翅膀上的小紋路，哪個工具比較適合？", "Which tool helps reveal the tiny lines on a fruit fly’s wings?"), answer: "stereo",
     choices: [
@@ -37,8 +37,7 @@ export const academyChallenges: Record<string, Check> = {
   },
 };
 export const discoveries: Record<string, Text> = {
-  scale: bi("看得到，還不一定看得清楚。用放大鏡試試吧！", "Visible does not always mean clear. Try a magnifying glass!"),
-  magnifier: bi("好多了！現在比較容易分辨頭、身體、翅膀和腳。可是，翅膀上的小紋路呢？", "Better! Head, body, wings and legs are easier to distinguish. But what about tiny wing lines?"),
+  "close-observation": bi("好多了！現在比較容易分辨頭、身體、翅膀和腳。可是，翅膀上的小紋路呢？", "Better! Head, body, wings and legs are easier to distinguish. But what about tiny wing lines?"),
   stereo: bi("低倍率看整體、找位置；高倍率看細節。接下來換個問題：細胞長什麼樣？", "Low magnification finds the whole; high reveals details. Next question: what do cells look like?"),
   optical: bi("看到了！薄薄的樣品能讓光穿過，對焦後就能看清楚一格格的細胞。", "Found them! Light passes through the thin specimen; focusing reveals individual cells."),
   fluorescence: bi("不同的螢光標記，可以幫我們找到細胞裡不同的構造。", "Different fluorescent labels help locate different cell structures."),

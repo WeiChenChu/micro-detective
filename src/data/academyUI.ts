@@ -47,7 +47,7 @@ export const academyUI = {
   clue: bi("偵探線索", "Detective clue"),
   knowledge: bi("知識卡", "Knowledge cards"),
   why: bi("為什麼需要顯微鏡？", "Why do we need microscopes?"),
-  back: bi("查看六堂課程", "View all six lessons"),
+  back: bi("查看五個探索階段", "View all five exploration stages"),
   learn: bi("先觀察", "Observe first"),
   collect: bi("收進偵探筆記本", "Collect in my notebook"),
   next: bi("下一站", "Next stop"),

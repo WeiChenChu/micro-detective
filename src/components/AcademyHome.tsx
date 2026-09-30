@@ -1,4 +1,4 @@
-import { academyModules } from "../data/academyData";
+import { academyStages } from "../data/academyData";
 import type { Locale } from "../data/types";
 import { ToolSummary } from "./ToolSummary";
 import { AcademyCompletion } from "./AcademyCompletion";
@@ -6,13 +6,13 @@ export function AcademyHome({ locale, completed, onModule, onMissions, onNoteboo
   locale: Locale; completed: string[]; onModule: (id: number) => void;
   onMissions: () => void; onNotebook: () => void;
 }) {
-  const next = academyModules.findIndex(lesson => !completed.includes(lesson.id));
+  const next = academyStages.findIndex(lesson => !completed.includes(lesson.id));
   const t = (zh: string, en: string) => locale === "zh-TW" ? zh : en;
   return <main id="main" tabIndex={-1} className="academy-home game-main">
     <header className="academy-heading">
       <p className="eyebrow">DETECTIVE ACADEMY</p>
       <h1>{t("小偵探課程", "Detective Academy")}</h1>
-      <progress max={6} value={completed.length} aria-label={t("完成的課程", "Completed lessons")} />
+      <progress max={academyStages.length} value={completed.length} aria-label={t("完成的探索階段", "Completed exploration stages")} />
     </header>
     {next === -1 ? <>
       <AcademyCompletion locale={locale} onNotebook={onNotebook} onMissions={onMissions} />
@@ -23,9 +23,9 @@ export function AcademyHome({ locale, completed, onModule, onMissions, onNoteboo
       <button className="button primary" onClick={() => onModule(next)}>{next === 0 ? t("開始訓練", "Start training") : t("繼續訓練", "Continue training")} →</button>
     </section>}
     {completed.length > 0 && <details className="course-map">
-      <summary>{t("回顧學過的工具", "Review tools you have explored")}</summary>
-      <div className="specimen-switch">{academyModules.map((lesson, index) => completed.includes(lesson.id) &&
-        <button className="button" key={lesson.id} onClick={() => onModule(index)}>{lesson.toolName[locale]}</button>)}</div>
+      <summary>{t("回顧探索階段", "Review exploration stages")}</summary>
+      <div className="specimen-switch">{academyStages.map((lesson, index) => completed.includes(lesson.id) &&
+        <button className="button" key={lesson.id} onClick={() => onModule(index)}>{lesson.title[locale]}</button>)}</div>
     </details>}
   </main>;
 }

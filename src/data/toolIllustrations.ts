@@ -46,3 +46,5 @@ export const toolIllustrations = {
     shortDescription: bi("觀察光學顯微鏡看不清楚的更細微構造。", "Observe finer structures that light microscopes cannot resolve."),
   },
 } satisfies Record<string, ToolCardVisual>;
+
+export type ObservationToolId = keyof typeof toolIllustrations;

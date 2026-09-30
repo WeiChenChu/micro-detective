@@ -12,32 +12,43 @@ import {
 } from "../data/observationData";
 import { images, imageUrl } from "../data/images";
 import { ui } from "../data/ui";
-import { MicroscopyImage } from "./MicroscopyImage";
+import { ObservationView } from "./ObservationView";
 import {
   constrainLens,
-  lensImageOffset,
+  specimenFrame,
+  specimenPoint,
+  specimenLensOffset,
   type LensPoint,
 } from "../game/lensGeometry";
 
 export function MagnifierLab({
   locale,
-  onExplore,
+  step,
+  onStep,
 }: {
   locale: Locale;
-  onExplore: () => void;
+  step: number;
+  onStep: (step: number, complete?: boolean) => void;
 }) {
-  const [specimenIndex, setSpecimenIndex] = useState(1);
+  const t = (zh: string, en: string) => locale === "zh-TW" ? zh : en;
+  const usingLens = step >= 2;
+  const frame = specimenFrame(step);
   const [point, setPoint] = useState<LensPoint>({ x: 0.3, y: 0.7 });
   const [size, setSize] = useState({ width: 400, height: 300 });
   const board = useRef<HTMLDivElement>(null);
   const lens = useRef<HTMLButtonElement>(null);
+  const [specimenIndex, setSpecimenIndex] = useState(1);
   const specimen = magnifierSpecimens[specimenIndex];
   const radius = Math.min(72, size.width * 0.2);
   const location = constrainLens(point, size.width, size.height, radius);
-  const offset = lensImageOffset(location, size.width, size.height, radius);
-  const discovery = specimen.spots.find(
+  const offset = specimenLensOffset(location, size.width, size.height, radius, frame);
+  const spots = specimen.spots.map(spot => ({ ...spot, ...specimenPoint(spot, frame), r: spot.r * frame.scale }));
+  const discovery = usingLens && spots.find(
     (spot) => Math.hypot(spot.x - location.x, spot.y - location.y) < spot.r,
   );
+  const exploreHint = specimen.id === "leaf"
+    ? t("把鏡片移到葉脈或葉緣，看看哪裡變清楚了。", "Move the lens to the leaf veins or edges. What becomes clearer?")
+    : t("把鏡片移到果蠅的頭、翅膀、身體或腳，看看哪裡變清楚了。", "Move the lens to the fly’s head, wings, body or legs. What becomes clearer?");
   useEffect(() => {
     const element = board.current;
     if (!element) return;
@@ -48,10 +59,13 @@ export function MagnifierLab({
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
+  useEffect(() => {
+    if (usingLens) lens.current?.focus({ preventScroll: true });
+  }, [usingLens]);
   const move = (next: LensPoint) => {
     setPoint(constrainLens(next, size.width, size.height, radius));
     const nextPoint = constrainLens(next, size.width, size.height, radius);
-    if (specimen.spots.some(spot => Math.hypot(spot.x - nextPoint.x, spot.y - nextPoint.y) < spot.r)) onExplore();
+    if (usingLens && spots.some(spot => Math.hypot(spot.x - nextPoint.x, spot.y - nextPoint.y) < spot.r)) onStep(3, true);
   };
   const movePointer = (event: PointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -75,28 +89,13 @@ export function MagnifierLab({
     }
   };
   return (
-    <section className="magnifier-lab" aria-label={o.magnifierLabel[locale]}>
-      <div
-        className="specimen-switch"
-        role="group"
-        aria-label={o.specimens[locale]}
-      >
-        {magnifierSpecimens.map((item, i) => (
-          <button
-            key={item.id}
-            className="button"
-            aria-pressed={i === specimenIndex}
-            onClick={() => setSpecimenIndex(i)}
-          >
-            {item.name[locale]}
-          </button>
-        ))}
-      </div>
+    <section className="magnifier-lab" aria-label={t("果蠅觀察", "Fruit fly observation")}>
+      <ObservationView tool={usingLens ? "magnifier" : "scale"} locale={locale}>
       <div
         ref={board}
-        className="magnifier-board"
+        className={`magnifier-board ${usingLens ? "with-lens" : "without-lens"}`}
         onPointerDown={(event) => {
-          if (event.button !== 0) return;
+          if (!usingLens || event.button !== 0) return;
           event.preventDefault();
           event.currentTarget.setPointerCapture(event.pointerId);
           lens.current?.focus({ preventScroll: true });
@@ -115,8 +114,10 @@ export function MagnifierLab({
             event.currentTarget.releasePointerCapture(event.pointerId);
         }}
       >
-        <MicroscopyImage id={specimen.image} locale={locale} />
-        <button
+        <img className="observation-specimen" src={imageUrl(images[specimen.image])}
+          alt={images[specimen.image].imageAlt[locale]} draggable={false}
+          style={{ left: `${frame.x * 100}%`, top: `${frame.y * 100}%`, width: `${frame.scale * 100}%`, height: `${frame.scale * 100}%` }} />
+        {usingLens && <button
           ref={lens}
           type="button"
           className="virtual-lens"
@@ -140,9 +141,19 @@ export function MagnifierLab({
           <span className="lens-crosshair" aria-hidden="true">
             +
           </span>
-        </button>
+        </button>}
       </div>
+      </ObservationView>
       <p className="image-disclaimer">{ui.imageNote[locale]}</p>
+      {!usingLens && <>
+        <p role="status">{step === 0
+          ? t("我看得到果蠅！可是頭、翅膀和腳還小小的。靠近看看？", "I can see the fly! But its head, wings and legs look tiny. Shall we look closer?")
+          : t("靠近只幫了一點點。看得到，不一定看得清楚。試試讓放大鏡幫忙！", "Getting closer helps only a little. Being able to see something does not mean we can see it clearly. Try a magnifying glass!")}</p>
+        <button className="button primary" onClick={() => onStep(step + 1, false)}>
+          {step === 0 ? t("靠近看看", "Look closer") : t("拿起放大鏡", "Pick up the magnifying glass")}
+        </button>
+      </>}
+      {usingLens && <>
       <p id="lens-instructions" className="exhibit-note">
         {o.keyboard[locale]}
       </p>
@@ -171,9 +182,19 @@ export function MagnifierLab({
         ))}
       </div>
       <p className="lens-discovery" role="status" aria-live="polite">
-        🔎 {(discovery?.label ?? o.discover)[locale]}
+        🔎 {discovery ? discovery.label[locale] : exploreHint}
       </p>
-      <p className="exhibit-note">{o.magnifierNote[locale]}</p>
+      {step === 3 && <details className="observation-notes">
+        <summary>{t("也試試葉片（自由探索）", "Try a leaf too (optional)")}</summary>
+        <div className="specimen-switch" role="group" aria-label={o.specimens[locale]}>
+          {magnifierSpecimens.map((item, index) => <button className="button" key={item.id}
+            aria-pressed={specimenIndex === index} onClick={() => setSpecimenIndex(index)}>{item.name[locale]}</button>)}
+        </div>
+      </details>}
+      </>}
+      <p className="exhibit-note">{usingLens
+        ? t("樣品留在原位，只有鏡片內放大約 2.5 倍。這是教學示意；放大圖片不會增加解析度。", "The specimen stays in place; only the lens view enlarges it about 2.5×. This teaching simulation adds no new resolution.")
+        : t("大小與距離為教學示意，並非實際尺寸。", "Size and distance are illustrative, not life-size.")}</p>
     </section>
   );
 }
