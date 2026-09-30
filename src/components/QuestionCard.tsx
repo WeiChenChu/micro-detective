@@ -7,6 +7,8 @@ import { ImageChoice } from "./ImageChoice";
 import { MicroscopyImage } from "./MicroscopyImage";
 import { EvidenceTargets } from "./EvidenceTargets";
 import { FeedbackPanel } from "./FeedbackPanel";
+import { EvidenceProgress } from "./EvidenceProgress";
+import { investigationUI as i } from "../data/investigationData";
 import { images } from "../data/images";
 import { ImageAttribution } from "./ImageAttribution";
 
@@ -46,15 +48,16 @@ export function QuestionCard({
       <div className="question-topline">
         <span>
           <Icon name={final ? "detective" : "search"} size={16} />
-          {final ? gameUI.finalFile[locale] : gameUI.evidenceLabel[locale]}{" "}
-          {final ? `${finalIndex} / ${finalTotal}` : stage.number}
+          {final ? (question.investigation ? (finalIndex > 0 ? gameUI.finalFile[locale] : i.bonus[locale]) : i.synthesis[locale]) : gameUI.evidenceLabel[locale]}{" "}
+          {final ? (question.investigation && finalIndex > 0 ? `${finalIndex} / ${finalTotal}` : "") : stage.number}
         </span>
         <span className="question-kind">{question.title[locale]}</span>
       </div>
+      {question.id === "fin-explanation" && <EvidenceProgress state={state} locale={locale} review />}
       <h2 id="question-heading" tabIndex={-1}>
         {question.question[locale]}
       </h2>
-      {!(final && resolved) && !question.evidenceTargets && <p className="question-instruction">
+      {!final && !question.evidenceTargets && <p className="question-instruction">
         {toolSelection
           ? gameUI.finalInstruction[locale]
           : hasToolVisuals
@@ -66,7 +69,7 @@ export function QuestionCard({
               : gameUI.selectAnswer[locale]}
       </p>}
       {!(final && resolved) && <div className={question.image ? "final-workspace" : ""}>
-        {final && !question.image && <div className="mystery-sample"><span aria-hidden="true">?</span><p>{question.observation?.[locale]}</p></div>}
+        {final && !question.image && question.observation && <div className="mystery-sample"><span aria-hidden="true">?</span><p>{question.observation?.[locale]}</p></div>}
         {question.image && (
           <div className="final-evidence">
             {question.evidenceTargets ? <EvidenceTargets question={question} locale={locale} selected={state.selected} disabled={resolved} onSelect={id => dispatch({ type: "ANSWER", ids: [id] })} /> : <MicroscopyImage id={question.image} locale={locale} showCaption={realMission ? false : undefined} showAttribution={!realMission} />}

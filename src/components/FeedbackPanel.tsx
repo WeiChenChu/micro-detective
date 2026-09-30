@@ -3,7 +3,7 @@ import type { Locale, Question, Stage } from "../data/types";
 import type { GameState } from "../game/gameState";
 import { gameUI } from "../data/gameUI";
 import { Icon } from "./Icon";
-import { InvestigationEvidence, InvestigationSummary } from "./InvestigationEvidence";
+import { InvestigationEvidence } from "./InvestigationEvidence";
 import { investigationUI as i } from "../data/investigationData";
 import { ToolVisual } from "./ToolVisual";
 
@@ -96,7 +96,6 @@ export function FeedbackPanel({
         <>
           {question.investigation && <>
             <InvestigationEvidence question={question} locale={locale} />
-            {!question.investigation.nextQuestion && <InvestigationSummary locale={locale} />}
           </>}
           {question.stage !== "final" && (
             <div className="reward">

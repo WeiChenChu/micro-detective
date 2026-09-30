@@ -7,7 +7,7 @@ import { AcademyHome } from "../src/components/AcademyHome";
 import { academyStages } from "../src/data/academyData";
 import { academyChallenges } from "../src/data/academyFlow";
 import { fluorescenceViews, fluorescenceComplete } from "../src/data/fluorescenceData";
-import { caseQuestions, finalQuestions } from "../src/data/missionData";
+import { bonusQuestion, caseQuestions } from "../src/data/missionData";
 
 test("first-time Academy has one start route; completed Academy offers six-tool recap and missions", () => {
   const props = { locale: "zh-TW" as const, onModule() {}, onMissions() {}, onNotebook() {} };
@@ -69,6 +69,6 @@ test("image evidence decisions have reachable answers, separated mobile targets 
     }
   }
   assert.deepEqual(caseQuestions.find(q => q.id === "tools-fish")!.correctAnswer, ["naked-eye"]);
-  assert.match(finalQuestions[2].observation!["zh-TW"], /另外準備適合電子顯微鏡的樣品/);
+  assert.match(bonusQuestion.investigation!.preparation["zh-TW"], /另外準備適合電子顯微鏡的樣品/);
   for (const challenge of Object.values(academyChallenges)) assert.ok(challenge.choices.some(c => c.id === challenge.answer));
 });

@@ -1,6 +1,6 @@
 # 微觀小偵探 / Microscopic Detective
 
-**v0.32 — Mission Visual Context & Flow Polish** · 套件 `0.32.0` · 分支 `dev/v0.32`
+**v0.33 — 斑馬魚尾鰭再生案件** · 套件 `0.33.0` · 分支 `dev/v0.33`
 
 給國小到國中學生與家長一起探索的雙語顯微科學網站，主要用於中研院 Open House／兒童科普日的共用電腦，以及掃 QR code 進入的手機。React + TypeScript + Vite + 原生 CSS；免登入，沒有後端、個資表單、分數排行榜或分析追蹤。
 
@@ -34,7 +34,7 @@ SEM／TEM 同屬「電子顯微鏡」，保留在同一課程與工具卡中，�
 
 `ToolVisual` 共用上述插圖，支援 context、choice、feedback、compact 四種尺寸。任務選項以可選 `toolVisualId`／`toolMode` 指定工具；桌面 72px 視覺卡、手機 52px 橫排卡，SEM／TEM 以模式標籤區分。作答前只提示選工具，答錯只呈現所選工具，成功或協助完成後才在回饋連結工具與證據。每階段第一題保留完整介紹，後續顯示階段名稱及證據進度。課程完成頁先呈現精簡六工具回顧，再進入任務。
 
-任務共有 **12 份證據**：尺度複選、標記比較、四張真實神秘影像、三題選工具、三步最終案件（細胞輪廓 → 蛋白質位置 → 內部細微構造）。單選立即回饋；先觀察再選工具。「給我一點線索 / Give me a hint」提供一個可選提示；第一次不合適的選擇也顯示提示，第二次提供較強提示及協助完成。延伸知識在回答後自由展開，不新增年齡或難度模式。
+任務共有 **13 份必修紀錄**：尺度複選、標記比較、四張真實神秘影像、三題選工具，以及最終案件的三次觀察和一題證據整合。尾鰭案件依序調查整片尾鰭（解剖顯微鏡）、傷口組織（複式光學顯微鏡）、有增殖標記的細胞（螢光顯微鏡）；三份證據逐步解鎖，整合解釋後才結案。TEM 是結案後的選修調查，獨立存檔並可收進筆記本，不影響主案件完成。Stage 04 保留獨立選工具練習。單選立即回饋；先觀察再選工具。「給我一點線索 / Give me a hint」提供一個可選提示；第一次不合適的選擇也顯示提示，第二次提供較強提示及協助完成。延伸知識在回答後自由展開，不新增年齡或難度模式。
 
 ## 示意圖與真實顯微影像
 
@@ -54,6 +54,7 @@ SEM／TEM 同屬「電子顯微鏡」，保留在同一課程與工具卡中，�
 | `public/images/microscopy/{optical,fluorescence,sem,tem}/` | 課程最佳化 WebP |
 | `public/images/microscopy/missions/` | 任務最佳化 WebP |
 | `public/images/{naked-eye,optical,fluorescence,electron}/` | 本機教學 SVG、對齊螢光圖層 |
+| `public/images/investigation/`、`scripts/generate-fin-illustrations.py` | 尾鰭案件四張 SVG；共用尾鰭與細胞座標，重用原斑馬魚圖 |
 | `src/assets/tools/`、`src/data/toolIllustrations.ts` | 六張工具插圖及簡介 |
 | `src/data/images.ts` | 圖片 ID、路徑、尺寸、雙語 alt／caption／observationClue、完整 credit；`realImageExamples` 配對課程 |
 | `src/data/missionData.ts`、`investigationData.ts` | 任務、提示、解答、最終案件證據 |
@@ -80,13 +81,15 @@ npm run build     # TypeScript + Vite，輸出 dist/
 npm run preview   # 正式建置的本機預覽
 ```
 
-沒有配置 `test:e2e`。既有本機 Playwright／Edge 驗證方式與發布清單見 [docs/validation.md](docs/validation.md)。開啟 HTTP(S) 預覽，不要直接雙擊 `dist/index.html`。沒有 service worker 或離線安裝功能。
+沒有配置 `test:e2e`。本版流程、雙語響應式檢查與截圖工具限制見 [v0.33 驗證紀錄](docs/v0.33-validation.md)；歷史驗證與發布清單見 [docs/validation.md](docs/validation.md)。開啟 HTTP(S) 預覽，不要直接雙擊 `dist/index.html`。沒有 service worker 或離線安裝功能。
 
 ## 共用裝置與本機進度
 
-使用 `microscopic-detective:progress:v2`，schema 2、content 4、academyRevision 3，沿用 24 小時閒置失效。`academyStages` 的五個階段與 `observationTools` 的六張工具卡分開；`academyCompleted` 記錄階段，`learnedTools` 記錄工具，`COMPLETE_ACADEMY_STAGE` 依該階段的 `toolIds` 收藏。
+使用 `microscopic-detective:progress:v2`，schema 2、content 5、academyRevision 3，沿用 24 小時閒置失效。`academyStages` 的五個階段與 `observationTools` 的六張工具卡分開；`academyCompleted` 記錄階段，`learnedTools` 記錄工具，`COMPLETE_ACADEMY_STAGE` 依該階段的 `toolIds` 收藏。
 
-讀取有效 v0.30／revision 2 存檔時，舊工具收藏完整轉入 `learnedTools`，肉眼和放大鏡都完成才算完成 `close-observation` 階段；只完成其一會保留那張卡，合併階段仍可繼續。舊 index 0／1 都轉到新 index 0，2–5 轉到 1–4，課程首頁的 null 保留。較早四課版本也依舊 ID 轉換。遷移保留任務答案、語言、筆記本旗標與練習進度，寫回 revision 3 後不再遷移；損毀、不相容與過期存檔沿用既有處理。v0.28 以前 content 3 的進度仍不相容。舊 `practice` 畫面讀取後回到課程首頁。
+v0.33 會遷移有效的 content 4 存檔：Stage 01–04、課程與工具卡保留，舊 Final Case 進度從新的尾鰭案件重新開始，避免沿用不同問題的舊答案。選修 TEM 使用獨立 `bonus` 記錄；主案件重玩時一併清除。
+
+讀取有效 v0.30／revision 2 存檔時，舊工具收藏完整轉入 `learnedTools`，肉眼和放大鏡都完成才算完成 `close-observation` 階段；只完成其一會保留那張卡，合併階段仍可繼續。舊 index 0／1 都轉到新 index 0，2–5 轉到 1–4，課程首頁的 null 保留。較早四課版本也依舊 ID 轉換。課程遷移保留上述相容任務答案、語言、筆記本旗標與練習進度，寫回 revision 3 後不再遷移；損毀、不相容與過期存檔沿用既有處理。v0.28 以前 content 3 的進度仍不相容。舊 `practice` 畫面讀取後回到課程首頁。
 
 重新整理保存語言、任務答案、提示及課程收藏；未完成的課程操作會重開。回首頁保留進度，「再玩一次」只重玩任務並保留課程卡與語言。
 
@@ -94,8 +97,8 @@ npm run preview   # 正式建置的本機預覽
 
 ## 版本與部署
 
-`package.json.version` 是程式版本唯一來源，頁尾自動取 major/minor 顯示 `v0.32`；已移除手動 `displayVersion` 欄位。發布時同步 lockfile、README 與 CHANGELOG。`CONTENT_VERSION` 是存檔相容版本，不隨呈現調整升號。
+`package.json.version` 是程式版本唯一來源，頁尾自動取 major/minor 顯示 `v0.33`；已移除手動 `displayVersion` 欄位。發布時同步 lockfile、README 與 CHANGELOG。`CONTENT_VERSION` 是存檔相容版本，不隨呈現調整升號。
 
 正式站：[micro.weichenchu.com](https://micro.weichenchu.com/)。GitHub Pages workflow `.github/workflows/deploy-pages.yml` 在 push `main` 或手動執行時，`npm ci` → `npm test` → `npm run build`，只部署 `dist/`。`public/CNAME` 保留自訂網域；Vite `base: "./"`。詳見 [部署文件](docs/github-pages.md)。
 
-v0.32 從 v0.31 合併提交 `bc42288` 開始，沿用已存在的 dev/v0.32，尚未推送、合併或部署。近期歷史與 v0.28／v0.29 合併提交的限制見 [CHANGELOG](CHANGELOG.md)。活動前仍需兒童試玩、科學人員審閱，以及實機手機／Safari 和活動網路測試。
+v0.33 從乾淨的既有 `dev/v0.33`、套件 v0.32.0 開始，尚未推送、合併或部署。近期歷史與 v0.28／v0.29 合併提交的限制見 [CHANGELOG](CHANGELOG.md)。活動前仍需兒童試玩、科學人員審閱，以及實機手機／Safari 和活動網路測試。

@@ -1,3 +1,6 @@
+import type { Dispatch } from "react";
+import type { Action, GameState } from "../game/gameState";
+import { BonusInvestigation } from "./BonusInvestigation";
 import type { Locale } from "../data/types";
 import { gameUI } from "../data/gameUI";
 import { academyUI as a } from "../data/academyUI";
@@ -7,6 +10,8 @@ import { InvestigationSummary } from "./InvestigationEvidence";
 
 export function BadgeScreen({
   locale,
+  state,
+  dispatch,
   count,
   onAgain,
   onNextDetective,
@@ -14,6 +19,8 @@ export function BadgeScreen({
   onNotebook,
 }: {
   locale: Locale;
+  state: GameState;
+  dispatch: Dispatch<Action>;
   count: number;
   onAgain: () => void;
   onNextDetective: () => void;
@@ -30,9 +37,8 @@ export function BadgeScreen({
         <h1 id="completion-heading" tabIndex={-1}>
           {gameUI.complete[locale]}
         </h1>
-        <p className="completion-intro">{gameUI.completeIntro[locale]}</p>
-        <p className="family-note">{a.best[locale]}</p>
-        <p className="central-message">{a.conclusion[locale]}</p>
+        <InvestigationSummary locale={locale} />
+        <BonusInvestigation state={state} dispatch={dispatch} />
         <div className="badge-wrap">
           <div className="celebration" aria-hidden="true">
             {Array.from({ length: 12 }, (_, i) => (
@@ -80,7 +86,6 @@ export function BadgeScreen({
         <p className="next-detective-note">{a.nextPlayerNote[locale]}</p>
       </div>
       <section className="discovery-summary">
-        <InvestigationSummary locale={locale} />
         <div className="route-heading">
           <h2>{gameUI.review[locale]}</h2>
           <button className="button text-button" onClick={onNotebook}>

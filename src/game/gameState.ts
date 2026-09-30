@@ -1,4 +1,5 @@
 import {
+  bonusQuestion,
   caseQuestions,
   CONTENT_VERSION,
   finalQuestions,
@@ -18,6 +19,7 @@ export interface GameState {
   notebookReviewSeen?: boolean;
   academyRevision: 3;
   practice: PracticeProgress;
+  bonus?: PracticeProgress;
   contentVersion: number;
   updatedAt: number;
   locale: Locale;
@@ -131,7 +133,8 @@ export type Action =
   | { type: "LOCALE"; locale: Locale }
   | { type: "PRACTICE_OPEN" }
   | { type: "PRACTICE_RESTART" }
-  | { type: "PRACTICE"; action: QuestionAction };
+  | { type: "PRACTICE"; action: QuestionAction }
+  | { type: "BONUS"; action: QuestionAction };
 
 export function gameReducer(state: GameState, action: Action): GameState {
   if (action.type === "RESET") return action.fresh;
@@ -215,6 +218,13 @@ export function gameReducer(state: GameState, action: Action): GameState {
         finished: next.screen === "complete",
       },
     };
+  }
+  if (action.type === "BONUS") {
+    if (state.screen !== "complete") return state;
+    const bonus = state.bonus ?? createPractice();
+    const next = reduceQuestion({ ...state, ...bonus, screen: bonus.finished ? "complete" : "game" }, action.action, bonusQuestion, 1);
+    const { cursor, selected, completed, attempts, feedback, showHint, exploreStep } = next;
+    return { ...state, bonus: { cursor, selected, completed, attempts, feedback, showHint, exploreStep, finished: next.screen === "complete" } };
   }
   if (action.type === "LOCALE") return { ...state, locale: action.locale };
   if (action.type === "HOME") return { ...state, screen: "landing" };
@@ -321,6 +331,7 @@ export function validateProgress(
     s.schemaVersion !== 2 ||
     s.academyRevision !== 3 ||
     !validatePractice(s.practice) ||
+    (s.bonus !== undefined && (!validatePractice(s.bonus, [bonusQuestion]) || !s.completed?.["fin-explanation"])) ||
     s.contentVersion !== CONTENT_VERSION ||
     !Number.isFinite(s.updatedAt) ||
     now - s.updatedAt > MAX_AGE_MS ||
@@ -450,7 +461,7 @@ export function readProgress(
       }
       return null;
     }
-    const value: unknown = upgradeAcademyProgress(JSON.parse(raw));
+    const value: unknown = upgradeAcademyProgress(upgradeFinCaseProgress(JSON.parse(raw)));
     if (validateProgress(value, now)) {
       // Retire the parallel practice screen without discarding compatible progress.
       return value.screen === "practice" ? { ...value, screen: "academy", academyModule: null } : value;
@@ -508,13 +519,13 @@ export function upgradeAcademyProgress(value: unknown): unknown {
   };
 }
 
-function validatePractice(value: unknown): value is PracticeProgress {
+function validatePractice(value: unknown, questions: Question[] = practiceQuestions): value is PracticeProgress {
   if (!value || typeof value !== "object") return false;
   const p = value as PracticeProgress;
   if (
     !Number.isInteger(p.cursor) ||
     p.cursor < 0 ||
-    p.cursor >= practiceQuestions.length ||
+    p.cursor >= questions.length ||
     typeof p.finished !== "boolean" ||
     typeof p.showHint !== "boolean" ||
     !Number.isInteger(p.attempts) ||
@@ -533,8 +544,8 @@ function validatePractice(value: unknown): value is PracticeProgress {
     p.selected.length > 1
   )
     return false;
-  const ids = practiceQuestions.map((q) => q.id),
-    q = practiceQuestions[p.cursor];
+  const ids = questions.map((q) => q.id),
+    q = questions[p.cursor];
   if (
     Object.entries(p.completed).some(
       ([id, result]) =>
@@ -555,4 +566,24 @@ function validatePractice(value: unknown): value is PracticeProgress {
   if (!done && (p.feedback === "correct" || p.feedback === "assisted"))
     return false;
   return !p.finished || Object.keys(p.completed).length === ids.length;
+}
+
+/** v0.32 mission answers cannot unlock a biologically different case.
+ * Keep earlier missions and independent academy/notebook cards. */
+export function upgradeFinCaseProgress(value: unknown): unknown {
+  if (!value || typeof value !== "object") return value;
+  const old = value as GameState;
+  if (old.schemaVersion !== 2 || old.contentVersion !== 4) return value;
+  const legacyFinals = ["investigation-cells", "investigation-protein", "investigation-detail"];
+  if (!Array.isArray(old.finalOrder) || old.finalOrder.join() !== legacyFinals.join() ||
+      !Number.isInteger(old.cursor) || old.cursor < 0 || old.cursor >= caseQuestions.length + 3 ||
+      !old.completed || typeof old.completed !== "object" || Array.isArray(old.completed) ||
+      Object.entries(old.completed).some(([id, result]) => ![...caseQuestions.map(q => q.id), ...legacyFinals].includes(id) || !["solved", "assisted"].includes(result))) return value;
+  const inFinal = old.cursor >= caseQuestions.length;
+  const completed = Object.fromEntries(Object.entries(old.completed).filter(([id]) => !legacyFinals.includes(id)));
+  return {
+    ...old, contentVersion: CONTENT_VERSION, finalOrder: finalQuestions.map(q => q.id), completed,
+    ...(inFinal ? { cursor: caseQuestions.length, selected: [], attempts: 0, feedback: null, showHint: false, exploreStep: 0 } : {}),
+    screen: old.screen === "complete" ? "game" : old.screen,
+  };
 }
