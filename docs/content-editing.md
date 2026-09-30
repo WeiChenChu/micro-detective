@@ -1,4 +1,4 @@
-# 內容編輯指南 — v0.31
+# 內容編輯指南 — v0.32
 
 目前內容以 `src/data/` 的雙語資料為主；沿用 React 元件，不另建圖片或題庫系統。實際發布檢查見 [validation.md](validation.md)。歷史 `v0.*-validation.md`／migration／audit 是當時紀錄，不是目前規格。
 
@@ -9,6 +9,9 @@
 - `ConceptReveal` 分派各工具操作，`AcademyModule` 在前進時收藏。階段 ID：close-observation、stereo、optical、fluorescence、electron。工具 ID 仍為 scale、magnifier、stereo、optical、fluorescence、electron；不要把階段數當成工具數。`ObservationView` 重用工具 metadata 與插圖；第一階段由同一個 MagnifierLab 場景切換肉眼／放大鏡，背景和鏡片共用 specimenFrame 座標。
 - 生物示意 SVG 位於 `public/images/{naked-eye,optical,fluorescence,electron}/`，以 `images.ts` 的 `illustration(...)` 登錄穩定 ID、相對 `src`、雙語 title／alt／caption、分類。`type: "illustration"`、`placeholder: true` 沿用既有格式；placeholder 不表示沒有素材。
 - 工具插圖位於 `src/assets/tools/`，由 `toolIllustrations.ts` 管理工具名稱、摘要、alt。不要與生物影像的登錄表混用。
+- `ToolVisual` 提供 context／choice／feedback／compact 呈現，重用同一份插圖。`Choice.toolVisualId` 為可選 ObservationToolId（肉眼為 scale），`toolMode` 可選 SEM／TEM，兩者都使用 electron。選項名稱與用途保留在 title／description，不由 UI 猜選項 ID；metadata 不參與判答。沒有 metadata 的既有選項仍可呈現。
+- 任務作答前不可用 question.microscopeType 在主圖旁標示正解；`QuestionCard` 只呈現中性提示與全部選項插圖。`FeedbackPanel` 重試時用 selected，成功用選中的正確選項，assisted 用 correctAnswer。不要用正解 metadata 提早覆蓋第一次錯答提示。
+- `StageIntro` 依目前題序中的階段內 index／total 顯示完整介紹或小型標題，無新增進度旗標。AcademyCompletion 使用 ToolSummary 的 compact 回顧，再顯示開始任務；完整回顧仍用於任務完成頁，Notebook 保留原卡片。
 - 新增或編輯 SVG 保留 `viewBox="0 0 800 600"` 與 4:3；不要加入 script、foreignObject 或遠端圖片。果蠅／葉片熱點是 `observationData.ts` 的 0–1 座標，換圖後需重新核對。
 - 螢光示意圖層 `public/images/fluorescence/channel-*.svg` 使用相同細胞座標，沒有不透明底色；訊號定義與依序顯示由 `fluorescenceData.ts` 管理。改圖後確認粒線體在細胞邊界內、細胞核外。
 

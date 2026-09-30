@@ -1,7 +1,6 @@
 import type { Choice, Locale } from "../data/types";
 import { gameUI } from "../data/gameUI";
-import { toolIcons } from "../data/missionData";
-import type { MicroscopeType } from "../data/types";
+import { ToolVisual } from "./ToolVisual";
 import { Icon } from "./Icon";
 import { MicroscopyImage } from "./MicroscopyImage";
 import { images } from "../data/images";
@@ -24,10 +23,9 @@ export function ImageChoice({
   onSelect: () => void;
   isTool?: boolean;
 }) {
-  const icon = toolIcons[choice.id as MicroscopeType];
   const button = (
     <button
-      className={`choice ${selected ? "selected" : ""} ${choice.image ? "image-choice" : "text-choice"} ${isTool ? "tool-choice" : ""}`}
+      className={`choice ${selected ? "selected" : ""} ${choice.image ? "image-choice" : "text-choice"} ${isTool ? "tool-choice" : ""} ${choice.toolVisualId ? "visual-tool-choice" : ""}`}
       aria-pressed={selected}
       disabled={disabled}
       onClick={onSelect}
@@ -35,13 +33,9 @@ export function ImageChoice({
     >
       {choice.image && <MicroscopyImage id={choice.image} locale={locale} showAttribution={false} />}
       <span className="choice-body">
-        <span className="choice-letter">
-          {isTool && icon ? (
-            <Icon name={icon} size={24} />
-          ) : (
-            String.fromCharCode(65 + index)
-          )}
-        </span>
+        {choice.toolVisualId
+          ? <ToolVisual tool={choice.toolVisualId} variant="choice" locale={locale} mode={choice.toolMode} decorative />
+          : <span className="choice-letter">{String.fromCharCode(65 + index)}</span>}
         <span className="choice-copy">
           <strong>{choice.title[locale]}</strong>
           {choice.description && <span>{choice.description[locale]}</span>}

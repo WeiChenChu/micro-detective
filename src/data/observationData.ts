@@ -149,16 +149,19 @@ export const magnifierSpecimens = [
 export const practiceTools: Choice[] = [
   {
     id: "naked-eye",
+    toolVisualId: "scale",
     title: bi("肉眼", "Naked eye"),
     description: bi("找到位置與大概的樣子", "Find the object and its rough outline"),
   },
   {
     id: "magnifier",
+    toolVisualId: "magnifier",
     title: bi("放大鏡", "Magnifying glass"),
     description: bi("稍微放大肉眼可見的表面", "Enlarge visible surface features a little"),
   },
   {
     id: "stereo",
+    toolVisualId: "stereo",
     title: bi("解剖顯微鏡", "Stereomicroscope"),
     description: bi(
       "小生物與表面・有立體感",
@@ -167,11 +170,13 @@ export const practiceTools: Choice[] = [
   },
   {
     id: "optical",
+    toolVisualId: "optical",
     title: bi("複式光學顯微鏡", "Compound light microscope"),
     description: bi("用光和鏡片看細胞", "Light and lenses reveal cells"),
   },
   {
     id: "electron",
+    toolVisualId: "electron",
     title: bi("電子顯微鏡", "Electron microscope"),
     description: bi("看清楚非常細小的構造", "Resolve very fine structures"),
   },

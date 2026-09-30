@@ -1,3 +1,5 @@
+import type { ObservationToolId, ToolMode } from "./toolIllustrations";
+
 export type Locale = "zh-TW" | "en";
 export type Text = Record<Locale, string>;
 export const bi = (zh: string, en: string): Text => ({ "zh-TW": zh, en });
@@ -45,6 +47,9 @@ export interface Choice {
   title: Text;
   description?: Text;
   image?: string;
+  /** Presentation metadata only; never used for judging or unlocking. */
+  toolVisualId?: ObservationToolId;
+  toolMode?: ToolMode;
 }
 export interface Question {
   id: string;

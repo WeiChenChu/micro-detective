@@ -1,7 +1,15 @@
 import { observationTools } from "../data/academyData";
 import { toolRecap } from "../data/academyFlow";
 import type { Locale } from "../data/types";
-export function ToolSummary({ locale }: { locale: Locale }) {
+import { ToolVisual } from "./ToolVisual";
+export function ToolSummary({ locale, compact = false }: { locale: Locale; compact?: boolean }) {
+  if (compact) return <div className="compact-tool-recap">
+    <p>{locale === "zh-TW" ? "你已經認識六種觀察工具：" : "You have explored six observation tools:"}</p>
+    <ul>{observationTools.map(tool => <li key={tool.id}>
+      <ToolVisual tool={tool.id} locale={locale} variant="compact" decorative />
+      <span>{tool.toolName[locale]}</span>
+    </li>)}</ul>
+  </div>;
   return <section className="tool-summary" aria-labelledby="tool-summary-heading">
     <h2 id="tool-summary-heading">{locale === "zh-TW" ? "你已經認識所有偵探工具了！" : "You have explored all the detective tools!"}</h2>
     <div className="ability-grid tool-recap">{observationTools.map(tool => <article key={tool.id}>

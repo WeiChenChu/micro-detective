@@ -5,6 +5,7 @@ import { gameUI } from "../data/gameUI";
 import { Icon } from "./Icon";
 import { InvestigationEvidence, InvestigationSummary } from "./InvestigationEvidence";
 import { investigationUI as i } from "../data/investigationData";
+import { ToolVisual } from "./ToolVisual";
 
 export function FeedbackPanel({
   state,
@@ -36,6 +37,9 @@ export function FeedbackPanel({
   }, [state.feedback, state.attempts]);
   if (!state.feedback) return null;
   const retry = state.feedback === "retry";
+  // Retry describes only the chosen tool. Assistance resolves to the canonical answer.
+  const feedbackChoice = question.choices.find(c => c.id ===
+    (state.feedback === "assisted" ? question.correctAnswer[0] : state.selected[0]));
   return (
     <div
       ref={panel}
@@ -60,6 +64,16 @@ export function FeedbackPanel({
                 ? gameUI.assisted[locale]
                 : gameUI.success[locale]}
           </h3>
+          {feedbackChoice?.toolVisualId && <div className="feedback-tool-context">
+            <ToolVisual tool={feedbackChoice.toolVisualId} variant="feedback" locale={locale} mode={feedbackChoice.toolMode} decorative />
+            <div>
+              <span>{retry
+                ? (locale === "zh-TW" ? "你選的工具" : "Your chosen tool")
+                : (locale === "zh-TW" ? "✓ 調查工具" : "✓ Investigation tool")}</span>
+              <strong>{feedbackChoice.title[locale]}</strong>
+              {feedbackChoice.description && <span>{feedbackChoice.description[locale]}</span>}
+            </div>
+          </div>}
           <p>
             {retry
               ? (state.attempts >= 2

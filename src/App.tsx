@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import { ui } from "./data/ui";
 import { gameUI } from "./data/gameUI";
-import { caseQuestions, finalQuestions, stages } from "./data/missionData";
+import { caseQuestions, finalQuestions, stages, questionsById } from "./data/missionData";
 import {
   createGame,
   currentQuestion,
@@ -48,6 +48,7 @@ export default function App() {
   const stage = stages.find((s) => s.id === question.stage)!;
   const count = evidenceCount(state);
   const total = questionOrder(state).length;
+  const stageQuestions = questionOrder(state).filter(id => questionsById[id].stage === stage.id);
   const academyComplete = academyStages.every(lesson => state.academyCompleted.includes(lesson.id));
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -196,7 +197,7 @@ export default function App() {
             total={total}
             locale={locale}
           />
-          <StageIntro stage={stage} locale={locale} />
+          <StageIntro stage={stage} locale={locale} index={stageQuestions.indexOf(question.id) + 1} total={stageQuestions.length} />
           {question.toolSelection && !state.completed[question.id] && (
             <NotebookHint
               key={`notebook-hint-${question.id}`}
