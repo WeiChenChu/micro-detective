@@ -29,7 +29,8 @@ test("final investigation unlocks evidence only after a decision, survives reloa
     if (index === 2) assert.equal(s.screen, "game", "three clues alone do not solve the case");
     if (index < 2) {
       assert.ok(q.investigation!.nextQuestion);
-      assert.equal(finalQuestions[index + 1].image, q.investigation!.evidenceImage);
+      if (index === 0) assert.equal(finalQuestions[index + 1].image, q.investigation!.evidenceImage);
+      else assert.notEqual(finalQuestions[index + 1].image, q.investigation!.evidenceImage, "cell observation uses a separately prepared specimen");
     }
     s = gameReducer(s, { type: "NEXT" });
     assert.ok(validateProgress(s));
@@ -41,7 +42,7 @@ test("current-content saves retain lesson cards, practice and active answers", (
   const s = { ...createGame("en"), academyCompleted: ["close-observation", "optical"], learnedTools: ["scale", "magnifier", "optical"], academyModule: 4, screen: "academy" as const };
   const data = JSON.stringify(s);
   assert.deepEqual(readProgress({ getItem: k => k === STORAGE_KEY ? data : null, setItem() {}, removeItem() { assert.fail("must not clear compatible progress"); } }), s);
-  assert.equal(s.contentVersion, 6);
+  assert.equal(s.contentVersion, 7);
   assert.equal(s.schemaVersion, 2);
   assert.equal(s.academyRevision, 3);
 });
@@ -106,7 +107,7 @@ test("v0.32 migration keeps earlier missions and notebook cards but restarts cha
   assert.deepEqual(migrated.learnedTools, ["stereo"]);
   assert.equal(currentQuestion(migrated).id, "fin-shape");
   assert.ok(validateProgress(migrated));
-  assert.deepEqual(investigationQuestions.map(q => q.microscopeType), ["stereo", "optical", "fluorescence"]);
+  assert.deepEqual(investigationQuestions.map(q => q.microscopeType), ["stereo", "stereo", "fluorescence"]);
 });
 
 // A changed case must never expose conclusions through its locked tracker.

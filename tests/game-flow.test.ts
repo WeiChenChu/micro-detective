@@ -207,7 +207,7 @@ test("the final case keeps three investigations followed by synthesis", () => {
   ]);
   assert.deepEqual(
     finalQuestions.map((q) => q.correctAnswer[0]),
-    ["stereo", "optical", "fluorescence", "rebuild"],
+    ["stereo", "stereo", "fluorescence", "rebuild"],
   );
   assert.equal(
     questionOrder(a).length,

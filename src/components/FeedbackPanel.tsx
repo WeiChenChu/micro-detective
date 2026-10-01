@@ -80,7 +80,7 @@ export function FeedbackPanel({
                   ? (question.strongHint ?? question.explanation)
                   : (question.answerExplanations?.[state.selected[0]] ?? question.hint))[locale]
               : question.investigation
-                ? question.choices.find(c => c.id === question.correctAnswer[0])?.title[locale]
+                ? question.explanation[locale]
                 : (question.answerExplanations?.[state.selected[0]] ?? question.explanation)[locale]}
           </p>
         </div>

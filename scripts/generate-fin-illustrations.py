@@ -20,16 +20,21 @@ def fin(growth=1):
 
 fish=(ROOT/'public/images/naked-eye/zebrafish.svg').read_text(encoding='utf-8')
 fish=re.sub(r'^<svg[^>]*>|</svg>\s*$','',fish)
-fish=fish.replace('<path d="M263 311L151 221L168 304L151 395Z" fill="#B9D9E1" stroke="#527C95" stroke-width="5" stroke-linejoin="round"/>','<path d="M263 311L218 273L218 350Z" fill="#B9D9E1" stroke="#527C95" stroke-width="5"/><path d="M218 273L151 221L168 304L151 395L218 350" stroke="#8E9EA9" stroke-width="3" stroke-dasharray="8 8"/><path d="M218 272V351" stroke="#975724" stroke-width="7"/>')
-fish=fish.replace('M245 311L171 240M242 314L179 302M245 315L171 379','M245 311L220 285M242 314L220 306M245 315L220 337')
-opening=fish+'<circle cx="192" cy="310" r="112" stroke="#975724" stroke-width="5" stroke-dasharray="10 8"/><path d="M236 418L275 466" stroke="#975724" stroke-width="4"/><text x="292" y="507" fill="#315E7D" font-family="sans-serif" font-size="58" font-weight="bold">?</text>'
-(OUT/'fin-injury.svg').write_text(svg(opening),encoding='utf-8')
+# Body ends at x=209; the cut at x=195 stays posterior to the peduncle.
+fish=fish.replace('<path d="M263 311L151 221L168 304L151 395Z" fill="#B9D9E1" stroke="#527C95" stroke-width="5" stroke-linejoin="round"/>','<path d="M263 311L195 256L195 362Z" fill="#B9D9E1" stroke="#527C95" stroke-width="5"/><path d="M195 256L151 221L168 304L151 395L195 362" stroke="#8E9EA9" stroke-width="3" stroke-dasharray="8 8"/><path d="M195 256V362" stroke="#975724" stroke-width="7"/>')
+fish=fish.replace('M245 311L171 240M242 314L179 302M245 315L171 379','M245 311L197 270M242 314L197 306M245 315L197 352')
+opening=fish+'<circle cx="177" cy="310" r="100" stroke="#975724" stroke-width="5" stroke-dasharray="10 8"/><path d="M215 403L275 466" stroke="#975724" stroke-width="4"/><text x="292" y="507" fill="#315E7D" font-family="sans-serif" font-size="58" font-weight="bold">?</text>'
+(OUT/'fin-injury.svg').write_text(svg(opening),encoding='utf-8',newline='\n')
 
 panels=''
 for i,(day,growth) in enumerate([(0,0),(3,.22),(7,.6),(14,1)]):
     x=20+(i%2)*390; y=20+(i//2)*285
     panels+=f'<g transform="translate({x} {y})"><rect width="370" height="265" rx="18" fill="#E9F4F8"/><text x="20" y="40" fill="#315E7D" font-family="sans-serif" font-size="30" font-weight="bold">D{day}</text><g transform="translate(-28 5) scale(.58 .48)">{fin(growth)}</g></g>'
-(OUT/'fin-regrowth.svg').write_text(svg(panels),encoding='utf-8')
+(OUT/'fin-regrowth.svg').write_text(svg(panels),encoding='utf-8',newline='\n')
+
+# Whole-fin tissue evidence reuses the fin geometry, without suggesting cell detail.
+wound='<g transform="translate(-170 -75) scale(1.25)">'+fin(.6)+'<ellipse cx="390" cy="300" rx="80" ry="150" stroke="#975724" stroke-width="4" stroke-dasharray="10 8"/></g>'
+(OUT/'fin-wound.svg').write_text(svg(wound),encoding='utf-8',newline='\n')
 
 # Identical cell coordinates in both views make the shared region recognizable.
 cells=[]
@@ -49,4 +54,4 @@ for dark,name in [(False,'fin-tissue'),(True,'fin-fluorescence')]:
         if dark and active:
             body+=f'<ellipse cx="{x}" cy="{y}" rx="15" ry="18" fill="none" stroke="#DCF474" stroke-width="5"/>'
     # Non-color cue: fluorescent nuclei have a ring as well as a brighter signal.
-    (OUT/(name+'.svg')).write_text(svg(body,dark),encoding='utf-8')
+    (OUT/(name+'.svg')).write_text(svg(body,dark),encoding='utf-8',newline='\n')

@@ -107,7 +107,7 @@ for (const [id, nextId] of [["mission-target", "mystery-light"], ["tools-protein
         ...(answered ? {} : { selected: [id === "mission-target" ? "ordinary" : "optical"], attempts: 2, feedback: "retry" as const }) };
       const migrated = reload(old);
       assert.equal(currentQuestion(migrated).id, nextId);
-      assert.equal(migrated.contentVersion, 6);
+      assert.equal(migrated.contentVersion, 7);
       assert.deepEqual(migrated.completed, Object.fromEntries(Object.entries(old.completed).filter(([id]) => !retiredIds.includes(id))));
       assert.deepEqual(migrated.academyCompleted, old.academyCompleted);
       assert.deepEqual(migrated.learnedTools, old.learnedTools);
@@ -120,13 +120,13 @@ for (const [id, nextId] of [["mission-target", "mystery-light"], ["tools-protein
   });
 }
 
-test("every old surviving cursor preserves its active answer or retry, including tools-fish and Final Case", () => {
+test("surviving schema 5 cursors retain answers except the reframed fin-tissue observation", () => {
   for (const id of requiredIds) for (const answered of [false, true]) {
     const old = { ...oldAt(id, answered), showHint: true, exploreStep: 2 };
     const migrated = reload(old);
-    assert.equal(currentQuestion(migrated).id, id);
+    assert.equal(currentQuestion(migrated).id, id === "fin-tissue" && answered ? "fin-proliferation" : id);
     assert.deepEqual([migrated.selected, migrated.attempts, migrated.feedback, migrated.showHint, migrated.exploreStep],
-      [old.selected, old.attempts, old.feedback, old.showHint, old.exploreStep]);
+      id === "fin-tissue" ? [[], 0, null, false, 0] : [old.selected, old.attempts, old.feedback, old.showHint, old.exploreStep]);
     assert.deepEqual(migrated.completed, Object.fromEntries(Object.entries(old.completed).filter(([id]) => requiredIds.includes(id))));
   }
   const old = { ...oldAt("fin-proliferation"), selected: ["optical"], attempts: 2, feedback: "retry" as const, screen: "academy" as const, academyModule: 3 };
@@ -153,7 +153,7 @@ test("old completed saves remain complete with optional TEM untouched, including
   }
 });
 
-test("content 4 migration uses the nine legacy missions and chains into content 6", () => {
+test("content 4 migration uses the nine legacy missions and chains into content 7", () => {
   const legacyFinals = ["investigation-cells", "investigation-protein", "investigation-detail"];
   for (let cursor = 0; cursor < 12; cursor++) {
     const old = { ...oldAt(oldIds[Math.min(cursor, 8)]), contentVersion: 4, cursor, finalOrder: legacyFinals };
@@ -167,7 +167,7 @@ test("content 4 migration uses the nine legacy missions and chains into content 
     const expected = cursor >= 9 ? "fin-shape" : retiredIds.includes(oldIds[cursor]) ? cursor === 1 ? "mystery-light" : "tools-fish" : oldIds[cursor];
     assert.equal(currentQuestion(migrated).id, expected);
     assert.ok(Object.keys(migrated.completed).every(id => requiredIds.includes(id)));
-    assert.equal(migrated.contentVersion, 6);
+    assert.equal(migrated.contentVersion, 7);
   }
 });
 

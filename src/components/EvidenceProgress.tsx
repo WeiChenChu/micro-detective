@@ -4,7 +4,7 @@ import { investigationQuestions } from "../data/missionData";
 import { investigationUI as i } from "../data/investigationData";
 import { MicroscopyImage } from "./MicroscopyImage";
 
-const labels = [bi("尾鰭長回", "Fin regrowth"), bi("傷口細胞", "Cells near wound"), bi("增殖標記", "Proliferation labels")];
+const labels = [bi("尾鰭長回", "Fin regrowth"), bi("傷口組織", "Wound tissue"), bi("增殖標記", "Proliferation labels")];
 
 export function EvidenceProgress({ state, locale, review = false }: { state: GameState; locale: Locale; review?: boolean }) {
   return <section className={`case-evidence-tracker ${review ? "evidence-review" : ""}`} aria-label={i.evidence[locale]}>
