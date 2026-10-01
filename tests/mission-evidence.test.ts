@@ -26,7 +26,7 @@ test("missions use four distinct real evidence images, independent of course pho
       assert.doesNotMatch(image.imageAlt[locale] + image.caption[locale], /血液|花粉|blood|pollen|osteosarcoma|DAPI/i);
     }
   }
-  assert.deepEqual(caseQuestions.find(q => q.id === "mission-target")!.choices.map(c => c.image), ["cell-unmarked", "fluorescence-cell"]);
+  assert.ok(images["cell-unmarked"] && images["fluorescence-cell"], "shared teaching diagrams remain available");
 });
 
 test("mission sources include original titles, creators, licenses and conversion notes in keyboard-native disclosures", () => {

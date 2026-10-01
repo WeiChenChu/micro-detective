@@ -13,7 +13,7 @@ import {
 import { makeInvestigations, makeBonus, synthesisQuestion } from "./investigationData";
 import { toolIllustrations, type ObservationToolId } from "./toolIllustrations";
 
-export const CONTENT_VERSION = 5;
+export const CONTENT_VERSION = 6;
 export const toolIcons: Record<MicroscopeType, string> = {
   "naked-eye": "eye",
   magnifier: "search",
@@ -60,21 +60,8 @@ export const stages: Stage[] = [
     reward: bi("尺度線索已收進筆記本", "Scale clue collected"),
   },
   {
-    id: "target",
-    number: "02",
-    icon: "sparkle",
-    title: bi("找出微觀線索", "Find microscopic clues"),
-    shortTitle: bi("尋找目標", "Find a target"),
-    subtitle: bi("讓重要線索浮現", "Make important clues stand out"),
-    introduction: bi(
-      "不是每個細節都要一起看！這次只追查細胞核的位置。",
-      "We do not need every detail at once! This time, find the nuclei.",
-    ),
-    reward: bi("目標線索已收進筆記本", "Target clue collected"),
-  },
-  {
     id: "mystery",
-    number: "03",
+    number: "02",
     icon: "search",
     title: bi("神秘影像", "Mystery images"),
     shortTitle: bi("讀懂證據", "Read evidence"),
@@ -87,7 +74,7 @@ export const stages: Stage[] = [
   },
   {
     id: "tools",
-    number: "04",
+    number: "03",
     icon: "microscope",
     title: bi("幫科學家選工具", "Choose a scientist’s tool"),
     shortTitle: bi("選對工具", "Choose a tool"),
@@ -100,7 +87,7 @@ export const stages: Stage[] = [
   },
   {
     id: "final",
-    number: "05",
+    number: "04",
     icon: "detective",
     title: bi("最終案件：重新長回來的尾鰭", "Final Case: How Does a Zebrafish Fin Grow Back?"),
     shortTitle: bi("最終案件", "Final case"),
@@ -190,52 +177,6 @@ export const caseQuestions: Question[] = [
     ),
   },
   {
-    id: "mission-target",
-    stage: "target",
-    type: "single",
-    title: bi("細胞核在哪裡？", "Where are the nuclei?"),
-    question: bi(
-      "想更容易找到細胞核的位置，哪種方法最能幫忙？",
-      "Which method best helps the nuclei stand out?",
-    ),
-    choices: [
-      {
-        id: "ordinary",
-        title: bi(
-          "一般觀察：許多構造一起看",
-          "Ordinary observation: many structures together",
-        ),
-        image: "cell-unmarked",
-      },
-      {
-        id: "labels",
-        title: bi(
-          "幫細胞核加上螢光標記",
-          "Fluorescent labels on nuclei",
-        ),
-        image: "fluorescence-cell",
-      },
-    ],
-    correctAnswer: ["labels"],
-    microscopeType: "fluorescence",
-    hint: bi(
-      "這兩張示意圖裡，哪張讓細胞核和背景更容易分開看清楚？",
-      "In these two diagrams, which makes the nuclei easier to see against the background?",
-    ),
-    strongHint: bi(
-      "這張示意圖裡，藍紫色的圓形區域代表細胞核。找找哪種方法能讓它亮起來。",
-      "In this diagram, blue-violet circles represent nuclei. Which method can make them light up?",
-    ),
-    explanation: bi(
-      "你找到目標了！幫細胞核加上螢光標記，再用適合的光照射，就更容易找到它的位置。圖裡的綠色短絲用了另一種標記。",
-      "You found the target! Label the nuclei and shine suitable light to find them more easily. The green filaments use another label.",
-    ),
-    funFact: bi(
-      "螢光顯微鏡是光學顯微鏡的一種。這兩張示意圖用了相同的位置來比較，圖中的顏色不一定是細胞原本的天然顏色。",
-      "Fluorescence is a type of light microscopy. These matched teaching diagrams do not show natural cell colors.",
-    ),
-  },
-  {
     id: "mystery-light", stage: "mystery", type: "single",
     image: "mission-blood-real",
     title: bi("檔案 A・好多圓圓的小東西", "File A · Lots of tiny round shapes"),
@@ -303,42 +244,6 @@ export const caseQuestions: Question[] = [
     explanation: bi("這是真正的單細胞生物內部影像。TEM（穿透式電子顯微鏡）通常需要非常薄的切片，才能觀察內部細節；不是把前一張光學或螢光圖片繼續放大。", "This real image shows inside a single-celled organism. Transmission electron microscopy (TEM) usually needs a very thin section to reveal internal detail; it is not a further enlargement of the previous light or fluorescence image."),
     funFact: bi("這份樣品是一種叫作衣藻的單細胞生物。不用記住它的名字，也能從薄切片與內部細節選出觀察方法。", "The specimen is a single-celled alga called Chlamydomonas. You can choose the method from the thin section and internal detail without remembering its name."),
   },
-  research(
-    "tools-protein",
-    "tools",
-    bi("蛋白質的地址", "A protein’s address"),
-    bi(
-      "科學家想知道某種蛋白質位在細胞的哪裡，最適合先選哪種方法？",
-      "A scientist wants to locate a particular protein in a cell. Which method best fits?",
-    ),
-    "fluorescence",
-    bi(
-      "問題是找出特定目標的位置，不是所有細節。",
-      "The question is about locating a specific target, not every detail.",
-    ),
-    bi(
-      "選擇螢光顯微鏡，搭配能標記這種蛋白質的螢光標記，就能追查它的位置。",
-      "Use fluorescence microscopy with a label for that protein to investigate its location.",
-    ),
-  ),
-  research(
-    "tools-fine",
-    "tools",
-    bi("更細小的構造", "Finer structures"),
-    bi(
-      "科學家想看清楚細胞內很細小的膜，複式光學顯微鏡看不清楚。哪種工具比較適合？",
-      "A scientist needs to distinguish very fine membrane structures beyond compound light microscopy. Which tool fits?",
-    ),
-    "electron",
-    bi(
-      "這次要看到新的細節。把同一張圖片拉大，夠不夠呢？",
-      "We need images that resolve finer structures, not just larger pictures.",
-    ),
-    bi(
-      "電子顯微鏡能看清楚更細小的結構，適合追查這些膜的細節。但樣品通常需要特殊準備，通常不能直接觀察活著、正在活動的生物。工具要符合問題。",
-      "Electron microscopy suits this investigation of fine membrane structures. But samples usually need special preparation, and living, moving organisms usually cannot be observed directly. Match the tool to the question.",
-    ),
-  ),
   research(
     "tools-fish",
     "tools",

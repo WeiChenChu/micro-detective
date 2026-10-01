@@ -49,7 +49,7 @@ const memory = (): StorageLike & { data: Map<string, string> } => ({
 });
 
 test("academy can be visited freely without losing an active mission", () => {
-  const original = gameReducer(at(3), { type: "SELECT", id: "signals" });
+  const original = gameReducer(at(2), { type: "SELECT", id: "ordinary" });
   let s = gameReducer(original, { type: "ACADEMY", module: 3 });
   assert.ok(validateProgress(s));
   s = gameReducer(s, { type: "COMPLETE_ACADEMY_STAGE", id: "fluorescence" });
@@ -180,7 +180,7 @@ test("wrong answers encourage retry; assisted completion is available after two 
 test("language, microscope sequence and reload preserve the same question and final order", () => {
   let s = at(1);
   s = gameReducer(s, { type: "EXPLORE", step: 3 });
-  s = gameReducer(s, { type: "SELECT", id: "labels" });
+  s = gameReducer(s, { type: "SELECT", id: "optical" });
   const originalOrder = s.finalOrder;
   s = gameReducer(s, { type: "LOCALE", locale: "en" });
   const storage = memory();
@@ -189,7 +189,7 @@ test("language, microscope sequence and reload preserve the same question and fi
   assert.equal(recovered.locale, "en");
   assert.equal(recovered.cursor, 1);
   assert.equal(recovered.exploreStep, 3);
-  assert.deepEqual(recovered.selected, ["labels"]);
+  assert.deepEqual(recovered.selected, ["optical"]);
   assert.deepEqual(recovered.finalOrder, originalOrder);
   s = gameReducer(s, { type: "HOME" });
   assert.equal(s.screen, "landing");

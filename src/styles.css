@@ -817,7 +817,7 @@ button {
   display: inline-block;
   min-height: 48px;
 }
-/* Five-station investigation route */
+/* Investigation route */
 .game-main {
   padding: 27px 0 48px;
 }
@@ -830,7 +830,7 @@ button {
 .progress-tracker ol {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
   margin: 0;
   padding: 0;
   gap: 10px;
@@ -3024,8 +3024,6 @@ button {
   .academy-module .question-card { padding: 20px 16px; }
 }
 
-[data-question-id="mission-target"] .choices-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 800px; margin-inline: auto; }
-@media (max-width: 480px) { [data-question-id="mission-target"] .choices-grid { grid-template-columns: 1fr; } }
 
 .academy-module .challenge-tools:has(> :nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 

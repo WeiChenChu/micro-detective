@@ -1,4 +1,4 @@
-# 內容編輯指南 — v0.32
+# 內容編輯指南 — dev/v0.35
 
 目前內容以 `src/data/` 的雙語資料為主；沿用 React 元件，不另建圖片或題庫系統。實際發布檢查見 [validation.md](validation.md)。歷史 `v0.*-validation.md`／migration／audit 是當時紀錄，不是目前規格。
 
@@ -76,7 +76,7 @@ SEM 主要看表面形狀／紋路，常有立體感，但單張圖不等於 3D 
 
 ## 任務與兒童文案
 
-`missionData.ts` 的 `caseQuestions` 有 9 題，`finalQuestions` 有 3 題；`gameData.ts` 是歷史題庫與共用生物選項來源，不在舊題庫新增目前任務。
+`missionData.ts` 的 `caseQuestions` 有 6 題，`finalQuestions` 有 4 題；必修共 10 題，四階段為 scale／mystery／tools／final（01–04），各有 1／4／1／4 題；`fin-bonus-tem` 獨立選修；`gameData.ts` 是歷史題庫與共用生物選項來源，不在舊題庫新增目前任務。
 
 問題欄位包括：穩定 `id`、`stage`、`type`、雙語 `title`／`question`、`choices`、`correctAnswer`、`hint`、`strongHint`、`explanation`、`funFact`、可選 `observation`／`image`／`answerExplanations`。`toolSelection` 供工具選擇 UI 使用；單選 `acceptedAnswers` 表示任一可接受答案，非多選。
 
@@ -89,8 +89,8 @@ SEM 主要看表面形狀／紋路，常有立體感，但單張圖不等於 3D 
 
 ## 版本、保存與檢查
 
-套件 `package.json.version` 為 `0.30.0`，GameShell 取 major/minor 顯示 `v0.30`，沒有手填 `displayVersion`。更新 lockfile、README、CHANGELOG。
+套件 `package.json.version` 維持 `0.33.0`，GameShell 取 major/minor 顯示 `v0.33`，沒有手填 `displayVersion`。發布套件版本時同步 lockfile、README、CHANGELOG；開發分支名稱與 CONTENT_VERSION 不等於套件版本。
 
-目前 `CONTENT_VERSION = 4`，schema 2、academyRevision 3。純文字／外觀修整不用升存檔版本；變更題目集合、正解或不相容互動才升號。v0.31 將有效 revision 2 收藏轉入 learnedTools，完成的階段另記 academyCompleted；第一階段需舊肉眼及放大鏡都完成才標完成，部分卡片保留。詳見 README 的遷移規則。完成頁「下一位小偵探」與原重置對話框共用 App 的回呼，`RESET` + `createGame()` 回繁中首頁並覆寫進度，不清其他網站資料。
+目前 `CONTENT_VERSION = 6`，schema 2、academyRevision 3。純文字／外觀修整不用升存檔版本；變更題目集合、正解或不相容互動才升號。v0.31 將有效 revision 2 收藏轉入 learnedTools，完成的階段另記 academyCompleted；第一階段需舊肉眼及放大鏡都完成才標完成，部分卡片保留。content 4 → 5 的 Final Case 遷移使用明確舊題序；content 5 → 6 移除三個退休 ID，保留相容進度並按存續 ID 重建游標。歷史遷移不能以目前縮短的 caseQuestions 推導舊結構。詳見 README 的遷移規則。完成頁「下一位小偵探」與原重置對話框共用 App 的回呼，`RESET` + `createGame()` 回繁中首頁並覆寫進度，不清其他網站資料。
 
 執行 `npm test`、`npm run lint`、`npm run typecheck`、`npm run build`，再用 `npm run preview` 試玩雙語課程、任務及手機照片。細部清單見 [validation.md](validation.md)。

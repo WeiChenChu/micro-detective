@@ -41,7 +41,7 @@ test("current-content saves retain lesson cards, practice and active answers", (
   const s = { ...createGame("en"), academyCompleted: ["close-observation", "optical"], learnedTools: ["scale", "magnifier", "optical"], academyModule: 4, screen: "academy" as const };
   const data = JSON.stringify(s);
   assert.deepEqual(readProgress({ getItem: k => k === STORAGE_KEY ? data : null, setItem() {}, removeItem() { assert.fail("must not clear compatible progress"); } }), s);
-  assert.equal(s.contentVersion, 5);
+  assert.equal(s.contentVersion, 6);
   assert.equal(s.schemaVersion, 2);
   assert.equal(s.academyRevision, 3);
 });
@@ -96,9 +96,9 @@ test("v0.32 migration keeps earlier missions and notebook cards but restarts cha
     s = gameReducer(s, { type: "NEXT" });
   }
   const old = { ...s, contentVersion: 4, finalOrder: ["investigation-cells", "investigation-protein", "investigation-detail"],
-    cursor: caseQuestions.length + 2, screen: "complete", selected: ["electron"], feedback: "correct", attempts: 1,
+    cursor: 11, screen: "complete", selected: ["electron"], feedback: "correct", attempts: 1,
     learnedTools: ["stereo"], academyCompleted: ["stereo"],
-    completed: { ...s.completed, "investigation-cells": "solved", "investigation-protein": "solved", "investigation-detail": "solved" } };
+    completed: { ...s.completed, "mission-target": "solved", "tools-protein": "solved", "tools-fine": "solved", "investigation-cells": "solved", "investigation-protein": "solved", "investigation-detail": "solved" } };
   const data = JSON.stringify(old);
   const migrated = readProgress({ getItem: k => k === STORAGE_KEY ? data : null, setItem() {}, removeItem() { assert.fail("retain earlier progress"); } })!;
   assert.equal(migrated.cursor, caseQuestions.length);
@@ -123,12 +123,12 @@ test("locked evidence exposes numbered states without scientific answers", async
 
 test("v0.32 saves before the Final Case retain active retries and learning progress", () => {
   let s = gameReducer(createGame("en"), { type: "RESUME" });
-  for (const q of caseQuestions.slice(0, 6)) {
+  for (const q of caseQuestions.slice(0, 5)) {
     s = gameReducer(s, { type: "ANSWER", ids: q.correctAnswer });
     s = gameReducer(s, { type: "NEXT" });
   }
   s = gameReducer(s, { type: "ANSWER", ids: ["optical"] });
-  const old = { ...s, contentVersion: 4, finalOrder: ["investigation-cells", "investigation-protein", "investigation-detail"] };
+  const old = { ...s, contentVersion: 4, cursor: 8, completed: { ...s.completed, "mission-target": "solved", "tools-protein": "solved", "tools-fine": "solved" }, finalOrder: ["investigation-cells", "investigation-protein", "investigation-detail"] };
   const migrated = readProgress({ getItem: k => k === STORAGE_KEY ? JSON.stringify(old) : null, setItem() {}, removeItem() { assert.fail("compatible earlier questions must survive"); } });
   assert.deepEqual(migrated, s);
 });

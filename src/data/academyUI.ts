@@ -38,7 +38,7 @@ export const academyUI = {
     "6 個觀察課程・每個約 1–2 分鐘",
     "6 observation lessons · about 1–2 minutes each",
   ),
-  missionDuration: bi("4 個任務 + 1 個最終案件", "4 missions + 1 final case"),
+  missionDuration: bi("3 個任務 + 1 個最終案件", "3 missions + 1 final case"),
   collected: bi("已收藏", "Collected"),
   borrow: bi(
     "線索借閱・完成課程可收藏",

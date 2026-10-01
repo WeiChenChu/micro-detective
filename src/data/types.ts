@@ -13,7 +13,6 @@ export type MicroscopeType =
 export type StageId =
   | MicroscopeType
   | "scale"
-  | "target"
   | "mystery"
   | "tools"
   | "final";
