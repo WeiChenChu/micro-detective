@@ -13,6 +13,20 @@ export const LEGACY_STORAGE_KEY = "microscopic-detective:progress";
 export const STORAGE_KEY = "microscopic-detective:progress:v2";
 export const MAX_AGE_MS = 24 * 60 * 60 * 1000;
 export type Resolution = "solved" | "assisted";
+// Historical orders must not change when current mission data is shortened.
+const LEGACY_MISSION_IDS = [
+  "mission-scale", "mission-target", "mystery-light", "mystery-glow",
+  "mystery-sem", "mystery-tem", "tools-protein", "tools-fine", "tools-fish",
+];
+const LEGACY_V4_FINAL_IDS = ["investigation-cells", "investigation-protein", "investigation-detail"];
+const LEGACY_V5_FINAL_IDS = ["fin-shape", "fin-tissue", "fin-proliferation", "fin-explanation"];
+type AnswerData = Pick<Question, "type" | "correctAnswer" | "acceptedAnswers"> & { choices: { id: string }[] };
+// Only the old answer schema is needed; retired educational/UI definitions are gone.
+const retiredAnswers: Record<string, AnswerData> = {
+  "mission-target": { type: "single", choices: [{ id: "ordinary" }, { id: "labels" }], correctAnswer: ["labels"] },
+  "tools-protein": { type: "single", choices: ["naked-eye", "optical", "fluorescence", "electron"].map(id => ({ id })), correctAnswer: ["fluorescence"] },
+  "tools-fine": { type: "single", choices: ["naked-eye", "optical", "fluorescence", "electron"].map(id => ({ id })), correctAnswer: ["electron"] },
+};
 export interface GameState {
   schemaVersion: 2;
   notebookHintSeen?: boolean;
@@ -105,7 +119,7 @@ export const currentQuestion = (state: GameState): Question =>
   questionsById[questionOrder(state)[state.cursor]];
 export const evidenceCount = (state: GameState) =>
   Object.keys(state.completed).length;
-export const answersMatch = (question: Question, selected: string[]) =>
+export const answersMatch = (question: Pick<Question, "type" | "correctAnswer" | "acceptedAnswers">, selected: string[]) =>
   question.type === "single" && question.acceptedAnswers
     ? selected.length === 1 && question.acceptedAnswers.includes(selected[0])
     : selected.length === question.correctAnswer.length &&
@@ -323,6 +337,15 @@ export function validateProgress(
   value: unknown,
   now = Date.now(),
 ): value is GameState {
+  return validateContentProgress(value, now, CONTENT_VERSION, caseQuestions.map(q => q.id));
+}
+
+function validateContentProgress(
+  value: unknown,
+  now: number,
+  contentVersion: number,
+  missionIds: string[],
+): value is GameState {
   if (!value || typeof value !== "object") return false;
   const s = value as GameState;
   // Optional flags preserve valid v0.25 saves without changing the schema or IDs.
@@ -332,7 +355,7 @@ export function validateProgress(
     s.academyRevision !== 3 ||
     !validatePractice(s.practice) ||
     (s.bonus !== undefined && (!validatePractice(s.bonus, [bonusQuestion]) || !s.completed?.["fin-explanation"])) ||
-    s.contentVersion !== CONTENT_VERSION ||
+    s.contentVersion !== contentVersion ||
     !Number.isFinite(s.updatedAt) ||
     now - s.updatedAt > MAX_AGE_MS ||
     s.updatedAt > now + 60000
@@ -369,7 +392,7 @@ export function validateProgress(
     s.finalOrder.some((id, index) => id !== finals[index])
   )
     return false;
-  const order = questionOrder(s);
+  const order = [...missionIds, ...s.finalOrder];
   if (!Number.isInteger(s.cursor) || s.cursor < 0 || s.cursor >= order.length)
     return false;
   if (
@@ -390,7 +413,7 @@ export function validateProgress(
     order.slice(s.cursor + 1).some((id) => s.completed[id])
   )
     return false;
-  const q = currentQuestion(s);
+  const q = questionsById[order[s.cursor]] ?? retiredAnswers[order[s.cursor]];
   if (
     !Array.isArray(s.selected) ||
     new Set(s.selected).size !== s.selected.length ||
@@ -411,7 +434,7 @@ export function validateProgress(
     s.exploreStep > 3
   )
     return false;
-  const done = !!s.completed[q.id];
+  const done = !!s.completed[order[s.cursor]];
   if (
     done &&
     (!answersMatch(q, s.selected) ||
@@ -461,7 +484,7 @@ export function readProgress(
       }
       return null;
     }
-    const value: unknown = upgradeAcademyProgress(upgradeFinCaseProgress(JSON.parse(raw)));
+    const value: unknown = upgradeMissionFlowProgress(upgradeAcademyProgress(upgradeFinCaseProgress(JSON.parse(raw))), now);
     if (validateProgress(value, now)) {
       // Retire the parallel practice screen without discarding compatible progress.
       return value.screen === "practice" ? { ...value, screen: "academy", academyModule: null } : value;
@@ -496,7 +519,7 @@ export function clearProgress(storage: StorageLike) {
 export function upgradeAcademyProgress(value: unknown): unknown {
   if (!value || typeof value !== "object") return value;
   const old = value as Record<string, unknown>;
-  if (old.schemaVersion !== 2 || old.contentVersion !== CONTENT_VERSION ||
+  if (old.schemaVersion !== 2 || ![5, CONTENT_VERSION].includes(old.contentVersion as number) ||
       (old.academyRevision !== undefined && old.academyRevision !== 2)) return value;
   const oldIds = old.academyRevision === 2
     ? ["scale", "magnifier", "stereo", "optical", "fluorescence", "electron"]
@@ -574,16 +597,34 @@ export function upgradeFinCaseProgress(value: unknown): unknown {
   if (!value || typeof value !== "object") return value;
   const old = value as GameState;
   if (old.schemaVersion !== 2 || old.contentVersion !== 4) return value;
-  const legacyFinals = ["investigation-cells", "investigation-protein", "investigation-detail"];
+  const legacyFinals = LEGACY_V4_FINAL_IDS;
   if (!Array.isArray(old.finalOrder) || old.finalOrder.join() !== legacyFinals.join() ||
-      !Number.isInteger(old.cursor) || old.cursor < 0 || old.cursor >= caseQuestions.length + 3 ||
+      !Number.isInteger(old.cursor) || old.cursor < 0 || old.cursor >= LEGACY_MISSION_IDS.length + legacyFinals.length ||
       !old.completed || typeof old.completed !== "object" || Array.isArray(old.completed) ||
-      Object.entries(old.completed).some(([id, result]) => ![...caseQuestions.map(q => q.id), ...legacyFinals].includes(id) || !["solved", "assisted"].includes(result))) return value;
-  const inFinal = old.cursor >= caseQuestions.length;
+      Object.entries(old.completed).some(([id, result]) => ![...LEGACY_MISSION_IDS, ...legacyFinals].includes(id) || !["solved", "assisted"].includes(result))) return value;
+  const inFinal = old.cursor >= LEGACY_MISSION_IDS.length;
   const completed = Object.fromEntries(Object.entries(old.completed).filter(([id]) => !legacyFinals.includes(id)));
   return {
-    ...old, contentVersion: CONTENT_VERSION, finalOrder: finalQuestions.map(q => q.id), completed,
-    ...(inFinal ? { cursor: caseQuestions.length, selected: [], attempts: 0, feedback: null, showHint: false, exploreStep: 0 } : {}),
+    ...old, contentVersion: 5, finalOrder: LEGACY_V5_FINAL_IDS, completed,
+    ...(inFinal ? { cursor: LEGACY_MISSION_IDS.length, selected: [], attempts: 0, feedback: null, showHint: false, exploreStep: 0 } : {}),
     screen: old.screen === "complete" ? "game" : old.screen,
+  };
+}
+
+/** Remove redundant requirements while preserving compatible discoveries and answers. */
+export function upgradeMissionFlowProgress(value: unknown, now = Date.now()): unknown {
+  if (!validateContentProgress(value, now, 5, LEGACY_MISSION_IDS)) return value;
+  const oldOrder = [...LEGACY_MISSION_IDS, ...LEGACY_V5_FINAL_IDS];
+  const order = questionOrder(value);
+  const completed = Object.fromEntries(Object.entries(value.completed).filter(([id]) => order.includes(id)));
+  const oldId = oldOrder[value.cursor];
+  const survivingCursor = order.indexOf(oldId);
+  const firstIncomplete = order.findIndex(id => !completed[id]);
+  // Keep an active surviving question (including its answered reveal). A retired
+  // question advances to the first incomplete survivor, never by index subtraction.
+  const cursor = survivingCursor >= 0 ? survivingCursor : firstIncomplete >= 0 ? firstIncomplete : order.length - 1;
+  return {
+    ...value, contentVersion: CONTENT_VERSION, completed, cursor,
+    ...(oldId === order[cursor] ? {} : { selected: [], attempts: 0, feedback: null, showHint: false, exploreStep: 0 }),
   };
 }
