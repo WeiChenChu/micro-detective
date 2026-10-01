@@ -20,6 +20,7 @@ const LEGACY_MISSION_IDS = [
 ];
 const LEGACY_V4_FINAL_IDS = ["investigation-cells", "investigation-protein", "investigation-detail"];
 const LEGACY_V5_FINAL_IDS = ["fin-shape", "fin-tissue", "fin-proliferation", "fin-explanation"];
+const LEGACY_V6_MISSION_IDS = ["mission-scale", "mystery-light", "mystery-glow", "mystery-sem", "mystery-tem", "tools-fish"];
 type AnswerData = Pick<Question, "type" | "correctAnswer" | "acceptedAnswers"> & { choices: { id: string }[] };
 // Only the old answer schema is needed; retired educational/UI definitions are gone.
 const retiredAnswers: Record<string, AnswerData> = {
@@ -413,7 +414,10 @@ function validateContentProgress(
     order.slice(s.cursor + 1).some((id) => s.completed[id])
   )
     return false;
-  const q = questionsById[order[s.cursor]] ?? retiredAnswers[order[s.cursor]];
+  const active = questionsById[order[s.cursor]] ?? retiredAnswers[order[s.cursor]];
+  // In content 5/6 this question asked about a prepared tissue section.
+  const q = contentVersion <= 6 && order[s.cursor] === "fin-tissue"
+    ? { ...active, correctAnswer: ["optical"] } : active;
   if (
     !Array.isArray(s.selected) ||
     new Set(s.selected).size !== s.selected.length ||
@@ -484,7 +488,7 @@ export function readProgress(
       }
       return null;
     }
-    const value: unknown = upgradeMissionFlowProgress(upgradeAcademyProgress(upgradeFinCaseProgress(JSON.parse(raw))), now);
+    const value: unknown = upgradeFinObservationProgress(upgradeMissionFlowProgress(upgradeAcademyProgress(upgradeFinCaseProgress(JSON.parse(raw))), now), now);
     if (validateProgress(value, now)) {
       // Retire the parallel practice screen without discarding compatible progress.
       return value.screen === "practice" ? { ...value, screen: "academy", academyModule: null } : value;
@@ -519,7 +523,7 @@ export function clearProgress(storage: StorageLike) {
 export function upgradeAcademyProgress(value: unknown): unknown {
   if (!value || typeof value !== "object") return value;
   const old = value as Record<string, unknown>;
-  if (old.schemaVersion !== 2 || ![5, CONTENT_VERSION].includes(old.contentVersion as number) ||
+  if (old.schemaVersion !== 2 || ![5, 6, CONTENT_VERSION].includes(old.contentVersion as number) ||
       (old.academyRevision !== undefined && old.academyRevision !== 2)) return value;
   const oldIds = old.academyRevision === 2
     ? ["scale", "magnifier", "stereo", "optical", "fluorescence", "electron"]
@@ -624,7 +628,23 @@ export function upgradeMissionFlowProgress(value: unknown, now = Date.now()): un
   // question advances to the first incomplete survivor, never by index subtraction.
   const cursor = survivingCursor >= 0 ? survivingCursor : firstIncomplete >= 0 ? firstIncomplete : order.length - 1;
   return {
-    ...value, contentVersion: CONTENT_VERSION, completed, cursor,
+    ...value, contentVersion: 6, completed, cursor,
     ...(oldId === order[cursor] ? {} : { selected: [], attempts: 0, feedback: null, showHint: false, exploreStep: 0 }),
+  };
+}
+
+/** Keep legitimately earned tissue-section evidence. An unfinished observation
+ * uses the revised whole-fin prompt; a completed reveal advances without
+ * relabeling the learner's old optical answer as a new stereo answer. */
+export function upgradeFinObservationProgress(value: unknown, now = Date.now()): unknown {
+  if (!validateContentProgress(value, now, 6, LEGACY_V6_MISSION_IDS)) return value;
+  const order = [...LEGACY_V6_MISSION_IDS, ...LEGACY_V5_FINAL_IDS];
+  const changedQuestion = order[value.cursor] === "fin-tissue";
+  return {
+    ...value, contentVersion: CONTENT_VERSION,
+    ...(changedQuestion ? {
+      cursor: value.cursor + Number(!!value.completed["fin-tissue"]),
+      selected: [], attempts: 0, feedback: null, showHint: false, exploreStep: 0,
+    } : {}),
   };
 }

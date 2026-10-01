@@ -1,6 +1,6 @@
 # 微觀小偵探 / Microscopic Detective
 
-**dev/v0.35 — Mission Flow Simplification** · v0.33 基準 · 套件維持 `0.33.0` · 分支 `dev/v0.35`
+**dev/v0.36 — Final Case Refinements** · v0.35 基準 · 套件維持 `0.33.0` · 分支 `dev/v0.36`
 
 給國小到國中學生與家長一起探索的雙語顯微科學網站，主要用於中研院 Open House／兒童科普日的共用電腦，以及掃 QR code 進入的手機。React + TypeScript + Vite + 原生 CSS；免登入，沒有後端、個資表單、分數排行榜或分析追蹤。
 
@@ -34,9 +34,9 @@ SEM／TEM 同屬「電子顯微鏡」，保留在同一課程與工具卡中，�
 
 `ToolVisual` 共用上述插圖，支援 context、choice、feedback、compact 四種尺寸。任務選項以可選 `toolVisualId`／`toolMode` 指定工具；桌面 72px 視覺卡、手機 52px 橫排卡，SEM／TEM 以模式標籤區分。作答前只提示選工具，答錯只呈現所選工具，成功或協助完成後才在回饋連結工具與證據。每階段第一題保留完整介紹，後續顯示階段名稱及證據進度。課程完成頁先呈現精簡六工具回顧，再進入任務。
 
-任務共有 **10 份必修紀錄**：尺度複選、四張真實神秘影像、一題選工具（`tools-fish`），以及最終案件的三次觀察和一題證據整合。四個任務階段為 **01 scale → 02 mystery → 03 tools → 04 final**，各階段必修題數為 1／4／1／4；課程的五個探索階段不變。尾鰭案件依序調查整片尾鰭（解剖顯微鏡）、傷口組織（複式光學顯微鏡）、有增殖標記的細胞（螢光顯微鏡）；三份證據逐步解鎖，整合解釋後才結案。TEM 是結案後的選修調查，獨立存檔並可收進筆記本，不影響主案件完成。Stage 03 保留看成魚游泳的工具選擇。單選立即回饋；先觀察再選工具。「給我一點線索 / Give me a hint」提供一個可選提示；第一次不合適的選擇也顯示提示，第二次提供較強提示及協助完成。延伸知識在回答後自由展開，不新增年齡或難度模式。
+任務共有 **10 份必修紀錄**：尺度複選、四張真實神秘影像、一題選工具（`tools-fish`），以及最終案件的三次觀察和一題證據整合。四個任務階段為 **01 scale → 02 mystery → 03 tools → 04 final**，各階段必修題數為 1／4／1／4；課程的五個探索階段不變。尾鰭案件依序調查整片尾鰭（解剖顯微鏡）、整片尾鰭傷口附近的組織變化（解剖顯微鏡）、有增殖標記的細胞（螢光顯微鏡）；三份證據逐步解鎖，整合解釋後才結案。TEM 是結案後的選修調查，獨立存檔並可收進筆記本，不影響主案件完成。Stage 03 保留看成魚游泳的工具選擇。單選立即回饋；先觀察再選工具。「給我一點線索 / Give me a hint」提供一個可選提示；第一次不合適的選擇也顯示提示，第二次提供較強提示及協助完成。延伸知識在回答後自由展開，不新增年齡或難度模式。
 
-必修題序：`mission-scale` → `mystery-light` → `mystery-glow` → `mystery-sem` → `mystery-tem` → `tools-fish` → `fin-shape` → `fin-tissue` → `fin-proliferation` → `fin-explanation`。`fin-bonus-tem` 仍為選修。移除重複問題不移除觀察工具；螢光仍由 mystery-glow、fin-proliferation 及課程／筆記本介紹。Final Case 科學內容維持 v0.33。
+必修題序：`mission-scale` → `mystery-light` → `mystery-glow` → `mystery-sem` → `mystery-tem` → `tools-fish` → `fin-shape` → `fin-tissue` → `fin-proliferation` → `fin-explanation`。`fin-bonus-tem` 仍為選修。移除重複問題不移除觀察工具；螢光仍由 mystery-glow、fin-proliferation 及課程／筆記本介紹。dev/v0.36 修正尾鰭受傷示意，調查 2 聚焦整片尾鰭的組織變化；更細的組織／細胞細節與螢光標記用途在回饋說明。
 
 ## 示意圖與真實顯微影像
 
@@ -87,7 +87,9 @@ npm run preview   # 正式建置的本機預覽
 
 ## 共用裝置與本機進度
 
-使用 `microscopic-detective:progress:v2`，schema 2、content 6、academyRevision 3，沿用 24 小時閒置失效。`academyStages` 的五個階段與 `observationTools` 的六張工具卡分開；`academyCompleted` 記錄階段，`learnedTools` 記錄工具，`COMPLETE_ACADEMY_STAGE` 依該階段的 `toolIds` 收藏。
+使用 `microscopic-detective:progress:v2`，schema 2、content 7、academyRevision 3，沿用 24 小時閒置失效。`academyStages` 的五個階段與 `observationTools` 的六張工具卡分開；`academyCompleted` 記錄階段，`learnedTools` 記錄工具，`COMPLETE_ACADEMY_STAGE` 依該階段的 `toolIds` 收藏。
+
+dev/v0.36 將有效 content 6 存檔升為 content 7：已完成的舊薄切片觀察仍保留為有效證據，後續進度、課程、工具卡、語言、選修 TEM 與結案不重置。若目前停在 fin-tissue，未完成則清除舊選項／回饋／提示並留在新版問題，已完成則前進 fin-proliferation 並清除暫時作答狀態；不改寫舊光學答案為新解剖答案。
 
 dev/v0.35 將有效 content 5 存檔升為 content 6：移除 mission-target、tools-protein、tools-fine 的完成紀錄，保留其餘題目、Final Case、課程、工具卡、語言、筆記本旗標與選修 TEM。游標依穩定 ID 保留；退休題目改到第一個未完成的存續必修題（mission-target → mystery-light；tools-protein／tools-fine → tools-fish）。換題才清除選項、重試、回饋、提示與探索步驟；舊完整存檔維持完成。歷史 content 4 存檔先依明確舊題序轉入 content 5，舊 Final Case 仍從 fin-shape 重開，再串接本次簡化。選修 TEM 使用獨立 `bonus` 記錄；主案件重玩時一併清除。
 

@@ -13,7 +13,7 @@ import {
 import { makeInvestigations, makeBonus, synthesisQuestion } from "./investigationData";
 import { toolIllustrations, type ObservationToolId } from "./toolIllustrations";
 
-export const CONTENT_VERSION = 6;
+export const CONTENT_VERSION = 7;
 export const toolIcons: Record<MicroscopeType, string> = {
   "naked-eye": "eye",
   magnifier: "search",

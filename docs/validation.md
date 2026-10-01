@@ -1,6 +1,6 @@
-# 發布驗證 — dev/v0.35
+# 發布驗證 — dev/v0.36
 
-目前簡化流程與遷移驗證見 [v0.35-validation.md](v0.35-validation.md)。Final Case 原始內容、科學措辭與當時驗證見 [v0.33-validation.md](v0.33-validation.md)。以下保留歷史版本紀錄。
+目前 Final Case 修正與存檔相容驗證見 [v0.36-validation.md](v0.36-validation.md)。簡化流程與遷移驗證見 [v0.35-validation.md](v0.35-validation.md)。Final Case 原始內容、科學措辭與當時驗證見 [v0.33-validation.md](v0.33-validation.md)。以下保留歷史版本紀錄。
 
 ## v0.32 本機驗證紀錄（2026-09-30）
 
@@ -32,9 +32,11 @@ npm run preview
 ## 內容
 
 - 任務必修 10 題、四階段 01 scale → 02 mystery → 03 tools → 04 final；各階段題數 1／4／1／4。mission-target、tools-protein、tools-fine 與 target 階段不再啟用，fin-bonus-tem 選修。
+- Final Case 調查 1 的切線在尾鰭內、魚身完整；調查 2 觀察整片尾鰭與傷口組織，解剖顯微鏡為唯一正解，薄樣品細節／螢光標記用途另說明。證據列第二格為「傷口組織」。
+- content 6 → 7 保留已完成的舊切片證據及結案，未完成 fin-tissue 清暫時作答，已完成且停在該題則前進。檢查歷史遷移串接與選修保留。
 - 存檔 content 5 → 6 按 ID 遷移；退休題目的答案 UI 重置，存續題目答案、完成狀態、課程／卡片與選修進度保留。content 4 的歷史 Final Case 遷移仍需測試。
 
-- 所有預期的繁中／英文都有內容；英文不得殘留中文名稱或 placeholder。頁尾版本來自 package.json；dev/v0.35 套件仍為 0.33.0，顯示 v0.33。
+- 所有預期的繁中／英文都有內容；英文不得殘留中文名稱或 placeholder。頁尾版本來自 package.json；dev/v0.36 套件仍為 0.33.0，顯示 v0.33。
 - 六工具名稱一致；電子顯微鏡的知識卡、筆記本及回顧分列 SEM（掃描式電子顯微鏡）表面、TEM（穿透式電子顯微鏡）薄樣品內部。
 - SEM 的立體感不等於 3D 模型；TEM 不會透視任意厚樣品。倍率不等於解析度。
 - 四題真實影像初始題幹／observation／caption／alt 不洩漏拍攝機制；依觀察問題能選工具，不需先開提示。不能只憑彩色認定螢光。
